@@ -1,0 +1,103 @@
+CREATE TABLE `GauchoRocket`.`EQUIPOS` (
+`Modelo` varchar(20) NOT NULL,
+`Matrícula` varchar(10) NOT NULL UNIQUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `EQUIPOS` (`Modelo`,`Matrícula`) VALUES
+('Aguila','AA1'),
+('Aguila','AA5'),
+('Aguila','AA9'),
+('Aguila','AA13'),
+('Aguila','AA17'),
+('Aguilucho','BA8'),
+('Aguilucho','BA9'),
+('Aguilucho','BA10'),
+('Aguilucho','BA11'),
+('Aguilucho','BA12'),
+('Calandria','O1'),
+('Calandria','O2'),
+('Calandria','O6'),
+('Calandria','O7'),
+('Canario','BA13'),
+('Canario','BA14'),
+('Canario','BA15'),
+('Canario','BA16'),
+('Canario','BA17'),
+('Carancho','BA4'),
+('Carancho','BA5'),
+('Carancho','BA6'),
+('Carancho','BA7'),
+('Colibri','O3'),
+('Colibri','O4'),
+('Colibri','O5'),
+('Colibri','O8'),
+('Colibri','O9'),
+('Condor','AA2'),
+('Condor','AA6'),
+('Condor','AA10'),
+('Condor','AA14'),
+('Condor','AA18'),
+('Guanaco','AA4'),
+('Guanaco','AA8'),
+('Guanaco','AA12'),
+('Guanaco','AA16'),
+('Guanaco','AA20'),
+('Halcon','AA3'),
+('Halcon','AA7'),
+('Halcon','AA11'),
+('Halcon','AA15'),
+('Halcon','AA19'),
+('Zorzal','BA1'),
+('Zorzal','BA2'),
+('Zorzal','BA3');
+
+
+INSERT INTO `CARACT_EQUIPO` (`Tipo `,`Modelo`,`Capacidad`,`Cabinas`,`Capacidad`,`Pasajeros`) VALUES
+('Orbital','Calandria','300','T, E, P','T200,E75,P25','1,2,3'),
+('Orbital','Colibri','120','T, E, P','T100,E18,P2','1,2,3'),
+('BA','Zorzal','100','T, E','T50,E50','2,3'),
+('BA','Carancho','110','T','T110','2,3'),
+('BA','Aguilucho','60','E, P','E50,P10','2,3'),
+('BA','Canario','80','E, P','E70,P10','2,3'),
+('AA','Aguila','300','T, E, P','T200,E75,P25','2,3'),
+('AA','Condor','350','T, E, P','T300,E10,P40','2,3'),
+('AA','Halcon','200','T, E, P','T150,E25,P25','3'),
+('AA','Guanaco','100','P','P100','3');
+
+INSERT INTO `SUBORBITALES` (`Dia`,`Vuelos`,`Equipos`,`Duracion`,`Partida`) VALUES
+('L','5','Calandria y Colibri','8hs','3BA,2AK'),
+('M','5','Calandria y Colibri','8hs','3BA,2AK'),
+('X','5','Calandria y Colibri','8hs','3BA,2AK'),
+('J','5','Calandria y Colibri','8hs','3BA,2AK'),
+('V','5','Calandria y Colibri','8hs','3BA,2AK'),
+('S','8','Calandria y Colibri','8hs','4BA,4AK'),
+('D','10','Calandria y Colibri','8hs','5BA,5AK');
+
+INSERT INTO `TOUR` (`Dia`,`Duracion`,`Equipos`,`Partida`) VALUES
+('D','35días','Guanaco','BUE');
+
+INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`punto partida`,`Destino`) VALUES
+('1','BA','4hs','Tierra','EEI'),
+('1','BA','1hs','EEI','OrbitalHotel'),
+('1','BA','16hs','OrbitalHotel','Luna'),
+('1','BA','26hs','Luna','Marte'),
+('1','AA','3hs','Tierra','EEI'),
+('1','AA','1hs','EEI','OrbitalHotel'),
+('1','AA','9hs','OrbitalHotel','Luna'),
+('1','AA','22hs','Luna','Marte'),
+('2','BA','4hs','Tierra','EEI'),
+('2','BA','14hs','EEI','Luna'),
+('2','BA','26hs','Luna','Marte'),
+('2','BA','48hs','Marte','Ganimedes'),
+('2','BA','50hs','Ganimedes','Europa'),
+('2','BA','51hs','Europa','Io'),
+('2','BA','70hs','Io','Encedalo'),
+('2','BA','77hs','Encedalo','Titan'),
+('2','AA','3hs','Tierra','EEI'),
+('2','AA','10hs','EEI','Luna'),
+('2','AA','22hs','Luna','Marte'),
+('2','AA','32hs','Marte','Ganimedes'),
+('2','AA','33hs','Ganimedes','Europa'),
+('2','AA','35hs','Europa','Io'),
+('2','AA','50hs','Io','Encedalo'),
+('2','AA','52hs','Encedalo','Titan');
