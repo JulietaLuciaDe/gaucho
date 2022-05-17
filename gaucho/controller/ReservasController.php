@@ -11,7 +11,6 @@ class ReservasController
     }
     public function show(){
         $reservas = $this->reservasModel->getPresentaciones();
-
         $data["reservas"] = $reservas;
         echo $this->printer->render("view/reservasView.html",$data);
     }
