@@ -29,15 +29,8 @@ private function disconnect(){
     mysqli_close($this->connection);
 }
 
-
-public function isConnected(){
-    return $this->conexion;
-}
-
-
 public function query($sql){
-    
-    return mysql_query($this->connection, $sql);
+    return mysql_query($sql,$this->connection);
 }
 
 
