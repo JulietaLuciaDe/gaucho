@@ -25,7 +25,7 @@
         
         public function autentificar($correo){
             $sql = "UPDATE usuarios Set autentificado = 1 Where user = '" . $correo. "'";
-            $this->database->query($sql);
+            return $this->database->query($sql);
         }
     }
 

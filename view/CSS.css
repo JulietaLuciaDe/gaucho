@@ -14,10 +14,20 @@ footer{
     text-align: right;
 }
 
+.error{
+    margin: 0;
+    padding: 0;
+    color: red;
+}
+
 
 /*VERIFICAR LA PROPIEDAD HEIGHT DE CONTENIDO*/
 .contenido{
     height: 500px;
+}
+
+.registro{
+    display: flex;
 }
 
 /*RESPONSIVE PARA MOBILE*/

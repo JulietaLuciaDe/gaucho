@@ -20,8 +20,6 @@
             $pass = $_POST["pass"];
 
             $this->registroModel->registrar($name,$lastName,$dni,$user,$pass);
-
-            
         }
 
         public function validarRegistro(){
