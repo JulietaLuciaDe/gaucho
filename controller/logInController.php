@@ -12,6 +12,12 @@
             $this->printer->generateView('logInView.php');
         }
 
+        public function registrado(){
+            $message = "<div><h3>Registro exitoso!</h3></br><p>Verifique su correo electrónico para activar la cuenta</p></div>";
+            $this->printer->generatePopUp($message,'logInView.php');
+            
+        }
+
         public function validarSesion(){
             $usuario = $_POST["usuario"];
             $password = $_POST["password"];
@@ -22,7 +28,11 @@
                 exit();
             }
         }
-        
+
+        public function autentificado(){
+            $correo = $_GET["correo"];
+            $this->logInModel->autentificar($correo);
+        }
     }
 
 

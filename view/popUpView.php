@@ -6,7 +6,7 @@
       
       <div class="modal-body">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick=cerrarPopUp();></button>
-        <p>Usuario Registrado</p>
+        <div><h3>Registro exitoso!</h3></br><p>Verifique su correo electrónico para activar la cuenta</p></div>
       </div>
       
     </div>
