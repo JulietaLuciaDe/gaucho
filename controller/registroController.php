@@ -12,17 +12,7 @@
             $this->printer->generateView('registroView.php');
         }
 
-        public function registrar(){
-            $name = $_POST["name"];
-            $lastName = $_POST["lastName"];
-            $dni = $_POST["dni"];
-            $user = $_POST["user"];
-            $pass = $_POST["pass"];
-
-            $this->registroModel->registrar($name,$lastName,$dni,$user,$pass);
-
-            
-        }
+        
     }
 
 
