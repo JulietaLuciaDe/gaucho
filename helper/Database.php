@@ -30,11 +30,8 @@ private function disconnect(){
 }
 
 public function query($sql){
-    return mysql_query($sql,$this->connection);
+    return mysqli_query($this->connection,$sql);
 }
-
-
-
 }
 
 

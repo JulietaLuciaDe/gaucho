@@ -8,8 +8,17 @@
         }
 
         public function iniciarSesion($usuario,$md5){
-            $sqlUser = "SELECT 1 FROM usuarios WHERE username = '" . $usuario. "' AND password = '" . $md5 . "'";
-            $this->database->query("");
+            $sqlUser = "SELECT 1 FROM usuarios WHERE user = '" . $usuario. "' AND pass = '" . $md5 . "'";
+            $qry = $this->database->query($sqlUser);
+            $obj = mysqli_fetch_assoc($qry);
+
+            if(isset($obj['1'])){
+                session_start();
+                $_SESSION["logueado"]=true;
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 

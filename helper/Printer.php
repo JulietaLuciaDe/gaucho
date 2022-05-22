@@ -12,8 +12,6 @@ class Printer {
             include_once("view/".$content);
             include_once("view/footer.php");
     }
-
-
 }
 
 ?>
