@@ -38,8 +38,8 @@
         }
 
         public function notRegistered(){
-            $title = "Usuario inexistente";
-            $message = "El correo ingresado no está registrado";
+            $title = "Usuario o clave incorrecta";
+            $message = "intente nuevamente";
             $this->printer->generatePopUp($title,$message,'logInView.php');
         }
 
