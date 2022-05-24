@@ -7,9 +7,9 @@
         <label for="dni">DNI:</label>
         <input type="number" id="dni" name="dni">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
+        <input type="email" id="email" name="email" class="form-control">
         <label for="clave">Contraseña:</label>
-        <input type="password" name="clave" id="clave">
+        <input type="password" name="clave" id="clave" class="form-control">
         <input type="submit" value="Registrarme">
         <span id="mensaje" class="error">
 

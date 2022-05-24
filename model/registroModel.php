@@ -16,6 +16,17 @@ require 'PHPMailer/SMTP.php';
         public function registrar($name,$lastName,$dni,$user,$pass){
             $existe = $this->userExistente($user);
             if(!$existe){
+                /*
+                 * Cin, no cambio la consulta para cagar lo tuyo pero
+                 * tendríamos que cambiar la tabla. Propongo que sea:
+                 * varchar nombre;
+                 * varchar apellido;
+                 * int dni;
+                 * varchar user;
+                 * varchar pass;
+                 * varchar email;
+                 * int autenticado;
+                 * */
                 $sql = "INSERT INTO usuarios (nombre,apellido,dni,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$user."','".$pass."')";
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($user);
