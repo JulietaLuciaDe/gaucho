@@ -101,3 +101,14 @@ INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`p
 ('2','AA','35hs','Europa','Io'),
 ('2','AA','50hs','Io','Encedalo'),
 ('2','AA','52hs','Encedalo','Titan');
+
+
+CREATE TABLE `GauchoRocket`.`usuarios` (
+`nombre` varchar(20) NOT NULL,
+`apellido` varchar(10) NOT NULL ,
+`dni` varchar(20) NOT NULL UNIQUE,
+`autenticado` int NOT NULL ,
+`user` varchar(20) NOT NULL,
+`pass` varchar(20) NOT NULL,
+`email` varchar(20) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
