@@ -12,20 +12,27 @@
             $qry = $this->database->query($sqlUser);
             $obj = mysqli_fetch_assoc($qry);
 
-            if(isset($obj['autentificado']) && $obj['autentificado']==1){
-               // echo"SI";
-               // session_start();
-                //$_SESSION["logueado"]=true;
-                return true;
+            if(isset($obj['autentificado'])){
+                if($obj['autentificado']==1){
+                    session_start();
+                    $_SESSION["logueado"]=1;
+                    //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
+                    header("Location: index.php?module=inicio");
+                }else{
+                    //REGISTRADO PERO NO AUTENTIFICADO --> NO LOGUEA
+                    header("Location: index.php?module=login&method=unauthenticated");
+                    
+                }
             }else{
-               // echo"NO";
-                return false;
+                header("Location: index.php?module=login&method=notRegistered");
             }
         }  
         
         public function autentificar($correo){
             $sql = "UPDATE usuarios Set autentificado = 1 Where user = '" . $correo. "'";
-            return $this->database->query($sql);
+            $this->database->query($sql);
+            header("Location: index.php?module=login");
+
         }
     }
 

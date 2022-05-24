@@ -16,17 +16,6 @@ require 'PHPMailer/SMTP.php';
         public function registrar($name,$lastName,$dni,$user,$pass){
             $existe = $this->userExistente($user);
             if(!$existe){
-                /*
-                 * Cin, no cambio la consulta para cagar lo tuyo pero
-                 * tendríamos que cambiar la tabla. Propongo que sea:
-                 * varchar nombre;
-                 * varchar apellido;
-                 * int dni;
-                 * varchar user;
-                 * varchar pass;
-                 * varchar email;
-                 * int autenticado;
-                 * */
                 $sql = "INSERT INTO usuarios (nombre,apellido,dni,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$user."','".$pass."')";
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($user);
@@ -60,7 +49,7 @@ require 'PHPMailer/SMTP.php';
             $subject = 'Registro en GauchoRocket'; 
             $message = "Aqui comienza su mejor experiencia!
                         Su cuenta ha sido creada. Por favor, ingrese al siguiente link para activarla:
-                        http://localhost/GauchoRocket/index.php?module=registro&method=validarRegistro&email=$user&hash=$hash";
+                        localhost/index.php?module=registro&method=validarRegistro&email=$user&hash=$hash";
                         
                         $mail = new PHPMailer(true);
                         

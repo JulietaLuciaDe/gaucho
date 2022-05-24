@@ -13,32 +13,42 @@
         }
 
         public function registrado(){
-            $message = "<div><h3>Registro exitoso!</h3></br><p>Verifique su correo electrónico para activar la cuenta</p></div>";
-            $this->printer->generatePopUp($message,'logInView.php');
+            $title = "Registro exitoso!";
+            $message = "Verifique su correo electrónico para activar la cuenta";
+            $this->printer->generatePopUp($title,$message,'logInView.php');
+            
         }
 
         public function validarSesion(){
             $usuario = $_POST["usuario"];
             $password = $_POST["password"];
-            if($this->logInModel->iniciarSesion($usuario,$password)){
-                session_start();
-                header("Location: index.php?module=inicio");
-                exit();
-            }else if(!$this->autentificado()){
-                $message = "<div><h3>Cuenta aún no autenticada.</h3></br><p>Verifique nuevamente su correo electrónico para activar la cuenta.</p></div>";
-                $this->printer->generatePopUp($message,'logInView.php');
-            }else{
-                header("Location: index.php?module=logIn");
-                exit();
-            }
+            $this->logInModel->iniciarSesion($usuario,$password);
+             
         }
 
         public function autentificado(){
             $correo = $_GET["correo"];
-            return $this->logInModel->autentificar($correo);
+            $this->logInModel->autentificar($correo);
         }
+
+        public function unauthenticated(){
+            $title = "Registro incompleto";
+            $message = "Verifique su correo electrónico para activar la cuenta";
+            $this->printer->generatePopUp($title,$message,'logInView.php');
+        }
+
+        public function notRegistered(){
+            $title = "Usuario inexistente";
+            $message = "El correo ingresado no está registrado";
+            $this->printer->generatePopUp($title,$message,'logInView.php');
+        }
+
+        public function exit(){
+            session_unset();
+            session_destroy();
+            $this->printer->generateView('inicioView.php');
+        }
+
     }
-
-
 
 ?>

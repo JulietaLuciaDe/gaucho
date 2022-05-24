@@ -13,11 +13,11 @@
         }
 
         public function registrar(){
-            $name = $_POST["name"];
-            $lastName = $_POST["lastName"];
+            $name = $_POST["nombre"];
+            $lastName = $_POST["apellido"];
             $dni = $_POST["dni"];
-            $user = $_POST["user"];
-            $pass = $_POST["pass"];
+            $user = $_POST["email"];
+            $pass = $_POST["clave"];
 
             $this->registroModel->registrar($name,$lastName,$dni,$user,$pass);
         }

@@ -13,7 +13,7 @@ class Printer {
             include_once("view/footer.php");
     }
 
-    public function generatePopUp($message,$content){
+    public function generatePopUp($title,$message,$content){
         include_once("view/header.php");
         include_once("view/navBar.php");
         include_once("view/popUpView.php");
