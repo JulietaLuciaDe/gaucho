@@ -16,10 +16,11 @@
             $name = $_POST["nombre"];
             $lastName = $_POST["apellido"];
             $dni = $_POST["dni"];
-            $user = $_POST["email"];
+            $email = $_POST["email"];
+            $user = $_POST["user"];
             $pass = $_POST["clave"];
 
-            $this->registroModel->registrar($name,$lastName,$dni,$user,$pass);
+            $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
         }
 
         public function validarRegistro(){

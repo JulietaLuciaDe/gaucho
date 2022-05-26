@@ -13,12 +13,12 @@ require 'PHPMailer/SMTP.php';
         }
 
 
-        public function registrar($name,$lastName,$dni,$user,$pass){
-            $existe = $this->userExistente($user);
+        public function registrar($name,$lastName,$dni,$email,$user,$pass){
+            $existe = $this->userExistente($email);
             if(!$existe){
-                $sql = "INSERT INTO usuarios (nombre,apellido,dni,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$user."','".$pass."')";
+                $sql = "INSERT INTO usuarios (nombre,apellido,dni,email,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$email."','".$user."','".$pass."')";
                 $this->database->query($sql);
-                $confirmation = $this->sendConfirmationMail($user);
+                $confirmation = $this->sendConfirmationMail($email,$user);
                 if($confirmation){
                     header("Location: index.php?module=logIn&method=registrado");
                     exit();
@@ -35,21 +35,21 @@ require 'PHPMailer/SMTP.php';
         
         }
 
-        private function userExistente($user){
-            $sql= "SELECT 1 FROM usuarios where user ='".$user."'";
+        private function userExistente($email){
+            $sql= "SELECT 1 FROM usuarios where email ='".$email."'";
             $result = $this->database->query($sql);
             $result = mysqli_fetch_assoc($result);
             return (isset($result["1"]))? true : false;
             
         }
 
-        private function sendConfirmationMail($user){
-            $to  = $user; 
-            $hash = md5($user);
-            $subject = 'Registro en GauchoRocket'; 
-            $message = "Aqui comienza su mejor experiencia!
+        private function sendConfirmationMail($email,$user){
+            $to  = $email; 
+            $hash = md5($email);
+            $subject = 'Confirmacion de registro en GauchoRocket'; 
+            $message = "Bienvenide, ".$user."!!!! Aqui es donde comienza su mejor viaje...
                         Su cuenta ha sido creada. Por favor, ingrese al siguiente link para activarla:
-                        localhost/index.php?module=registro&method=validarRegistro&email=$user&hash=$hash";
+                        http://localhost/index.php?module=registro&method=validarRegistro&email=$email&hash=$hash";
                         
                         $mail = new PHPMailer(true);
                         

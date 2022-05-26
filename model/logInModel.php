@@ -7,8 +7,8 @@
         }
 
 
-        public function iniciarSesion($usuario,$md5){
-            $sqlUser = "SELECT autentificado FROM usuarios WHERE user = '" . $usuario. "' AND pass = '" . $md5 . "'";
+        public function iniciarSesion($email,$md5){
+            $sqlUser = "SELECT autentificado FROM usuarios WHERE email = '" . $email. "' AND pass = '" . $md5 . "'";
             $qry = $this->database->query($sqlUser);
             $obj = mysqli_fetch_assoc($qry);
 
@@ -29,7 +29,7 @@
         }  
         
         public function autentificar($correo){
-            $sql = "UPDATE usuarios Set autentificado = 1 Where user = '" . $correo. "'";
+            $sql = "UPDATE usuarios Set autentificado = 1 Where email = '" . $correo. "'";
             $this->database->query($sql);
             header("Location: index.php?module=login");
 
