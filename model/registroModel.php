@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/Exception.php';
-require 'PHPMailer/PHPMailer.php';
-require 'PHPMailer/SMTP.php';
+require 'helper/PHPMailer/Exception.php';
+require 'helper/PHPMailer/PHPMailer.php';
+require 'helper/PHPMailer/SMTP.php';
     class RegistroModel{
         private $database;
 

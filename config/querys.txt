@@ -1,3 +1,9 @@
+CREATE DATABASE IF NOT EXISTS `GauchoRocket` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `GauchoRocket`;
+
+
+SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+
 CREATE TABLE `GauchoRocket`.`EQUIPOS` (
 `Modelo` varchar(20) NOT NULL,
 `Matrícula` varchar(10) NOT NULL UNIQUE
@@ -51,7 +57,7 @@ INSERT INTO `EQUIPOS` (`Modelo`,`Matrícula`) VALUES
 ('Zorzal','BA2'),
 ('Zorzal','BA3');
 
-
+--FALTAN LOS CREATE TABLE DE CARACT_EQUIPO, SUBORBITALES, TOUR Y ENTRE DESTINOS
 INSERT INTO `CARACT_EQUIPO` (`Tipo `,`Modelo`,`Capacidad`,`Cabinas`,`Capacidad`,`Pasajeros`) VALUES
 ('Orbital','Calandria','300','T, E, P','T200,E75,P25','1,2,3'),
 ('Orbital','Colibri','120','T, E, P','T100,E18,P2','1,2,3'),
@@ -104,11 +110,12 @@ INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`p
 
 
 CREATE TABLE `GauchoRocket`.`usuarios` (
-`nombre` varchar(20) NOT NULL,
+`nombre` varchar(10) NOT NULL,
 `apellido` varchar(10) NOT NULL ,
-`dni` varchar(20) NOT NULL UNIQUE,
+`dni` int(8) NOT NULL,
 `autenticado` int NOT NULL ,
 `user` varchar(20) NOT NULL,
 `pass` varchar(20) NOT NULL,
-`email` varchar(20) NOT NULL,
+`email` varchar(50) NOT NULL UNIQUE,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `GauchoRocket`.`usuarios` ADD PRIMARY KEY (`email`);
