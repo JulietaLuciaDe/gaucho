@@ -115,3 +115,7 @@ input{
     text-shadow: none;
     font-weight: bold;
 }
+.buscador{
+    margin: 12px;
+    padding: 12px;
+}

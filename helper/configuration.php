@@ -5,6 +5,8 @@ include_once("controller/registroController.php");
 include_once("model/registroModel.php");
 include_once("controller/logInController.php");
 include_once("model/logInModel.php");
+include_once("controller/buscadorController.php");
+include_once("model/buscadorModel.php");
 include_once("controller/inicioController.php");
 include_once("model/inicioModel.php");
 include_once("helper/Printer.php");
@@ -31,6 +33,14 @@ class Configuration{
 
     private function getLogInModel(){
         return new LogInModel($this->getDatabase());
+    }
+
+    public function buscadorController(){
+        return new BuscadorController($this->getBuscadorModel(),$this->getPrinter());
+    }
+
+    private function getBuscadorModel(){
+        return new BuscadorModel($this->getDatabase());
     }
 
     public function getInicioController(){
