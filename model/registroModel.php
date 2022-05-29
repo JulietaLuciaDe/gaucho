@@ -1,10 +1,6 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-require 'helper/PHPMailer/Exception.php';
-require 'helper/PHPMailer/PHPMailer.php';
-require 'helper/PHPMailer/SMTP.php';
     class RegistroModel{
         private $database;
 
@@ -14,8 +10,9 @@ require 'helper/PHPMailer/SMTP.php';
 
 
         public function registrar($name,$lastName,$dni,$email,$user,$pass){
-            $existe = $this->userExistente($email);
-            if(!$existe){
+            $existeMail = $this->emailExistente($email);
+            $existeDni = $this->dniExistente($dni);
+            if(!$existeMail && !$existeDni){
                 $sql = "INSERT INTO usuarios (nombre,apellido,dni,email,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$email."','".$user."','".$pass."')";
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($email,$user);
@@ -28,15 +25,22 @@ require 'helper/PHPMailer/SMTP.php';
                 }
                 
             }else{
-                header("Location: index.php?module=registro&method=noregistrado");
+                header("Location: index.php?module=registro&method=duplicate&email=$email&dni=$dni");
                 exit();
             }
            
         
         }
 
-        private function userExistente($email){
+        private function emailExistente($email){
             $sql= "SELECT 1 FROM usuarios where email ='".$email."'";
+            $result = $this->database->query($sql);
+            $result = mysqli_fetch_assoc($result);
+            return (isset($result["1"]))? true : false;
+            
+        }
+        private function dniExistente($dni){
+            $sql= "SELECT 1 FROM usuarios where dni ='".$dni."'";
             $result = $this->database->query($sql);
             $result = mysqli_fetch_assoc($result);
             return (isset($result["1"]))? true : false;

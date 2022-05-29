@@ -98,7 +98,7 @@ input{
     
 }
 
-.btn-registro:hover{
+.btn-registro:hover,.btn-registro:visited,.btn-registro:active{
     background-color: white;
     border:2px solid #68B57D;
     color: #68B57D;
@@ -118,4 +118,9 @@ input{
 .buscador{
     margin: 12px;
     padding: 12px;
+}
+
+.recovery, .recovery:hover{
+    color:black;
+
 }

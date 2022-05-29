@@ -49,6 +49,26 @@
             $this->printer->generateView('inicioView.php');
         }
 
+        public function recuperar(){
+            $email = $_GET['email'];
+            $dni = $_GET['dni'];
+            $this->logInModel->sendMailRecovery($dni,$email);
+            $title="Verifique su correo electrónico";
+            $message="Hemos enviado un link de recupero de clave";
+            $this->printer->generatePopUp($title,$message,'loginView.php');
+        }
+
+        public function recovery(){
+            $email = $_GET['email'];
+            $this->printer->generateRecovery($email);
+            
+        }
+
+        public function saveRecovery(){
+            $email = $_POST['usuario'];
+            $pass = $_POST['password'];
+            $this->logInModel->saveRecovery($pass,$email);
+        }
     }
 
 ?>

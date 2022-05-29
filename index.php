@@ -1,5 +1,12 @@
 
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'helper/PHPMailer/Exception.php';
+require 'helper/PHPMailer/PHPMailer.php';
+require 'helper/PHPMailer/SMTP.php';
+
 include_once("helper/configuration.php");
 include_once("helper/router.php");
 $configuration = new Configuration();
