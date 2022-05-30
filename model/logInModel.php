@@ -28,7 +28,7 @@ use PHPMailer\PHPMailer\Exception;
                     
                 }
             }else{
-                header("Location: index.php?module=login&method=notRegistered");
+                header("Location: index.php?module=login&method=notRegistered&email=$email");
             }
         }  
         
@@ -46,11 +46,11 @@ use PHPMailer\PHPMailer\Exception;
             $email  = $obj['email']; 
             $user =  $obj['user'];
             $subject = 'Recupero de Clave'; 
-            //EN LINEA 53 HAY QUE ENCRIPTAR LA VARIABLE $EMAIL
+            $recoveryCode = md5($email);
             $message = "Hola, ".$user."!!!! 
 
                         Ingrese en el siguiente link para recuperar su clave:
-                        http://localhost/index.php?module=login&method=recovery&email=$email
+                        http://localhost/index.php?module=login&method=recovery&email=$email&recoveryCode=$recoveryCode
                         
                         Si usted no ha solicitado la recuperación de su clave, ignore este mensaje";
                         

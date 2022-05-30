@@ -53,6 +53,7 @@ use PHPMailer\PHPMailer\Exception;
             $subject = 'Confirmacion de registro en GauchoRocket'; 
             $message = "Bienvenide, ".$user."!!!! Aqui es donde comienza su mejor viaje...
                         Su cuenta ha sido creada. Por favor, ingrese al siguiente link para activarla:
+                        
                         http://localhost/index.php?module=registro&method=validarRegistro&email=$email&hash=$hash";
                         
                         $mail = new PHPMailer(true);

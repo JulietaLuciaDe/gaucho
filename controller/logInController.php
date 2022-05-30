@@ -14,7 +14,7 @@
 
         public function registrado(){
             $title = "Registro exitoso!";
-            $message = "Verifique su correo electrónico para activar la cuenta";
+            $message = "Verifique su correo electrónico para activar la cuenta  </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
             $this->printer->generatePopUp($title,$message,'logInView.php');
             
         }
@@ -33,13 +33,14 @@
 
         public function unauthenticated(){
             $title = "Registro incompleto";
-            $message = "Verifique su correo electrónico para activar la cuenta";
+            $message = "Verifique su correo electrónico para activar la cuenta  </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
             $this->printer->generatePopUp($title,$message,'logInView.php');
         }
 
         public function notRegistered(){
+            $email=$_GET["email"];
             $title = "Usuario o clave incorrecta";
-            $message = "intente nuevamente";
+            $message = "intente nuevamente </br> <a class='recovery' href='index.php?module=login&method=recuperar&email=$email&dni=1'>Olvidé mi clave</a>";
             $this->printer->generatePopUp($title,$message,'logInView.php');
         }
 
@@ -54,13 +55,20 @@
             $dni = $_GET['dni'];
             $this->logInModel->sendMailRecovery($dni,$email);
             $title="Verifique su correo electrónico";
-            $message="Hemos enviado un link de recupero de clave";
+            $message="Hemos enviado un link de recupero de clave </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
             $this->printer->generatePopUp($title,$message,'loginView.php');
         }
 
         public function recovery(){
             $email = $_GET['email'];
-            $this->printer->generateRecovery($email);
+            $md5 = $_GET['recoveryCode'];
+            $validLink = md5($email);
+            if($validLink==$md5){
+                $this->printer->generateRecovery($email);
+            }else{
+                header("Location: index.php?module=inicio");
+            }
+            
             
         }
 
