@@ -119,3 +119,7 @@ CREATE TABLE `GauchoRocket`.`usuarios` (
 `email` varchar(50) NOT NULL UNIQUE,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `GauchoRocket`.`usuarios` ADD PRIMARY KEY (`email`);
+
+DROP TABLE IF EXISTS `vuelos`;
+CREATE TABLE `vuelos` ( `id` int(11) NOT NULL, `origen` text NOT NULL, `destino` text NOT NULL, `fecha` date NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `vuelos` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);
