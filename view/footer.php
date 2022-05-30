@@ -1,14 +1,26 @@
-<footer>
-    <div class="row align-items-center">
-        <div class="col-4 col-footer justify-content-center">
-                <p>Aca </p></br> <p>pueden </p> </br><p>ir </p></br> <p>las </p></br> <p>redes </p> </br><p>sociales</p>
+<footer  class="row align-items-center">
+
+        <div class="col-3 col-footer social-media-div">
+            <div >
+                <a href="https://www.twitter.com" class="social-media-icon" target="blank"> <img src="http://localhost/public/tw.png" alt="twitter icon img-fluid"> </a> </br>
+            </div>
+            <div >
+                <a href="https://www.instagram.com" class="social-media-icon" target="blank"> <img src="http://localhost/public/ig.png" alt="instagram icon img-fluid"> </a> </br>
+            </div>
+            <div >
+                <a href="https://www.facebook.com" class="social-media-icon" target="blank"> <img src="http://localhost/public/fb.png" alt="facebook icon img-fluid"> </a> </br>
+            </div>
         </div> 
-        <div class="col-4 col-footer justify-content-center">
-                <p>Gaucho Rocket - Viajes Espaciales</p>
+        <div class="col-6 col-footer justify-content-center">
+                <h3>Gaucho Rocket - Viajes Espaciales</h3>
         </div>
-        <div class="col-4 col-footer justify-content-center">
-            <p>Aca </p></br> <p>puede </p> </br><p>ir </p></br> <p>info </p></br> <p>de </p> </br><p>empresa</p>
-        </div>
+        <div class="col-3 col-footer info-footer">
+                <a href="mailto:gauchorocketargentina@gmail.com" class="social-media-icon" target="blank">gauchorocketargentina@gmail.com </a> </br>
+                <hr>    
+                <p>Florencio Varela 1903, B1754 San Justo, Provincia de Buenos Aires</p>
+                <hr>    
+                <p>0800-111-2222</p>
+
     </div>
    
 </footer>

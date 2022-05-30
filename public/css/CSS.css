@@ -69,11 +69,17 @@ a:hover{
 
 footer{
     background-color: rgb(33,37,41);
+    height: 12rem;
+    display: flex;
+    width: 100%;
+    margin: 0px !important;
+    justify-content: space-around;
 }
 
 .col-footer{
     border-left:1px solid rgb(33,37,41);
     color:white;
+    text-align: center;
 }
 
 .col-footer p{
@@ -86,6 +92,10 @@ input{
     border:none;
     border-bottom: 2px solid #68B57D;
 
+}
+
+.info-footer{
+    font-size: 0.75rem;
 }
 
 
@@ -124,3 +134,19 @@ input{
     color:black;
 
 }
+
+
+
+ .social-media-icon img{
+     width: 3rem;
+     height: 3rem;
+     border: 2px  solid #68B57D;
+     border-radius: 100px;
+ }
+
+ .social-media-div{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+
+ }
