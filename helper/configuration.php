@@ -35,8 +35,8 @@ class Configuration{
         return new LogInModel($this->getDatabase());
     }
 
-    public function buscadorController(){
-        return new BuscadorController($this->getBuscadorModel(),$this->getPrinter());
+    public function getBuscadorController(){
+        return new BuscadorController($this->getPrinter(),$this->getBuscadorModel());
     }
 
     private function getBuscadorModel(){

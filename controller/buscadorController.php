@@ -11,12 +11,7 @@ class buscadorController
     }
 
     public function execute(){
-        $this->printer->generateView("buscadorView.php");
+        $resultado = $this->buscadorModel->buscar($_POST["viajeABuscar"]);
+        $this->printer->generateDataView($resultado,"buscadorView.php");
     }
-
-    public function buscar(){
-        $get = $_GET["viajeABuscar"];
-        $this->buscadorModel->buscar($get);
-    }
-
 }

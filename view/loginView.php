@@ -8,6 +8,7 @@
         <input type="submit" class="btn-primary btn-registro" value="Ingresar">
         <p>Aun no sos parte de GauchoRocket?</p>
         <a href='index.php?module=registro' class="log-registro">Crear una cuenta</a>
+        <a class='log-registro' href='index.php?module=login&method=recuperar&email=$email&dni=$dni'>Olvidé mi clave</a>
     </form>
     
 </div>

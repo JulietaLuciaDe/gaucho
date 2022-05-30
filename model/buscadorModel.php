@@ -10,6 +10,13 @@ class buscadorModel
 
     public function buscar($viaje){
         $sqlTravel="SELECT * FROM vuelos WHERE destino = '".$viaje."' OR origen = '".$viaje."'";
-        //TODO: competar la ejecución de la consulta.
+        $array = [];
+        $auxiliar = $this->database->queryResult($sqlTravel);
+        $datos = $auxiliar->fetch_assoc();
+        while($datos){
+            $array[]=$datos;
+            $datos=$auxiliar->fetch_assoc();
+        }
+        return $array;
     }
 }
