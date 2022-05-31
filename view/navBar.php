@@ -24,7 +24,7 @@ echo"<nav class='navbar navbar-dark bg-dark nav row align-items-center justify-c
         </div>
     </div>
     <div class='col-4 menu'> 
-       <a href='/inicio' class='logo'><img src='public/logo.png' ></a>
+       <a href='/inicio' class='logo'><img src='http://localhost/public/img/logo.png' ></a>
     </div>
 </nav>
 <div class='collapse' id='navbarToggleExternalContent'  >
