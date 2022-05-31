@@ -20,9 +20,16 @@
         }
 
         public function validarSesion(){
-            $usuario = $_POST["usuario"];
-            $password = $_POST["password"];
-            $this->logInModel->iniciarSesion($usuario,$password);
+            //AGREGAR VALIDACION DE CORREO ELECTRONICO SI VA A SEGUIR INGRESANDO CON ESO, SI VA A INGRESAR CON USUARIO VALIDAR LONGITUD
+            //SI VA A INGRESAR CON USUARIO HAY QUE CAMBIARLO EN DONDE CORRESPONDA
+            if(isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["password"]) && !empty($_POST["password"])){
+                $usuario = $_POST["usuario"];
+                $password = $_POST["password"];
+                $this->logInModel->iniciarSesion($usuario,$password);
+            }else{
+                header("Location: /login");
+            }
+            
              
         }
 
@@ -53,9 +60,13 @@
         public function recuperar(){
             $email = $_GET['email'];
             $dni = $_GET['dni'];
-            $this->logInModel->sendMailRecovery($dni,$email);
-            $title="Verifique su correo electrónico";
-            $message="Hemos enviado un link de recupero de clave </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
+            if($this->logInModel->sendMailRecovery($dni,$email)){
+                $title="Verifique su correo electrónico";
+                $message="Hemos enviado un link de recupero de clave </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
+            }else{
+                $title="El mail ingresado no se encuentra registrado";
+                $message="<a class='recovery' href='/registro' target='blank'>Registrarme</a>";
+            }
             $this->printer->generatePopUp($title,$message,'loginView.php');
         }
 
@@ -73,9 +84,14 @@
         }
 
         public function saveRecovery(){
-            $email = $_POST['usuario'];
-            $pass = $_POST['password'];
-            $this->logInModel->saveRecovery($pass,$email);
+            if(isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["password"]) && !empty($_POST["password"])){
+                $email = $_POST["usuario"];
+                $pass = $_POST["password"];
+                $this->logInModel->saveRecovery($pass,$email);
+            }else{
+                header("Location: /login");
+            }
+
         }
     }
 

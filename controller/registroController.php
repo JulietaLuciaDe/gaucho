@@ -13,14 +13,26 @@
         }
 
         public function registrar(){
-            $name = $_POST["nombre"];
-            $lastName = $_POST["apellido"];
-            $dni = $_POST["dni"];
-            $email = $_POST["email"];
-            $user = $_POST["user"];
-            $pass = $_POST["clave"];
+            if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) && strlen($_POST["nombre"])<11 
+            && isset($_POST["apellido"]) && !empty($_POST["apellido"]) && strlen($_POST["apellido"])<11
+            && isset($_POST["dni"]) && !empty($_POST["dni"]) && strlen($_POST["dni"])==8 && is_numeric($_POST["dni"])
+            //FALTA AGREGAR QUE SEA UN CORREO VÁLIDO
+            && isset($_POST["email"]) && !empty($_POST["email"] && strlen($_POST["email"])<50) 
+            && isset($_POST["user"]) && !empty($_POST["user"]) && strlen($_POST["user"])<21
+            && isset($_POST["clave"]) && !empty($_POST["clave"]) && strlen($_POST["clave"])<21){
+                $name = $_POST["nombre"];
+                $lastName = $_POST["apellido"];
+                $dni = $_POST["dni"];
+                $email = $_POST["email"];
+                $user = $_POST["user"];
+                $pass = $_POST["clave"];
 
-            $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
+                $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
+            }else{
+                //ACA SE PUEDE AGREGAR UN POPUP O MENSAJE DE ERROR
+                header("Location: /registro");
+            }
+            
         }
 
         public function validarRegistro(){

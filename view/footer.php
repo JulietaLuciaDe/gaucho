@@ -17,7 +17,7 @@
         <div class="col-3 col-footer info-footer">
                 <a href="mailto:gauchorocketargentina@gmail.com" class="social-media-icon" target="blank">gauchorocketargentina@gmail.com </a> </br>
                 <hr>    
-                <p>Florencio Varela 1903, B1754 San Justo, Provincia de Buenos Aires</p>
+                <a href="https://www.google.com.ar/maps/place/Florencio+Varela+1903,+B1754+San+Justo,+Provincia+de+Buenos+Aires/@-34.6705349,-58.5649854,17z/data=!3m1!4b1!4m5!3m4!1s0x95bcc62cdfafe4e7:0xdfa68b2bd7d45455!8m2!3d-34.6705349!4d-58.5627967" class="social-media-icon" target="blank">Florencio Varela 1903, B1754 San Justo, Provincia de Buenos Aires</a>
                 <hr>    
                 <p>0800-111-2222</p>
 

@@ -29,11 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("El DNI debe ser numérico");
         return;
     }
-    if(dni.length>8) {
-        alert("El DNI excede la longitud permitida");
-        return;
-    }
-    if(dni.length<8) {
+    if(dni.length!=8) {
         alert("El DNI ingresado es inválido");
         return;
     }
