@@ -17,15 +17,15 @@ use PHPMailer\PHPMailer\Exception;
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($email,$user);
                 if($confirmation){
-                    header("Location: index.php?module=logIn&method=registrado");
+                    header("Location: /logIn/registrado");
                     exit();
                 }else{
-                    header("Location: index.php?module=logIn&method=noregistrado");
+                    header("Location: /logIn/noregistrado");
                     exit();
                 }
                 
             }else{
-                header("Location: index.php?module=registro&method=duplicate&email=$email&dni=$dni");
+                header("Location: /registro/duplicate/email=$email&dni=$dni");
                 exit();
             }
            
@@ -54,7 +54,7 @@ use PHPMailer\PHPMailer\Exception;
             $message = "Bienvenide, ".$user."!!!! Aqui es donde comienza su mejor viaje...
                         Su cuenta ha sido creada. Por favor, ingrese al siguiente link para activarla:
                         
-                        http://localhost/index.php?module=registro&method=validarRegistro&email=$email&hash=$hash";
+                        http://localhost/registro/validarRegistro/email=$email&hash=$hash";
                         
                         $mail = new PHPMailer(true);
                         
@@ -83,9 +83,9 @@ use PHPMailer\PHPMailer\Exception;
         public function validarRegistro($email,$hash){
             $correctHash = md5($email);
             if($correctHash==$hash){
-               header("Location: index.php?module=logIn&method=autentificado&correo=$email");
+               header("Location: /logIn/autentificado/correo=$email");
             }else{
-               header("Location: index.php?module=inicio");
+               header("Location: /inicio");
             }
     
         }

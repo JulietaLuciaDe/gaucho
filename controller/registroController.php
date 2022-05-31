@@ -33,7 +33,7 @@
             $email = $_GET['email'];
             $dni = $_GET['dni'];
             $title="DNI o email ya registrados";
-            $message="<a class='recovery' href='index.php?module=login&method=recuperar&email=$email&dni=$dni'>Olvidé mi clave</a>";
+            $message="<a class='recovery' href='/login/recuperar/email=$email&dni=$dni'>Olvidé mi clave</a>";
             $this->printer->generatePopUp($title,$message,'registroView.php');
         }
     }

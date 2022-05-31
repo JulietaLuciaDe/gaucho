@@ -1,6 +1,6 @@
 <div class="container contenido justify-content-center content">
     <h2 class="p-4">Registrate y comenzá esta maravillosa aventura!</h2>
-    <form action="index.php?module=registro&method=registrar" method="POST" id="formulario" enctype="multipart/form-data" class="row justify-content-center p-5 formulario" >
+    <form action="/registro/registrar" method="POST" id="formulario" enctype="multipart/form-data" class="row justify-content-center p-5 formulario" >
         <div class="col-12 row div-form">
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required>

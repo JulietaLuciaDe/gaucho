@@ -24,18 +24,18 @@ use PHPMailer\PHPMailer\Exception;
                     header("Location: index.php?module=inicio");
                 }else{
                     //REGISTRADO PERO NO AUTENTIFICADO --> NO LOGUEA
-                    header("Location: index.php?module=login&method=unauthenticated");
+                    header("Location: /login/unauthenticated");
                     
                 }
             }else{
-                header("Location: index.php?module=login&method=notRegistered&email=$email");
+                header("Location: /login/notRegistered/email=$email");
             }
         }  
         
         public function autentificar($correo){
             $sql = "UPDATE usuarios Set autentificado = 1 Where email = '" . $correo. "'";
             $this->database->query($sql);
-            header("Location: index.php?module=login");
+            header("Location: /login");
 
         }
 
@@ -50,7 +50,7 @@ use PHPMailer\PHPMailer\Exception;
             $message = "Hola, ".$user."!!!! 
 
                         Ingrese en el siguiente link para recuperar su clave:
-                        http://localhost/index.php?module=login&method=recovery&email=$email&recoveryCode=$recoveryCode
+                        http://localhost/login/recovery/email=$email&recoveryCode=$recoveryCode
                         
                         Si usted no ha solicitado la recuperación de su clave, ignore este mensaje";
                         
@@ -81,7 +81,7 @@ use PHPMailer\PHPMailer\Exception;
         public function saveRecovery($pass,$email){
             $sql = "UPDATE usuarios Set pass = '" . $pass. "' Where email = '" . $email. "'";
             $this->database->query($sql);
-            header("Location: index.php?module=login");
+            header("Location:/login");
         }
     }
 

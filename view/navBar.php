@@ -1,10 +1,10 @@
 <?php
 
 if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
-  $menu ="<a href='index.php?module=logIn&method=exit'>Cerrar Sesion</a>";
+  $menu ="<a href='/logIn/exit'>Cerrar Sesion</a>";
 }else{
-  $menu ="<a href='index.php?module=registro'>Registrarse</a>
-  <a href='index.php?module=logIn'>Ingresar</a>";
+  $menu ="<a href='/registro'>Registrarse</a>
+  <a href='/logIn'>Ingresar</a>";
   
 }
 echo"<nav class='navbar navbar-dark bg-dark nav row align-items-center justify-content-around m-0'>
@@ -17,14 +17,14 @@ echo"<nav class='navbar navbar-dark bg-dark nav row align-items-center justify-c
     </div>
     <div class='col-4'>
         <div class='buscador'>
-        <form action='index.php?module=buscador&method=execute' method='post'>
+        <form action='/buscador/execute' method='post'>
             <input type='text' placeholder='Busque su viaje...' id='viajeABuscar' name='viajeABuscar'>
             <input type='submit' content='Buscar'>
         </form>
         </div>
     </div>
     <div class='col-4 menu'> 
-       <a href='index.php' class='logo'><img src='public/logo.png' ></a>
+       <a href='/inicio' class='logo'><img src='public/logo.png' ></a>
     </div>
 </nav>
 <div class='collapse' id='navbarToggleExternalContent'  >

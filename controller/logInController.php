@@ -40,7 +40,7 @@
         public function notRegistered(){
             $email=$_GET["email"];
             $title = "Usuario o clave incorrecta";
-            $message = "intente nuevamente </br> <a class='recovery' href='index.php?module=login&method=recuperar&email=$email&dni=1'>Olvidé mi clave</a>";
+            $message = "intente nuevamente </br> <a class='recovery' href='/login/recuperar/email=$email&dni=1'>Olvidé mi clave</a>";
             $this->printer->generatePopUp($title,$message,'logInView.php');
         }
 
@@ -66,7 +66,7 @@
             if($validLink==$md5){
                 $this->printer->generateRecovery($email);
             }else{
-                header("Location: index.php?module=inicio");
+                header("Location: /inicio");
             }
             
             
