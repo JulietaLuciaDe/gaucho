@@ -1,0 +1,10 @@
+{
+    "name":"desarrolloweb/probando-composer",
+    "description": "Proyecto inicial",
+    "require":{
+        "mustache/mustache" : "2.*"
+    }
+
+
+
+}

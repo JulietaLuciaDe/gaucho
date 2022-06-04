@@ -34,9 +34,8 @@ public function query($sql){
 }
 
 public function queryResult($sql){
-     $comando = $this->connection->prepare($sql);
-     $comando->execute();
-     $resultado = $comando->get_result();
+     $result = mysqli_query($this->connection, $sql);
+     $resultado = mysqli_fetch_all($result , MYSQLI_ASSOC);
      return $resultado;
 }
 }

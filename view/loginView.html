@@ -1,0 +1,31 @@
+{{> header}}
+{{> navbar}}
+{{#recovery}}
+    <div class='content container cont-recovery'>
+        
+        
+        <form action='/logIn/saveRecovery' method='POST' enctype='multipart/form-data' class='row recovery-form '>
+            <h2>Ingresá tu nueva clave</h2>
+            <label for='usuario'></label>Email</label>
+            <input type='text' name='usuario' value = {{email}}>
+            <label for='password'>Nueva clave</label>
+            <input type='password' name='password'>
+            <input type='submit' class='btn-primary btn-registro' value='Ingresar'>
+        </form>
+        
+    </div>
+{{/recovery}}
+<div class="content container cont-login {{display}}">
+    <form action="/logIn/validarSesion" method="POST" enctype="multipart/form-data" class="row login-form ">
+        <h2>Ingresá a tu cuenta</h2>
+        <label for="usuario">Email</label>
+        <input type="text" name="usuario" required>
+        <label for="password">Clave</label>
+        <input type="password" name="password" required>
+        <input type="submit" class="btn-primary btn-registro" value="Ingresar">
+        <p>Aun no sos parte de GauchoRocket?</p>
+        <a href="/registro" class="log-registro">Crear una cuenta</a>
+    </form>
+    
+</div>
+{{> footer}}

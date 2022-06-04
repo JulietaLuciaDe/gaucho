@@ -8,8 +8,15 @@
             $this->printer = $printer;
         }
 
-        public function execute(){
-            $this->printer->generateView('registroView.php');
+        public function execute($data = []){
+            if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
+                $menu ="<a href='/logIn/exit'>Cerrar Sesion</a>";
+              }else{
+                $menu ="<a href='/registro'>Registrarse</a>
+                <a href='/logIn'>Ingresar</a>";
+              }
+              $data += ["menu"=>$menu];
+            $this->printer->generateView('registroView.html',$data);
         }
 
         public function registrar(){
@@ -46,7 +53,8 @@
             $dni = $_GET['dni'];
             $title="DNI o email ya registrados";
             $message="<a class='recovery' href='/login/recuperar/email=$email&dni=$dni'>Olvidé mi clave</a>";
-            $this->printer->generatePopUp($title,$message,'registroView.php');
+            $data = ["popUp" => true,"title"=> $title,"message"=>$message];
+            $this->execute($data);
         }
     }
 

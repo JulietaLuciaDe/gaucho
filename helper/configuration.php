@@ -5,11 +5,9 @@ include_once("controller/registroController.php");
 include_once("model/registroModel.php");
 include_once("controller/logInController.php");
 include_once("model/logInModel.php");
-include_once("controller/buscadorController.php");
-include_once("model/buscadorModel.php");
 include_once("controller/inicioController.php");
 include_once("model/inicioModel.php");
-include_once("helper/Printer.php");
+include_once("helper/MustachePrinter.php");
 
 
 
@@ -20,7 +18,7 @@ class Configuration{
     }
 
     public function getRegistroController(){
-        return new RegistroController($this->getRegistroModel(),$this->getPrinter());
+        return new RegistroController($this->getRegistroModel(),$this->getMustachePrinter());
     }
 
     private function getRegistroModel(){
@@ -28,23 +26,15 @@ class Configuration{
     }
 
     public function getLogInController(){
-        return new LogInController($this->getLogInModel(),$this->getPrinter());
+        return new LogInController($this->getLogInModel(),$this->getMustachePrinter());
     }
 
     private function getLogInModel(){
         return new LogInModel($this->getDatabase());
     }
 
-    public function getBuscadorController(){
-        return new BuscadorController($this->getPrinter(),$this->getBuscadorModel());
-    }
-
-    private function getBuscadorModel(){
-        return new BuscadorModel($this->getDatabase());
-    }
-
     public function getInicioController(){
-        return new InicioController($this->getPrinter());
+        return new InicioController($this->getInicioModel(),$this->getMustachePrinter());
     }
 
     private function getInicioModel(){
@@ -59,6 +49,9 @@ class Configuration{
         return new Printer();
     }
 
+    private function getMustachePrinter(){
+        return new MustachePrinter("view");
+    }
     
 
 }
