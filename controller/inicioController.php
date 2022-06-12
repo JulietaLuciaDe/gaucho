@@ -20,16 +20,22 @@ class InicioController {
             $origen= $_POST["origen"];
             $destino= $_POST["destino"];
             $tipoVuelo = $_POST["tipoVuelo"];
+//Agregar en la base de datos de Vuelos dos tipos de Fechas y uno de Ida?
             $ida = $_POST["ida"];
+            $idaVuelta = $_POST["idaVuelta"];
             $fechaIda = $_POST["fechaIda"];
             $fechaVuelta = $_POST["fechaVuelta"];
+
             $busqueda = $origen;
           }else{
             $busqueda= "";
           }
-        $resultado = $this->inicioModel->buscar($busqueda);
-        $data = ["menu"=> $menu,"resultado" => $resultado];
-        
+          if($resultado = $this->inicioModel->buscar($busqueda)){//Aca hay un tema, siempre retorna
+              $data = ["menu"=> $menu,"resultado" => $resultado];
+          }else{
+//Si al buscar un vuelo no esta, se debe crear en la base de datos:
+              $this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
+          }
         $this->printer->generateView('inicioView.html',$data);
     }
 }
