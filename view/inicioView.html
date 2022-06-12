@@ -1,0 +1,74 @@
+{{> header}}
+{{> navbar}}
+<div class='content'>
+    
+    <div class="buscador row justify-content-around">
+        <div class="text-search col-3">
+            <p>ENCONTRÁ TU PRÓXIMO VIAJE</p>
+        </div>
+            <form action='/inicio/execute' method='post' class="col-7 form-search">
+                <div class="destino">
+                    <input type='text' placeholder='Origen' id='viajeABuscar' name='origen' required>
+                    <input type='text' placeholder='Destino' id='viajeABuscar' name='destino' required>
+                </div>
+                <!--ESTE SELECT LO VAMOS A TENER QUE TRAER DESDE LA BASE-->
+                    <div class="select">
+                        <select name="tipoVuelo">
+                            <option value="OR" selected>Orbital</option>
+                            <option value="BA">Entre Destinos (BA)</option>
+                            <option value="AA">Entre Destinos (AA)</option>
+                        </select>
+                    </div>
+                    <!-------------------------------------------------->
+                <div class="radio">
+                    <div>
+                        <input type="radio" id="ida" name="ida" value="IDA" checked>
+                        <label for="html">IDA</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="idaVuelta" name="ida" value="IDA y VUELTA">
+                        <label for="css">IDA y VUELTA</label>
+                    </div>
+                    
+                    
+                </div>
+                <div class="fechas">
+                    <div>
+                        <label for="fechaIda">IDA</label>
+                        <input type="date" id="fechaIda" name="fechaIda" required>
+                    </div>
+                     <div>
+                         <label for="fechaVuelta">VUELTA</label>
+                        <input type="date" id="fechaVuelta" name="fechaVuelta" required>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <input class= 'btn-busqueda' type='submit' value='Buscar' name="busqueda">
+                </div>
+                
+            </form>
+    </div>
+    <div class="resultadoBusqueda">
+        <table class='table table-responsive'>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Destino</th>
+                    <th>Origen</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+        {{#resultado}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{destino}}</td>
+                <td>{{origen}}</td>
+                <td>{{fecha}}</td>
+            </tr>
+        {{/resultado}}
+
+        </table>
+    </div>
+                    
+          </div>
+{{> footer}}

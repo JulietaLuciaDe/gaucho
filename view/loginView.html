@@ -1,11 +1,11 @@
 {{> header}}
 {{> navbar}}
 {{#recovery}}
-    <div class='content container cont-recovery'>
-        
-        
+    <div class='content container cont-recovery justify-content-center'>
+        <h2 class="p-4 titulo">Ingresá tu nueva clave</h2>
+       
         <form action='/logIn/saveRecovery' method='POST' enctype='multipart/form-data' class='row recovery-form '>
-            <h2>Ingresá tu nueva clave</h2>
+            
             <label for='usuario'></label>Email</label>
             <input type='text' name='usuario' value = {{email}}>
             <label for='password'>Nueva clave</label>
@@ -15,9 +15,11 @@
         
     </div>
 {{/recovery}}
-<div class="content container cont-login {{display}}">
+<div class="content container cont-login {{display}} justify-content-center contenido">
+    <h2 class="p-4 titulo">Ingresá a tu cuenta</h2>
+
     <form action="/logIn/validarSesion" method="POST" enctype="multipart/form-data" class="row login-form ">
-        <h2>Ingresá a tu cuenta</h2>
+        
         <label for="usuario">Email</label>
         <input type="text" name="usuario" required>
         <label for="password">Clave</label>

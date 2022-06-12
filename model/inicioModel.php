@@ -15,7 +15,10 @@
         }
         $sqlTravel="SELECT * FROM vuelos ".$where;
         $datos = $this->database->queryResult($sqlTravel);
-        
+        if (empty($datos)){
+            $sqlTravel="SELECT * FROM vuelos ";
+            $datos = $this->database->queryResult($sqlTravel);
+        }
         return $datos;
     }
 }

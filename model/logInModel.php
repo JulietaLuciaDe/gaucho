@@ -63,7 +63,7 @@ use PHPMailer\PHPMailer\Exception;
                                 $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                                 $mail->Username   = 'gauchorocketargentina@gmail.com';                     //SMTP username
-                                $mail->Password   = 'gaucho2022';                               //SMTP password
+                                $mail->Password   = 'hgdmsmjtkucnctgg';                               //SMTP password
                                 $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
                                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
                                 $mail->setFrom('gauchorocketargentina@gmail.com', 'Gaucho Rocket');

@@ -30,8 +30,7 @@
         }
 
         public function validarSesion(){
-            //AGREGAR VALIDACION DE CORREO ELECTRONICO SI VA A SEGUIR INGRESANDO CON ESO, SI VA A INGRESAR CON USUARIO VALIDAR LONGITUD
-            //SI VA A INGRESAR CON USUARIO HAY QUE CAMBIARLO EN DONDE CORRESPONDA
+            //AGREGAR VALIDACION DE CORREO ELECTRONICO 
             if(isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["password"]) && !empty($_POST["password"])){
                 $usuario = $_POST["usuario"];
                 $password = $_POST["password"];
@@ -59,7 +58,7 @@
         public function notRegistered(){
             $email=$_GET["email"];
             $title = "Usuario o clave incorrecta";
-            $message = "intente nuevamente </br> <a class='recovery' href='/login/recuperar/email=$email&dni=1'>Olvidé mi clave</a>";
+            $message = "intente nuevamente </br> <a class='recovery' href='/login/recuperar/email=$email&dni=1'>Olvidé mi clave</a> </br> <a class='recovery' href='/registro'>Aún no estoy registrado</a>";
             $display = "style='display:block;'";
             $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
             $this->execute($data);

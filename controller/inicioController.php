@@ -16,14 +16,20 @@ class InicioController {
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
           }
-          if(isset($_POST["viajeABuscar"])){
-            $busqueda= $_POST["viajeABuscar"];
+          if(isset($_POST["busqueda"])){
+            $origen= $_POST["origen"];
+            $destino= $_POST["destino"];
+            $tipoVuelo = $_POST["tipoVuelo"];
+            $ida = $_POST["ida"];
+            $fechaIda = $_POST["fechaIda"];
+            $fechaVuelta = $_POST["fechaVuelta"];
+            $busqueda = $origen;
           }else{
-            $busqueda = "";
+            $busqueda= "";
           }
         $resultado = $this->inicioModel->buscar($busqueda);
         $data = ["menu"=> $menu,"resultado" => $resultado];
         
-        $this->printer->generateView('inicioView.mustache',$data);
+        $this->printer->generateView('inicioView.html',$data);
     }
 }
