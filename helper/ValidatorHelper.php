@@ -14,9 +14,20 @@ class ValidatorHelper
         return isset($string);
     }
 
-    public static function validacion($string,$cantCaract){
-        return (self::validarNoEsVacio($string)
-                && self::validarSiEstaSet($string))
-                && self::validarCaracteresMax($string,$cantCaract);
+    public static function validarSiEsNumerico($number){
+        return is_numeric($number);
+    }
+
+    public static function validacionDeNumeros($number,$cantCaract){
+        return
+            (   self::validarSiEsNumerico($number)  &&  self::validarNoEsVacio($number))
+            &&( self::validarSiEstaSet($number)     &&  self::validarCaracteresMax($number,$cantCaract));
+    }
+
+    public static function validacionDeTexto($string, $cantCaract){
+        return
+            (   self::validarNoEsVacio($string)
+            &&  self::validarSiEstaSet($string))
+            &&  self::validarCaracteresMax($string,$cantCaract);
     }
 }

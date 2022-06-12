@@ -9,6 +9,7 @@ require 'helper/PHPMailer/SMTP.php';
 
 include_once("helper/configuration.php");
 include_once("helper/router.php");
+include_once ("helper/ValidatorHelper.php");
 $configuration = new Configuration();
 $router = new Router($configuration, "getInicioController", "execute");
 session_start();
@@ -22,6 +23,5 @@ $method = isset($_GET["method"])?  $_GET["method"] : "";
 
 
 $router->executeActionFromModule($module,$method);
-
 
 ?>

@@ -20,13 +20,13 @@
         }
 
         public function registrar(){
-            if(isset($_POST["nombre"]) && !empty($_POST["nombre"]) && strlen($_POST["nombre"])<11 
-            && isset($_POST["apellido"]) && !empty($_POST["apellido"]) && strlen($_POST["apellido"])<11
-            && isset($_POST["dni"]) && !empty($_POST["dni"]) && strlen($_POST["dni"])==8 && is_numeric($_POST["dni"])
-            //FALTA AGREGAR QUE SEA UN CORREO VÁLIDO
-            && isset($_POST["email"]) && !empty($_POST["email"] && strlen($_POST["email"])<50) 
-            && isset($_POST["user"]) && !empty($_POST["user"]) && strlen($_POST["user"])<21
-            && isset($_POST["clave"]) && !empty($_POST["clave"]) && strlen($_POST["clave"])<21){
+            //TODO: Preguntar al profe cómo podría usar un corte de control para las validaciones.
+            if(((   ValidatorHelper::validacionDeTexto($_POST['nombre'],11)&&
+                    ValidatorHelper::validacionDeTexto($_POST['apellido'],11))&&
+            (       ValidatorHelper::validacionDeNumeros($_POST['dni'],11)&&
+                    ValidatorHelper::validacionDeTexto($_POST['email'],50)))&&
+            (       ValidatorHelper::validacionDeTexto($_POST['user'],21)&&
+                    ValidatorHelper::validacionDeTexto($_POST['clave'],21))){
                 $name = $_POST["nombre"];
                 $lastName = $_POST["apellido"];
                 $dni = $_POST["dni"];
@@ -39,7 +39,6 @@
                 //ACA SE PUEDE AGREGAR UN POPUP O MENSAJE DE ERROR
                 header("Location: /registro");
             }
-            
         }
 
         public function validarRegistro(){
