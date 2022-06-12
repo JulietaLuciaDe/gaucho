@@ -1,4 +1,5 @@
 <?php
+include_once "helper/ValidatorHelper.php";
     class RegistroController{
         private $registroModel;
         private $printer;
