@@ -6,7 +6,7 @@
        
         <form action='/logIn/saveRecovery' method='POST' enctype='multipart/form-data' class='row recovery-form '>
             
-            <label for='usuario'></label>Email</label>
+            <label for='usuario'>Email</label>
             <input type='text' name='usuario' value = {{email}}>
             <label for='password'>Nueva clave</label>
             <input type='password' name='password'>
@@ -15,7 +15,7 @@
         
     </div>
 {{/recovery}}
-<div class="content container cont-login {{display}} justify-content-center contenido">
+<div class="content container cont-login justify-content-center contenido {{display}}"  >
     <h2 class="p-4 titulo">Ingresá a tu cuenta</h2>
 
     <form action="/logIn/validarSesion" method="POST" enctype="multipart/form-data" class="row login-form ">

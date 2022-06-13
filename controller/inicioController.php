@@ -16,21 +16,37 @@ class InicioController {
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
           }
-          if(isset($_POST["busqueda"])){
-            $origen= $_POST["origen"];
-            $destino= $_POST["destino"];
-            $tipoVuelo = $_POST["tipoVuelo"];
-//Agregar en la base de datos de Vuelos dos tipos de Fechas y uno de Ida?
-            $ida = $_POST["ida"];
-            $idaVuelta = $_POST["idaVuelta"];
-            $fechaIda = $_POST["fechaIda"];
-            $fechaVuelta = $_POST["fechaVuelta"];
-
-            $busqueda = $origen;
+          
+         if(isset($_POST["busqueda"])){
+          //ACÁ HAY QUE AGREGAR LAS VALIDACIONES CON EL VALIDATOR
+          
+            if(true){
+                  $origen= $_POST["origen"];
+                  $destino= $_POST["destino"];
+                  $tipoVuelo = $_POST["tipoVuelo"];
+                  $ida = $_POST["ida"];
+                  $fechaIda = $_POST["fechaIda"];
+                  if($ida=="1"){
+                    if(isset($_POST["fechaVuelta"]) && !empty($_POST["fechaVuelta"])){
+                      $fechaVuelta = $_POST["fechaVuelta"];
+                      $whereVuelta = "OR (origen = '$destino' and destino = '$origen' and id_tipo= '$tipoVuelo' and fecha<='$fechaVuelta' and fecha>'$fechaIda')";
+                    }else{
+                      //VER COMO METER UN ALERT ACA (UN POPUP ME PARECE QUE NO QUEDA)
+                      echo "DEBE INGRESAR UNA FECHA DE VUELTA";
+                    }
+                    
+                  }else{
+                    $whereVuelta = "";
+                  }
+                  $busqueda = "(origen = '$origen' and destino = '$destino' and id_tipo= '$tipoVuelo' and fecha>='$fechaIda') $whereVuelta";
+            }else{
+                  $busqueda = "";
+            }
+                
           }else{
             $busqueda= "";
           }
-          if($resultado = $this->inicioModel->buscar($busqueda)){//Aca hay un tema, siempre retorna
+          if($resultado = $this->inicioModel->buscar($busqueda)){
               $data = ["menu"=> $menu,"resultado" => $resultado];
           }else{
 //Si al buscar un vuelo no esta, se debe crear en la base de datos:

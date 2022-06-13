@@ -1,8 +1,9 @@
+//VALIDACION FORMULARIO DE REGISTRO
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("formulario").addEventListener("submit", validarFormulario); 
+    document.getElementById("formulario").addEventListener("submit", validarFormularioRegistro); 
   });
   
-  function validarFormulario(evento) {
+  function validarFormularioRegistro(evento) {
     evento.preventDefault();
     var name = document.getElementById("nombre").value;
     var lastName = document.getElementById("apellido").value;
@@ -44,3 +45,5 @@ document.addEventListener("DOMContentLoaded", function() {
     
     this.submit();
   }
+
+  

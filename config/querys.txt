@@ -4,6 +4,25 @@ USE `GauchoRocket`;
 
 SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
+CREATE TABLE `GauchoRocket`.`usuarios` (
+`nombre` varchar(10) NOT NULL,
+`apellido` varchar(10) NOT NULL ,
+`dni` int(8) NOT NULL  UNIQUE,
+`autentificado` int(1) NOT NULL ,
+`pass` varchar(20) NOT NULL,
+`user` varchar(20) NOT NULL,
+`email` varchar(50) NOT NULL PRIMARY KEY
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `vuelos`;
+CREATE TABLE `vuelos` ( `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `origen` VARCHAR(20) NOT NULL, `destino` VARCHAR(20) NOT NULL, `fecha` date NOT NULL,`id_tipo` CHAR(2) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `vuelos` (`origen`,`destino`,`fecha`,`id_tipo`) VALUES
+('Tierra','Marte','2022-01-10','OR'),('Luna','Venus','2022-01-10','OR'),('Marte','Tierra','2022-01-11','BA'),('Venus','Saturno','2022-01-11','AA'),
+('Luna','Tierra','2022-01-12','BA'),('Saturno','Luna','2022-01-12','OR'),('Marte','Venus','2022-01-13','AA'),('Saturno','Tierra','2022-01-13','AA')
+
+**ESTOS TODAVIA NO LOS UTILIZAMOS, FALTAN LOS CREATE TABLE DE ALGUNOS**
+
 CREATE TABLE `GauchoRocket`.`EQUIPOS` (
 `Modelo` varchar(20) NOT NULL,
 `Matrícula` varchar(10) NOT NULL UNIQUE
@@ -57,7 +76,6 @@ INSERT INTO `EQUIPOS` (`Modelo`,`Matrícula`) VALUES
 ('Zorzal','BA2'),
 ('Zorzal','BA3');
 
---FALTAN LOS CREATE TABLE DE CARACT_EQUIPO, SUBORBITALES, TOUR Y ENTRE DESTINOS
 INSERT INTO `CARACT_EQUIPO` (`Tipo `,`Modelo`,`Capacidad`,`Cabinas`,`Capacidad`,`Pasajeros`) VALUES
 ('Orbital','Calandria','300','T, E, P','T200,E75,P25','1,2,3'),
 ('Orbital','Colibri','120','T, E, P','T100,E18,P2','1,2,3'),
@@ -109,17 +127,3 @@ INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`p
 ('2','AA','52hs','Encedalo','Titan');
 
 
-CREATE TABLE `GauchoRocket`.`usuarios` (
-`nombre` varchar(10) NOT NULL,
-`apellido` varchar(10) NOT NULL ,
-`dni` int(8) NOT NULL,
-`autenticado` int NOT NULL ,
-`user` varchar(20) NOT NULL,
-`pass` varchar(20) NOT NULL,
-`email` varchar(50) NOT NULL UNIQUE,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-ALTER TABLE `GauchoRocket`.`usuarios` ADD PRIMARY KEY (`email`);
-
-DROP TABLE IF EXISTS `vuelos`;
-CREATE TABLE `vuelos` ( `id` int(11) NOT NULL, `origen` text NOT NULL, `destino` text NOT NULL, `fecha` date NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-ALTER TABLE `vuelos` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);

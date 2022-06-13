@@ -6,10 +6,11 @@
         <div class="text-search col-3">
             <p>ENCONTRÁ TU PRÓXIMO VIAJE</p>
         </div>
-            <form action='/inicio/execute' method='post' class="col-7 form-search">
+            <!--VERIFICAR EN ESTE FORM: SI LE PONGO EL ID="BUSUQEDA" PARA QUE LO LEVANTE EL JSSEARCH.JS, SE ROMPE-->
+            <form action='/inicio/execute' method='post' class="col-7 form-search" >
                 <div class="destino">
-                    <input type='text' placeholder='Origen' id='viajeABuscar' name='origen' required>
-                    <input type='text' placeholder='Destino' id='viajeABuscar' name='destino' required>
+                    <input type='text' placeholder='Origen' id='origen' name='origen' required>
+                    <input type='text' placeholder='Destino' id='destino' name='destino' required>
                 </div>
                 <!--ESTE SELECT LO VAMOS A TENER QUE TRAER DESDE LA BASE-->
                     <div class="select">
@@ -22,12 +23,13 @@
                     <!-------------------------------------------------->
                 <div class="radio">
                     <div>
-                        <input type="radio" id="ida" name="ida" value="IDA" checked>
-                        <label for="html">IDA</label>
+                        <input type="radio" id="ida" name="ida" value="0" checked>
+                        <label for="ida">IDA</label>
                     </div>
                     <div>
-                        <input type="radio" id="idaVuelta" name="ida" value="IDA y VUELTA">
-                        <label for="css">IDA y VUELTA</label>
+                        <br>
+                        <input type="radio" id="ida" name="ida" value="1">
+                        <label for="ida">IDA y VUELTA</label><br>
                     </div>
                     
                     
@@ -39,7 +41,7 @@
                     </div>
                      <div>
                          <label for="fechaVuelta">VUELTA</label>
-                        <input type="date" id="fechaVuelta" name="fechaVuelta" required>
+                        <input type="date" id="fechaVuelta" name="fechaVuelta" >
                     </div>
                 </div>
                 <div class="justify-content-center">
@@ -53,16 +55,18 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Destino</th>
                     <th>Origen</th>
+                    <th>Destino</th>
+                    <th>id_tipo</th>
                     <th>Fecha</th>
                 </tr>
             </thead>
         {{#resultado}}
             <tr>
                 <td>{{id}}</td>
-                <td>{{destino}}</td>
                 <td>{{origen}}</td>
+                <td>{{destino}}</td>
+                <td>{{id_tipo}}</td>
                 <td>{{fecha}}</td>
             </tr>
         {{/resultado}}

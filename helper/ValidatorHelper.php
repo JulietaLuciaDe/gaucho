@@ -18,6 +18,13 @@ class ValidatorHelper
         return is_numeric($number);
     }
 
+    public static function validarSiEsFecha($date){
+        $fecha = $date;
+        $valores = explode('/', $fecha);
+        $is_date = checkdate($valores[1], $valores[0], $valores[2]);
+        return $is_date;
+    }
+
     public static function validacionDeNumeros($number,$cantCaract){
         return
             (   self::validarSiEsNumerico($number)  &&  self::validarNoEsVacio($number))
@@ -29,5 +36,12 @@ class ValidatorHelper
             (   self::validarNoEsVacio($string)
             &&  self::validarSiEstaSet($string))
             &&  self::validarCaracteresMax($string,$cantCaract);
+    }
+
+    public static function validacionDeFecha($date){
+        return
+            (   self::validarNoEsVacio($date)
+            &&  self::validarSiEstaSet($date))
+            &&  self::validarSiEsFecha($date);
     }
 }

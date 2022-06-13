@@ -12,13 +12,15 @@
     <title>GauchoRocket</title>
 </head>
 <body>
+<!--ESTE ES EL BOTON FLOTANTE QUE VA AL INICIO, VER SI NO QUEDA MEJOR UN ÍCONO -->
+<a href='/inicio' class="btn-flotante">Inicio</a>
 {{#popUp}}
 <div class='modal' tabindex='-1' style='display:block; background-color:rgba(0,0,0,0.5);' id='modal'>
     <div class='modal-dialog'>
         <div class='modal-content'>
             <div class='modal-body'>
                 <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close' onclick=cerrarPopUp();></button>
-                <div><h3>{{title}}</h3></br><p>{{{message}}}</p></div>
+                <div class="popUp-content"><h3>{{title}}</h3><p>{{{message}}}</p></div>
             </div>
         </div>
     </div>

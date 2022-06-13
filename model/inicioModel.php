@@ -9,7 +9,7 @@
 
     public function buscar($busqueda){
         if(!empty($busqueda)){
-            $where ="WHERE destino = '".$busqueda."' OR origen = '".$busqueda."'";
+            $where ="WHERE ".$busqueda;
         }else{
             $where = " ";
         }

@@ -15,15 +15,21 @@
                 $menu ="<a href='/registro'>Registrarse</a>
                 <a href='/logIn'>Ingresar</a>";
               }
-              $display = "style='display:block;'";
-              $data = $data + ["menu"=>$menu,"display"=>$display];
-            $this->printer->generateView("loginView.html",$data);
+              
+
+              if(isset($data["recovery"])){
+                $data["display"] = "d-none";
+              }else{
+                $data["display"] = "d-block";
+              }
+              $data["menu"] = $menu;            
+              $this->printer->generateView("loginView.html",$data);
         }
 
         public function registrado(){
             $title = "Registro exitoso!";
             $message = "Verifique su correo electrónico para activar la cuenta  </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
-            $display = "style='display:block;'";
+                $display = "d-block";
             $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
             $this->execute($data);
             
@@ -50,7 +56,7 @@
         public function unauthenticated(){
             $title = "Registro incompleto";
             $message = "Verifique su correo electrónico para activar la cuenta  </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
-            $display = "style='display:block;'";
+                $display = "d-block";
             $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
             $this->execute($data);
         }
@@ -58,8 +64,8 @@
         public function notRegistered(){
             $email=$_GET["email"];
             $title = "Usuario o clave incorrecta";
-            $message = "intente nuevamente </br> <a class='recovery' href='/login/recuperar/email=$email&dni=1'>Olvidé mi clave</a> </br> <a class='recovery' href='/registro'>Aún no estoy registrado</a>";
-            $display = "style='display:block;'";
+            $message = "<p>intente nuevamente</p> </br> <a class='recovery' href='/login/recuperar/email=$email&dni=1'>Olvidé mi clave</a><a class='recovery' href='/registro'>Aún no estoy registrado</a>";
+            $display = "d-block";
             $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
             $this->execute($data);
         }
@@ -80,7 +86,7 @@
                 $title="El mail ingresado no se encuentra registrado";
                 $message="<a class='recovery' href='/registro' target='blank'>Registrarme</a>";
             }
-            $display = "style='display:block;'";
+            $display = "d-block";
             $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
             $this->execute($data);
         }
@@ -90,8 +96,7 @@
             $md5 = $_GET['recoveryCode'];
             $validLink = md5($email);
             if($validLink==$md5){
-                $display = "style='display:none;'";
-                $data=["email"=>$email,"recovery"=>true,"display"=>$display];
+                $data=["email"=>$email,"recovery"=>true];
                 $this->execute($data);
             }else{
                 header("Location: /inicio");
