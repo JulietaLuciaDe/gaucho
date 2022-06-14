@@ -16,17 +16,16 @@ class InicioController {
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
           }
-          
-         if(isset($_POST["busqueda"])){
+         if(isset($_POST["boton-busqueda"])){
           //ACÁ HAY QUE AGREGAR LAS VALIDACIONES CON EL VALIDATOR
-          
+
             if(true){
                   $origen= $_POST["origen"];
                   $destino= $_POST["destino"];
                   $tipoVuelo = $_POST["tipoVuelo"];
                   $ida = $_POST["ida"];
                   $fechaIda = $_POST["fechaIda"];
-                  if($ida=="1"){
+                  if($ida==1){
                     if(isset($_POST["fechaVuelta"]) && !empty($_POST["fechaVuelta"])){
                       $fechaVuelta = $_POST["fechaVuelta"];
                       $whereVuelta = "OR (origen = '$destino' and destino = '$origen' and id_tipo= '$tipoVuelo' and fecha<='$fechaVuelta' and fecha>'$fechaIda')";
@@ -40,7 +39,7 @@ class InicioController {
                   }
                   $busqueda = "(origen = '$origen' and destino = '$destino' and id_tipo= '$tipoVuelo' and fecha>='$fechaIda') $whereVuelta";
             }else{
-                  $busqueda = "";
+                  $busqueda= "";
             }
                 
           }else{

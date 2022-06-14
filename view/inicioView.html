@@ -6,8 +6,8 @@
         <div class="text-search col-3">
             <p>ENCONTRÁ TU PRÓXIMO VIAJE</p>
         </div>
-            <!--VERIFICAR EN ESTE FORM: SI LE PONGO EL ID="BUSUQEDA" PARA QUE LO LEVANTE EL JSSEARCH.JS, SE ROMPE-->
-            <form action='/inicio/execute' method='post' class="col-7 form-search" >
+
+            <form action='/inicio/execute' method="post" class="col-7 form-search" name='buscar' id='busqueda' enctype="multipart/form-data">
                 <div class="destino">
                     <input type='text' placeholder='Origen' id='origen' name='origen' required>
                     <input type='text' placeholder='Destino' id='destino' name='destino' required>
@@ -23,13 +23,13 @@
                     <!-------------------------------------------------->
                 <div class="radio">
                     <div>
-                        <input type="radio" id="ida" name="ida" value="0" checked>
-                        <label for="ida">IDA</label>
+                        <input type="radio" id="idaRadio" name="ida" value="0" checked>
+                        <label for="idaRadio">IDA</label>
                     </div>
                     <div>
                         <br>
-                        <input type="radio" id="ida" name="ida" value="1">
-                        <label for="ida">IDA y VUELTA</label><br>
+                        <input type="radio" id="idaVueltaRadio" name="ida" value="1">
+                        <label for="idaVueltaRadio">IDA y VUELTA</label><br>
                     </div>
                     
                     
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="justify-content-center">
-                    <input class= 'btn-busqueda' type='submit' value='Buscar' name="busqueda">
+                    <input class= 'btn-busqueda' type='submit' value='Buscar' id="boton-busqueda" name="boton-busqueda">
                 </div>
                 
             </form>

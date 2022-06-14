@@ -10,12 +10,12 @@ use PHPMailer\PHPMailer\Exception;
 
 
         public function registrar($name,$lastName,$dni,$email,$user,$pass){
-            $existeMail = $this->emailExistente($email);
-            $existeDni = $this->dniExistente($dni);
-            if(!$existeMail && !$existeDni){
+            if( !$this->emailExistente($email)
+                && !$this->dniExistente($dni)){
                 $sql = "INSERT INTO usuarios (nombre,apellido,dni,email,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$email."','".$user."','".$pass."')";
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($email,$user);
+                //TODO: Mover redirecciones al registroController.
                 if($confirmation){
                     header("Location: /logIn/registrado");
                     exit();

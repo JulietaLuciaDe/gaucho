@@ -36,7 +36,6 @@
 
                 $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
             }else{
-                //ACA SE PUEDE AGREGAR UN POPUP O MENSAJE DE ERROR
                 header("Location: /registro");
             }
         }
