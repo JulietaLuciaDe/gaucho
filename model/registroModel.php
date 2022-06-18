@@ -15,21 +15,18 @@ use PHPMailer\PHPMailer\Exception;
                 $sql = "INSERT INTO usuarios (nombre,apellido,dni,email,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$email."','".$user."','".$pass."')";
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($email,$user);
-                //TODO: Mover redirecciones al registroController.
                 if($confirmation){
-                    header("Location: /logIn/registrado");
-                    exit();
+                    $status = "registrado";
+                    return $status;
                 }else{
-                    header("Location: /logIn/noregistrado");
-                    exit();
+                    $status = "noregistrado";
+                    return $status;
                 }
                 
             }else{
-                header("Location: /registro/duplicate/email=$email&dni=$dni");
-                exit();
+                $status = "email=".$email."&dni=".$dni;
+                return $status;
             }
-           
-        
         }
 
         private function emailExistente($email){

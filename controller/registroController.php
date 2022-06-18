@@ -33,7 +33,18 @@
                 $user = $_POST["user"];
                 $pass = $_POST["clave"];
 
-                $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
+
+                $status = $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
+                if( $status == "registrado"){
+                    header("Location:/logIn/".$status);
+                    exit();}
+                else if($status == "noregistrado"){
+                    header("Location:/logIn/".$status);
+                    exit();
+                }if($status== "email=".$email."&dni=".$dni){
+                    header("Location:/registro/duplicate/".$status);
+                    exit();
+                }
             }else{
                 header("Location: /registro");
             }
