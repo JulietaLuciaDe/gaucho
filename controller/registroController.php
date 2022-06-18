@@ -20,7 +20,6 @@
         }
 
         public function registrar(){
-            //TODO: Preguntar al profe cómo podría usar un corte de control para las validaciones.
             if(((   ValidatorHelper::validacionDeTexto($_POST["nombre"],11)&&
                     ValidatorHelper::validacionDeTexto($_POST["apellido"],11))&&
             (       ValidatorHelper::validacionDeNumeros($_POST['dni'],11)&&

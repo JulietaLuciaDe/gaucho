@@ -16,10 +16,10 @@ class InicioController {
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
           }
-         if(isset($_POST["boton-busqueda"])){
-          //ACÁ HAY QUE AGREGAR LAS VALIDACIONES CON EL VALIDATOR
-
-            if(true){
+        if(isset($_POST['origen'])){   
+          //FALTA VALIDAR FECHA(AGREGAR EN EL VALIDATOR), TIPOVUELO ( Y NO SÉ SI ES NECESARIO LOS RADIO TAMBIEN)  
+          if(   ValidatorHelper::validacionDeTexto($_POST["origen"],20)&&
+                ValidatorHelper::validacionDeTexto($_POST["destino"],20)){
                   $origen= $_POST["origen"];
                   $destino= $_POST["destino"];
                   $tipoVuelo = $_POST["tipoVuelo"];
@@ -29,11 +29,7 @@ class InicioController {
                     if(isset($_POST["fechaVuelta"]) && !empty($_POST["fechaVuelta"])){
                       $fechaVuelta = $_POST["fechaVuelta"];
                       $whereVuelta = "OR (origen = '$destino' and destino = '$origen' and id_tipo= '$tipoVuelo' and fecha<='$fechaVuelta' and fecha>'$fechaIda')";
-                    }else{
-                      //VER COMO METER UN ALERT ACA (UN POPUP ME PARECE QUE NO QUEDA)
-                      echo "DEBE INGRESAR UNA FECHA DE VUELTA";
-                    }
-                    
+                    }                    
                   }else{
                     $whereVuelta = "";
                   }
@@ -41,15 +37,17 @@ class InicioController {
             }else{
                   $busqueda= "";
             }
-                
           }else{
             $busqueda= "";
-          }
-          if($resultado = $this->inicioModel->buscar($busqueda)){
+      }
+
+
+          if(!empty($resultado = $this->inicioModel->buscar($busqueda))){
               $data = ["menu"=> $menu,"resultado" => $resultado];
           }else{
+            $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
 //Si al buscar un vuelo no esta, se debe crear en la base de datos:
-              $this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
+           //   $this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
           }
         $this->printer->generateView('inicioView.html',$data);
     }
