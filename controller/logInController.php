@@ -36,8 +36,8 @@
         }
 
         public function validarSesion(){
-            //AGREGAR VALIDACION DE CORREO ELECTRONICO 
-            if(isset($_POST["usuario"]) && !empty($_POST["usuario"]) && isset($_POST["password"]) && !empty($_POST["password"])){
+            if(ValidatorHelper::validarSeteadoYNoVacio($_POST["usuario"]) && 
+               ValidatorHelper::validarSeteadoYNoVacio($_POST["password"])){
                 $usuario = $_POST["usuario"];
                 $password = $_POST["password"];
                 $this->logInModel->iniciarSesion($usuario,$password);

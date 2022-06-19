@@ -2,6 +2,8 @@ $( "#idaVuelta" ).on( "click", function(){
   document.getElementById("fechaVuelta").required = true;
 });
 
+
+
 $( "#ida" ).on( "click", function(){
   document.getElementById("fechaVuelta").required = false;
 });

@@ -1,34 +1,141 @@
-CREATE DATABASE IF NOT EXISTS `GauchoRocket` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `GauchoRocket`;
+
+INSERT INTO `SUBORBITALES` (`Dia`,`Vuelos`,`Equipos`,`Duracion`,`Partida`) VALUES
+('L','5','Calandria y Colibri','8hs','3BA,2AK'),
+('M','5','Calandria y Colibri','8hs','3BA,2AK'),
+('X','5','Calandria y Colibri','8hs','3BA,2AK'),
+('J','5','Calandria y Colibri','8hs','3BA,2AK'),
+('V','5','Calandria y Colibri','8hs','3BA,2AK'),
+('S','8','Calandria y Colibri','8hs','4BA,4AK'),
+('D','10','Calandria y Colibri','8hs','5BA,5AK');
+
+INSERT INTO `TOUR` (`Dia`,`Duracion`,`Equipos`,`Partida`) VALUES
+('D','35días','Guanaco','BUE');
+
+INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`punto partida`,`Destino`) VALUES
+('1','BA','4hs','Tierra','EEI'),
+('1','BA','1hs','EEI','OrbitalHotel'),
+('1','BA','16hs','OrbitalHotel','Luna'),
+('1','BA','26hs','Luna','Marte'),
+('1','AA','3hs','Tierra','EEI'),
+('1','AA','1hs','EEI','OrbitalHotel'),
+('1','AA','9hs','OrbitalHotel','Luna'),
+('1','AA','22hs','Luna','Marte'),
+('2','BA','4hs','Tierra','EEI'),
+('2','BA','14hs','EEI','Luna'),
+('2','BA','26hs','Luna','Marte'),
+('2','BA','48hs','Marte','Ganimedes'),
+('2','BA','50hs','Ganimedes','Europa'),
+('2','BA','51hs','Europa','Io'),
+('2','BA','70hs','Io','Encedalo'),
+('2','BA','77hs','Encedalo','Titan'),
+('2','AA','3hs','Tierra','EEI'),
+('2','AA','10hs','EEI','Luna'),
+('2','AA','22hs','Luna','Marte'),
+('2','AA','32hs','Marte','Ganimedes'),
+('2','AA','33hs','Ganimedes','Europa'),
+('2','AA','35hs','Europa','Io'),
+('2','AA','50hs','Io','Encedalo'),
+('2','AA','52hs','Encedalo','Titan');
+
+
+-- ======================================================================================
+
+CREATE DATABASE IF NOT EXISTS `gauchorocket` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `gauchorocket`;
 
 
 SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
-CREATE TABLE `GauchoRocket`.`usuarios` (
-`nombre` varchar(10) NOT NULL,
-`apellido` varchar(10) NOT NULL ,
-`dni` int(8) NOT NULL  UNIQUE,
-`autentificado` int(1) NOT NULL ,
-`pass` varchar(20) NOT NULL,
-`user` varchar(20) NOT NULL,
-`email` varchar(50) NOT NULL PRIMARY KEY
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(20) NOT NULL,
+  `apellido` varchar(20) NOT NULL,
+  `dni` int(8) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `user` varchar(20) NOT NULL,
+  `tipoUsuario` int(11) NOT NULL, -- fk o enum?
+  `tipo` tinyint(1) unsigned DEFAULT NULL,
+  `autentificado` boolean NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `tipo_equipo`;
+CREATE TABLE `tipo_equipo` (
+  `id` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `nombre` varchar (50)CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `caract_equipos`;
+CREATE TABLE `caract_equipos` (
+  `caract_modelo` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `id_tipo` varchar(10) CHARACTER SET utf8 NOT NULL, -- fk
+  `capacidadTotal` int(10) NOT NULL,
+  `id_cabinas` int(10) NOT NULL, -- fk
+  `pasajeros` text CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`caract_modelo`),
+ CONSTRAINT `id_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_equipo` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `equipos`;
+CREATE TABLE `equipos` (
+  `matricula` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `modelo` varchar(15) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`matricula`),
+  CONSTRAINT `modelo` FOREIGN KEY (`modelo`) REFERENCES `caract_equipos` (`caract_modelo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `vuelos`;
-CREATE TABLE `vuelos` ( `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `origen` VARCHAR(20) NOT NULL, `destino` VARCHAR(20) NOT NULL, `fecha` date NOT NULL,`id_tipo` CHAR(2) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `vuelos` (`origen`,`destino`,`fecha`,`id_tipo`) VALUES
-('Tierra','Marte','2022-01-10','OR'),('Luna','Venus','2022-01-10','OR'),('Marte','Tierra','2022-01-11','BA'),('Venus','Saturno','2022-01-11','AA'),
-('Luna','Tierra','2022-01-12','BA'),('Saturno','Luna','2022-01-12','OR'),('Marte','Venus','2022-01-13','AA'),('Saturno','Tierra','2022-01-13','AA')
-
-**ESTOS TODAVIA NO LOS UTILIZAMOS, FALTAN LOS CREATE TABLE DE ALGUNOS**
-
-CREATE TABLE `GauchoRocket`.`EQUIPOS` (
-`Modelo` varchar(20) NOT NULL,
-`Matrícula` varchar(10) NOT NULL UNIQUE
+CREATE TABLE `vuelos` (
+  `id_vuelo` int(8) NOT NULL AUTO_INCREMENT,
+  `fecha` date NOT NULL,
+  `h_partida` int(2) NOT NULL,
+  `duracion` int(3) NOT NULL,
+  `id_equipo` varchar(10) CHARACTER SET utf8 NOT NULL, -- fk
+  `origen` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `destino` varchar(20) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id_vuelo`),
+  CONSTRAINT `id_equipo` FOREIGN KEY (`id_equipo`) REFERENCES `equipos` (`matricula`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `EQUIPOS` (`Modelo`,`Matrícula`) VALUES
+DROP TABLE IF EXISTS `centrosMedicos`;
+CREATE TABLE `centrosMedicos` (
+  `id` int(10)  NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `direccion` varchar(45) NOT NULL,
+  `cantidadTurnos` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `reservas_medicas`;
+CREATE TABLE `reservas_medicas` (
+  `id_reservaM` int(10) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(45) NOT NULL,
+  `id_centroMedico` int(10) NOT NULL, -- fk
+  `id_usuario` int(11) NOT NULL,-- fk
+  `fechaHora` datetime NOT NULL,
+  `realizado` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id_reservaM`),
+  CONSTRAINT `id_centroMedico` FOREIGN KEY (`id_centroMedico`) REFERENCES `centrosMedicos` (`id`),
+  CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
+
+
+
+
+
+INSERT INTO `TIPO_EQUIPO` (`id`,`nombre`) VALUES
+('OR','Orbital'),('BA','Baja Aceleracion'),('AA','Alta Aceleracion');
+
+INSERT INTO `caract_equipos` (`caract_modelo`,`id_tipo`,`capacidadTotal`,`id_cabinas`,`pasajeros`) VALUES
+('Calandria','OR',300,'T|E|P|','200|75|25|'),('Colibri','OR',120,'T|E|P','100|18|2|'),('Zorzal','BA',100,'T|E|','50|50|'),('Carancho','BA',110,'T|','110|'),('Aguilucho','BA',60,'E|P|','50|10|'),('Canario','BA',80,'E|P|','70|10|'),('Aguila','AA',300,'T|E|P|','200|75|25|'),('Condor','AA',350,'T|E|P|','300|10|40|'),('Halcon','AA',200,'T|E|P|','150|25|25|'),('Guanaco','AA',100,'P|','100|');
+
+INSERT INTO `equipos` (`modelo`,`matricula`) VALUES
 ('Aguila','AA1'),
 ('Aguila','AA5'),
 ('Aguila','AA9'),
@@ -76,54 +183,103 @@ INSERT INTO `EQUIPOS` (`Modelo`,`Matrícula`) VALUES
 ('Zorzal','BA2'),
 ('Zorzal','BA3');
 
-INSERT INTO `CARACT_EQUIPO` (`Tipo `,`Modelo`,`Capacidad`,`Cabinas`,`Capacidad`,`Pasajeros`) VALUES
-('Orbital','Calandria','300','T, E, P','T200,E75,P25','1,2,3'),
-('Orbital','Colibri','120','T, E, P','T100,E18,P2','1,2,3'),
-('BA','Zorzal','100','T, E','T50,E50','2,3'),
-('BA','Carancho','110','T','T110','2,3'),
-('BA','Aguilucho','60','E, P','E50,P10','2,3'),
-('BA','Canario','80','E, P','E70,P10','2,3'),
-('AA','Aguila','300','T, E, P','T200,E75,P25','2,3'),
-('AA','Condor','350','T, E, P','T300,E10,P40','2,3'),
-('AA','Halcon','200','T, E, P','T150,E25,P25','3'),
-('AA','Guanaco','100','P','P100','3');
-
-INSERT INTO `SUBORBITALES` (`Dia`,`Vuelos`,`Equipos`,`Duracion`,`Partida`) VALUES
-('L','5','Calandria y Colibri','8hs','3BA,2AK'),
-('M','5','Calandria y Colibri','8hs','3BA,2AK'),
-('X','5','Calandria y Colibri','8hs','3BA,2AK'),
-('J','5','Calandria y Colibri','8hs','3BA,2AK'),
-('V','5','Calandria y Colibri','8hs','3BA,2AK'),
-('S','8','Calandria y Colibri','8hs','4BA,4AK'),
-('D','10','Calandria y Colibri','8hs','5BA,5AK');
-
-INSERT INTO `TOUR` (`Dia`,`Duracion`,`Equipos`,`Partida`) VALUES
-('D','35días','Guanaco','BUE');
-
-INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`punto partida`,`Destino`) VALUES
-('1','BA','4hs','Tierra','EEI'),
-('1','BA','1hs','EEI','OrbitalHotel'),
-('1','BA','16hs','OrbitalHotel','Luna'),
-('1','BA','26hs','Luna','Marte'),
-('1','AA','3hs','Tierra','EEI'),
-('1','AA','1hs','EEI','OrbitalHotel'),
-('1','AA','9hs','OrbitalHotel','Luna'),
-('1','AA','22hs','Luna','Marte'),
-('2','BA','4hs','Tierra','EEI'),
-('2','BA','14hs','EEI','Luna'),
-('2','BA','26hs','Luna','Marte'),
-('2','BA','48hs','Marte','Ganimedes'),
-('2','BA','50hs','Ganimedes','Europa'),
-('2','BA','51hs','Europa','Io'),
-('2','BA','70hs','Io','Encedalo'),
-('2','BA','77hs','Encedalo','Titan'),
-('2','AA','3hs','Tierra','EEI'),
-('2','AA','10hs','EEI','Luna'),
-('2','AA','22hs','Luna','Marte'),
-('2','AA','32hs','Marte','Ganimedes'),
-('2','AA','33hs','Ganimedes','Europa'),
-('2','AA','35hs','Europa','Io'),
-('2','AA','50hs','Io','Encedalo'),
-('2','AA','52hs','Encedalo','Titan');
-
-
+INSERT INTO `vuelos` (`fecha`,`h_partida`,`duracion`,`origen`,`destino`,`id_equipo`) VALUES
+('2022-01-06','8','1','Buenos Aires','Marte','AA1'),
+('2022-02-06','8','4','Ankara','Estación Espacial Internacional','AA5'),
+('2022-03-06','9','8','Ankara','OrbiterHotel','AA9'),
+('2022-04-06','15','3','Buenos Aires','Luna','AA13'),
+('2022-05-06','20','9','Buenos Aires','Ganimedes','AA17'),
+('2022-06-06','20','20','Ankara','Europa','BA8'),
+('2022-07-06','21','14','Buenos Aires','Io','BA9'),
+('2022-08-06','8','7','Buenos Aires','Encedalo','BA10'),
+('2022-09-06','8','18','Ankara','Titan','BA11'),
+('2022-10-06','9','1','Buenos Aires','Marte','BA12'),
+('2022-11-06','9','4','Ankara','Estación Espacial Internacional','O1'),
+('2022-12-06','12','8','Buenos Aires','OrbiterHotel','O2'),
+('2023-01-06','8','3','Ankara','Luna','O6'),
+('2023-02-06','9','9','Buenos Aires','Ganimedes','O7'),
+('2023-03-06','9','20','Buenos Aires','Europa','BA13'),
+('2023-04-06','9','14','Ankara','Io','BA14'),
+('2023-05-06','15','7','Buenos Aires','Encedalo','BA15'),
+('2023-06-06','18','18','Ankara','Titan','BA16'),
+('2023-07-06','21','1','Buenos Aires','Marte','BA17'),
+('2023-08-06','22','4','Buenos Aires','Estación Espacial Internacional','BA4'),
+('2023-09-06','8','8','Buenos Aires','OrbiterHotel','BA5'),
+('2023-10-06','8','3','Ankara','Luna','BA6'),
+('2023-11-06','9','9','Buenos Aires','Ganimedes','BA7'),
+('2023-12-06','9','20','Ankara','Europa','O3'),
+('2024-01-06','12','14','Buenos Aires','Io','O4'),
+('2024-02-06','8','7','Ankara','Encedalo','O5'),
+('2024-03-06','9','18','Buenos Aires','Titan','O8'),
+('2024-04-06','9','1','Buenos Aires','Marte','O9'),
+('2024-05-06','9','4','Ankara','Estación Espacial Internacional','AA2'),
+('2024-06-06','15','8','Buenos Aires','OrbiterHotel','AA6'),
+('2024-07-06','18','3','Ankara','Luna','AA10'),
+('2024-08-06','21','9','Buenos Aires','Ganimedes','AA14'),
+('2024-09-06','22','20','Buenos Aires','Europa','AA18'),
+('2024-10-06','8','14','Buenos Aires','Io','AA4'),
+('2024-11-06','8','7','Ankara','Encedalo','AA8'),
+('2024-12-06','9','18','Buenos Aires','Titan','AA12'),
+('2025-01-06','9','1','Ankara','Marte','AA16'),
+('2025-02-06','12','4','Buenos Aires','Estación Espacial Internacional','AA20'),
+('2025-03-06','8','8','Buenos Aires','OrbiterHotel','AA3'),
+('2025-04-06','8','3','Ankara','Luna','AA7'),
+('2025-05-06','9','9','Ankara','Ganimedes','AA11'),
+('2025-06-06','15','20','Buenos Aires','Europa','AA15'),
+('2025-07-06','20','14','Buenos Aires','Io','AA19'),
+('2025-08-06','20','7','Ankara','Encedalo','BA1'),
+('2025-09-06','21','18','Buenos Aires','Titan','BA2'),
+('2025-10-06','8','1','Buenos Aires','Marte','BA3'),
+('2025-11-06','8','4','Ankara','Estación Espacial Internacional','AA1'),
+('2025-12-06','9','8','Buenos Aires','OrbiterHotel','AA5'),
+('2026-01-06','9','3','Ankara','Luna','AA9'),
+('2026-02-06','12','9','Buenos Aires','Ganimedes','AA13'),
+('2026-03-06','8','20','Buenos Aires','Europa','AA17'),
+('2026-04-06','8','14','Ankara','Io','BA8'),
+('2026-05-06','9','7','Ankara','Encedalo','BA9'),
+('2026-06-06','15','18','Buenos Aires','Titan','BA10'),
+('2026-07-06','15','1','Buenos Aires','Marte','BA11'),
+('2026-08-06','18','4','Ankara','Estación Espacial Internacional','BA12'),
+('2026-09-06','21','8','Buenos Aires','OrbiterHotel','O1'),
+('2026-10-06','22','3','Buenos Aires','Luna','O2'),
+('2026-11-06','22','9','Buenos Aires','Ganimedes','O6'),
+('2026-12-06','8','20','Buenos Aires','Europa','O7'),
+('2027-01-06','8','14','Ankara','Io','BA13'),
+('2027-02-06','9','7','Buenos Aires','Encedalo','BA14'),
+('2027-03-06','9','18','Ankara','Titan','BA15'),
+('2027-04-06','12','1','Buenos Aires','Marte','BA16'),
+('2027-05-06','8','4','Ankara','Estación Espacial Internacional','BA17'),
+('2027-06-06','8','8','Ankara','OrbiterHotel','BA4'),
+('2027-07-06','9','3','Ankara','Luna','BA5'),
+('2027-08-06','9','9','Ankara','Ganimedes','BA6'),
+('2027-09-06','12','20','Buenos Aires','Europa','BA7'),
+('2027-10-06','8','14','Buenos Aires','Io','O3'),
+('2027-11-06','8','7','Buenos Aires','Encedalo','O4'),
+('2027-12-06','9','18','Buenos Aires','Titan','O5'),
+('2028-01-06','15','1','Buenos Aires','Marte','O8'),
+('2028-02-06','20','4','Ankara','Estación Espacial Internacional','O9'),
+('2028-03-06','8','8','Buenos Aires','OrbiterHotel','AA2'),
+('2028-04-06','18','3','Ankara','Luna','AA6'),
+('2028-05-06','22','9','Buenos Aires','Ganimedes','AA10'),
+('2028-06-06','22','20','Buenos Aires','Europa','AA14'),
+('2028-07-06','9','14','Ankara','Io','AA18'),
+('2028-08-06','12','7','Buenos Aires','Encedalo','AA4'),
+('2028-09-06','8','18','Ankara','Titan','AA8'),
+('2028-10-06','8','1','Ankara','Marte','AA12'),
+('2028-11-06','9','4','Ankara','Estación Espacial Internacional','AA16'),
+('2028-12-06','9','8','Ankara','OrbiterHotel','AA20'),
+('2029-01-06','12','3','Buenos Aires','Luna','AA3'),
+('2029-02-06','8','9','Buenos Aires','Ganimedes','AA7'),
+('2029-03-06','8','20','Buenos Aires','Europa','AA11'),
+('2029-04-06','9','14','Buenos Aires','Io','AA15'),
+('2029-05-06','7','7','Buenos Aires','Encedalo','AA19'),
+('2029-06-06','15','18','Buenos Aires','Titan','BA1'),
+('2029-07-06','21','1','Buenos Aires','Marte','BA2'),
+('2029-08-06','18','4','Ankara','Estación Espacial Internacional','BA3'),
+('2029-09-06','22','8','Buenos Aires','OrbiterHotel','AA1'),
+('2029-10-06','20','3','Buenos Aires','Luna','AA5'),
+('2029-11-06','21','9','Buenos Aires','Ganimedes','AA9'),
+('2029-12-06','20','20','Ankara','Europa','AA13'),
+('2030-01-06','21','14','Buenos Aires','Io','AA17'),
+('2030-02-06','20','7','Ankara','Encedalo','BA8'),
+('2030-03-06','20','18','Ankara','Titan','BA9');

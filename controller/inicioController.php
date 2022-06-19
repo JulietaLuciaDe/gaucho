@@ -11,11 +11,20 @@ class InicioController {
 
     public function execute() {
         if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
-            $menu ="<a href='/logIn/exit'>Cerrar Sesion</a>";
+            $menu ="<p>".$_SESSION['user']."</p>
+                    <a href='/logIn/exit'>Cerrar Sesion</a>";
+            if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
+              $filtroNivel = " (id_tipo IN('OR','BA'))";
+            }else{
+              $filtroNivel = "1";
+            }
+           
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
+            $filtroNivel = "1";
           }
+          //TODO: BOTON SUBMIT NO LO RECONOCE POR EL JS
         if(isset($_POST['origen'])){   
           //FALTA VALIDAR FECHA(AGREGAR EN EL VALIDATOR), TIPOVUELO ( Y NO SÉ SI ES NECESARIO LOS RADIO TAMBIEN)  
           if(   ValidatorHelper::validacionDeTexto($_POST["origen"],20)&&
@@ -28,27 +37,31 @@ class InicioController {
                   if($ida==1){
                     if(isset($_POST["fechaVuelta"]) && !empty($_POST["fechaVuelta"])){
                       $fechaVuelta = $_POST["fechaVuelta"];
-                      $whereVuelta = "OR (origen = '$destino' and destino = '$origen' and id_tipo= '$tipoVuelo' and fecha<='$fechaVuelta' and fecha>'$fechaIda')";
+                      $whereVuelta = "OR (V.origen = '$destino' and V.destino = '$origen' and T.id= '$tipoVuelo' and V.fecha<='$fechaVuelta' and V.fecha>'$fechaIda')";
                     }                    
                   }else{
                     $whereVuelta = "";
                   }
-                  $busqueda = "(origen = '$origen' and destino = '$destino' and id_tipo= '$tipoVuelo' and fecha>='$fechaIda') $whereVuelta";
-            }else{
-                  $busqueda= "";
-            }
+                  //$busqueda = "((origen = '$origen' and destino = '$destino' and id_tipo= '$tipoVuelo' and fecha>='$fechaIda') $whereVuelta)";
+                    $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and T.id= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
+                    if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
+                      $busqueda = $busqueda." and ".$filtroNivel;
+                    }
           }else{
-            $busqueda= "";
-      }
-
-
-          if(!empty($resultado = $this->inicioModel->buscar($busqueda))){
+                  $busqueda= $filtroNivel; 
+          }
+        }else{
+            $busqueda= $filtroNivel;
+        }
+        if(!empty($resultado = $this->inicioModel->buscar($busqueda))){
               $data = ["menu"=> $menu,"resultado" => $resultado];
           }else{
             $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
+            
 //Si al buscar un vuelo no esta, se debe crear en la base de datos:
            //   $this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
           }
         $this->printer->generateView('inicioView.html',$data);
+        
     }
 }

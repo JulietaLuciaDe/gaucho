@@ -12,7 +12,8 @@ use PHPMailer\PHPMailer\Exception;
         public function registrar($name,$lastName,$dni,$email,$user,$pass){
             if( !$this->emailExistente($email)
                 && !$this->dniExistente($dni)){
-                $sql = "INSERT INTO usuarios (nombre,apellido,dni,email,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$email."','".$user."','".$pass."')";
+                $passMd5= md5($pass); 
+                $sql = "INSERT INTO usuarios (nombre,apellido,dni,email,user,pass) VALUES ('".$name."','".$lastName."','".$dni."','".$email."','".$user."','".$passMd5."')";
                 $this->database->query($sql);
                 $confirmation = $this->sendConfirmationMail($email,$user);
                 if($confirmation){
@@ -27,6 +28,8 @@ use PHPMailer\PHPMailer\Exception;
                 $status = "email=".$email."&dni=".$dni;
                 return $status;
             }
+           
+        
         }
 
         private function emailExistente($email){

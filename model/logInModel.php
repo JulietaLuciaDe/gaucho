@@ -11,8 +11,9 @@ use PHPMailer\PHPMailer\Exception;
         }
 
 
-        public function iniciarSesion($email,$md5){
-            $sqlUser = "SELECT autentificado FROM usuarios WHERE email = '" . $email. "' AND pass = '" . $md5 . "'";
+        public function iniciarSesion($email,$password){
+            $pass = md5($password);
+            $sqlUser = "SELECT autentificado,user,tipo FROM usuarios WHERE email = '" . $email. "' AND pass = '" . $pass. "'";
             $qry = $this->database->query($sqlUser);
             $obj = mysqli_fetch_assoc($qry);
 
@@ -20,6 +21,9 @@ use PHPMailer\PHPMailer\Exception;
                 if($obj['autentificado']==1){
                     session_start();
                     $_SESSION["logueado"]=1;
+                    $_SESSION["usuario"]=$email;
+                    $_SESSION["user"]=$obj['user'];
+                    $_SESSION["nivel"]=$obj['tipo'];
                     //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
                     header("Location: index.php?module=inicio");
                 }else{
@@ -28,7 +32,7 @@ use PHPMailer\PHPMailer\Exception;
                     
                 }
             }else{
-                header("Location: /login/notRegistered/email=$email");
+               header("Location: /login/notRegistered/email=$email");
             }
         }  
         
@@ -84,7 +88,8 @@ use PHPMailer\PHPMailer\Exception;
         }
 
         public function saveRecovery($pass,$email){
-            $sql = "UPDATE usuarios Set pass = '" . $pass. "' Where email = '" . $email. "'";
+            $passMd5= md5($pass);
+            $sql = "UPDATE usuarios Set pass = '" . $passMd5. "' Where email = '" . $email. "'";
             $this->database->query($sql);
             header("Location:/login");
         }

@@ -62,19 +62,23 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Hora Partida</th>
                     <th>Origen</th>
                     <th>Destino</th>
-                    <th>id_tipo</th>
-                    <th>Fecha</th>
+                    <th>Duración</th>
+                    <th>Tipo Vuelo</th>
                 </tr>
             </thead>
         {{#resultado}}
             <tr>
-                <td>{{id}}</td>
+                <td>{{id_vuelo}}</td>
+                <td>{{fecha}}</td>  
+                <td>{{h_partida}}</td>                              
                 <td>{{origen}}</td>
                 <td>{{destino}}</td>
-                <td>{{id_tipo}}</td>
-                <td>{{fecha}}</td>
+                <td>{{duracion}}</td>
+                <td>{{tipoVuelo}}</td>
             </tr>
         {{/resultado}}
 

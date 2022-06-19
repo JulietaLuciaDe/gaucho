@@ -33,7 +33,6 @@
                 $user = $_POST["user"];
                 $pass = $_POST["clave"];
 
-
                 $status = $this->registroModel->registrar($name,$lastName,$dni,$email,$user,$pass);
                 if( $status == "registrado"){
                     header("Location:/logIn/".$status);

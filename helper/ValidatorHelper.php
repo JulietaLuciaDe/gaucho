@@ -2,22 +2,26 @@
 
 class ValidatorHelper
 {
-    public static function validarNoEsVacio($string){
-        return !empty($string);
+    public static function validarNoEsVacio($variable){
+        return !empty($variable);
     }
 
-    public static function validarCaracteresMax($string, $cantCaractMax){
-        return strlen($string)<$cantCaractMax;
+    public static function validarCaracteresMax($variable, $cantCaractMax){
+        return strlen($variable)<$cantCaractMax;
     }
 
-    public static function validarSiEstaSet($string){
-        return isset($string);
+    public static function validarSiEstaSet($variable){
+        return isset($variable);
     }
 
     public static function validarSiEsNumerico($number){
         return is_numeric($number);
     }
 
+    public static function validarSeteadoYNoVacio($string){
+        return self::validarNoEsVacio($string)&&
+               self::validarSiEstaSet($string);
+    }
 
 
     public static function validacionDeNumeros($number,$cantCaract){
