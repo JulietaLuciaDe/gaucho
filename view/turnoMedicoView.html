@@ -1,0 +1,16 @@
+{{> header}}
+{{> navbar}}
+<div class="content container justify-content-center contenido"  >
+    <h2 class="p-4 titulo">Elegí un día y horario para tu checkeo</h2>
+
+    <form action="/logIn/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row">
+        
+        <label for="dia">Fecha</label>
+        <input type="date" name="dia" required>
+        <label for="hora">Horario</label>
+        <input type="time" name="hora" required>
+        <input type="submit" class="btn-primary" value="Solicitar Turno">
+    </form>
+    
+</div>
+{{> footer}}

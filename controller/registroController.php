@@ -10,10 +10,17 @@
 
         public function execute($data = []){
             if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
-                $menu ="<a href='/logIn/exit'>Cerrar Sesion</a>";
+                $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                    <a href='/logIn/exit'>Cerrar Sesion</a>";
               }else{
                 $menu ="<a href='/registro'>Registrarse</a>
                 <a href='/logIn'>Ingresar</a>";
+              }
+              
+              if(isset($data["turno"])){
+                $data["display"] = "d-none";
+              }else{
+                $data["display"] = "d-block";
               }
               $data += ["menu"=>$menu];
             $this->printer->generateView('registroView.html',$data);
@@ -46,6 +53,7 @@
                 }
             }else{
                 header("Location: /registro");
+                exit();
             }
         }
 
@@ -60,10 +68,54 @@
             $dni = $_GET['dni'];
             $title="DNI o email ya registrados";
             $message="<a class='recovery' href='/login/recuperar/email=$email&dni=$dni'>Olvidé mi clave</a>";
-            $data = ["popUp" => true,"title"=> $title,"message"=>$message];
+            $display = "d-block";
+            $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
             $this->execute($data);
         }
+
+        public function solicitarTurno(){
+            $email = $_GET['email'];
+            $hash = $_GET['hash'];
+            $emailMd5 = md5($email);
+            if($hash==$emailMd5){
+                if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
+                    if($this->registroModel->TurnoSolicitado($email)){
+                        $title="Turno ya solicitado";
+                        $message="Usted ya ha solicitado un turno. Si desea cancelarlo o modificarlo esperamos su correo en <a href='mailto:gauchorocketargentina@gmail.com' style='color:black;'>gauchorocketargentina@gmail.com</a>";
+                        $display = "d-block";
+                        $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
+                    }else{
+                        $display = "d-block";
+                        $data = ["turno" => true,"email"=> $email,"display"=>$display];
+                    }
+                }else{
+                    header("Location: /login");
+                    exit();
+                }
+                
+            }else{
+                header("Location: /inicio");
+                exit();
+            }
+            $this->execute($data);
+        }
+
+        public function validarTurnoMedico(){
+            //ESTO ESTÁ INCOMPLETO!!!
+            $fecha = $_POST['dia'];
+            $horario = $_POST['hora'];
+            $email = $_POST['user'];
+            //ACA VALIDAR SI ES OK Y AGREGAR UN MENSAJE ("TURNO REGISTRADO/ERROR")
+            $this->registroModel->guardarTurno($email);
+
+            session_unset();
+            session_destroy();
+            header("Location: /login");
+            
+        }
+
     }
+
 
 
 

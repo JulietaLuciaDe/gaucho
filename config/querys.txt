@@ -58,6 +58,7 @@ CREATE TABLE `usuarios` (
   `tipoUsuario` int(11) NOT NULL, -- fk o enum?
   `tipo` tinyint(1) unsigned DEFAULT NULL,
   `autentificado` boolean NOT NULL,
+  `turnoSolicitado` boolean DEFAULT false,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4;
 

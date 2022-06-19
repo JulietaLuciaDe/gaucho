@@ -1,6 +1,26 @@
 {{> header}}
 {{> navbar}}
-<div class="container contenido justify-content-center content registro p-0">
+
+{{#turno}}
+<div class="content container justify-content-center contenido"  >
+    <h2 class="p-4 titulo">Elegí un día y horario para tu checkeo</h2>
+
+    <form action="/registro/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row turno">
+        
+        
+        <label for="user">Correo del solicitante</label>
+        <input type="text" name="user" value={{email}} readonly>
+        <label for="dia">Fecha</label>
+        <input type="date" name="dia" required>
+        <label for="hora">Horario</label>
+        <input type="time" name="hora" required>
+        <input type="submit" class="btn-primary" value="Solicitar Turno">
+    </form>
+    
+</div>
+{{/turno}}
+
+<div class="container contenido justify-content-center content registro p-0 {{display}}">
     <h2 class="p-4 titulo">Registrate y comenzá esta maravillosa aventura!</h2>
     <form action="/registro/registrar" method="POST" id="formulario" enctype="multipart/form-data" class="row justify-content-center p-4 formulario" >
         <div class="col-12 row div-form">

@@ -11,8 +11,8 @@ class InicioController {
 
     public function execute() {
         if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
-            $menu ="<p>".$_SESSION['user']."</p>
-                    <a href='/logIn/exit'>Cerrar Sesion</a>";
+          $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                  <a href='/logIn/exit'>Cerrar Sesion</a>";
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
               $filtroNivel = " (id_tipo IN('OR','BA'))";
             }else{
@@ -24,7 +24,7 @@ class InicioController {
             <a href='/logIn'>Ingresar</a>";
             $filtroNivel = "1";
           }
-          //TODO: BOTON SUBMIT NO LO RECONOCE POR EL JS
+          //TODO: BOTON SUBMIT NO LO RECONOCE POR EL JS, POR EL MOMENTO VALIDAMOS CON ORIGEN
         if(isset($_POST['origen'])){   
           //FALTA VALIDAR FECHA(AGREGAR EN EL VALIDATOR), TIPOVUELO ( Y NO SÉ SI ES NECESARIO LOS RADIO TAMBIEN)  
           if(   ValidatorHelper::validacionDeTexto($_POST["origen"],20)&&
@@ -42,7 +42,6 @@ class InicioController {
                   }else{
                     $whereVuelta = "";
                   }
-                  //$busqueda = "((origen = '$origen' and destino = '$destino' and id_tipo= '$tipoVuelo' and fecha>='$fechaIda') $whereVuelta)";
                     $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and T.id= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
                     if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
                       $busqueda = $busqueda." and ".$filtroNivel;
@@ -51,7 +50,21 @@ class InicioController {
                   $busqueda= $filtroNivel; 
           }
         }else{
-            $busqueda= $filtroNivel;
+            if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1 && $_SESSION["nivel"]==""){
+              $title = "Checkeo médico incompleto";
+              $message = "Debe completar el checkeo médico para realizar reservas </br>
+                          <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a></br>
+                          <a class='recovery' href='/logIn/exit'>Cerrar Sesion</a>
+                          ";
+              $display = "d-block";
+              $displaySearch = "d-none";
+              $data = ["menu"=>$menu,"popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display,"displaySearch"=>$displaySearch];
+              $this->printer->generateView('inicioView.html',$data);
+              exit();
+            }else{
+              $busqueda= $filtroNivel;
+            }
+            
         }
         if(!empty($resultado = $this->inicioModel->buscar($busqueda))){
               $data = ["menu"=> $menu,"resultado" => $resultado];

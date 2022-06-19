@@ -9,13 +9,10 @@
         }
 
         public function execute($data = []){
-            if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
-                $menu ="<a href='/logIn/exit'>Cerrar Sesion</a>";
-              }else{
+            
                 $menu ="<a href='/registro'>Registrarse</a>
                 <a href='/logIn'>Ingresar</a>";
-              }
-              
+          
 
               if(isset($data["recovery"])){
                 $data["display"] = "d-none";
