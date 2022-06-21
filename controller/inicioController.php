@@ -13,6 +13,8 @@ class InicioController {
         if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
+            $registroVuelo = '<td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button class="btn-primary btn-busqueda">Reserva</button></a></td>';// intentando
+
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
               $filtroNivel = " (id_tipo IN('OR','BA'))";
             }else{
@@ -22,6 +24,8 @@ class InicioController {
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
+            $registroVuelo = '<td><a href="/logIn"><button class="btn-primary btn-busqueda">Reserva</button></a></td>';// intentando
+
             $filtroNivel = "1";
           }
           //TODO: BOTON SUBMIT NO LO RECONOCE POR EL JS, POR EL MOMENTO VALIDAMOS CON ORIGEN
@@ -58,7 +62,7 @@ class InicioController {
                           ";
               $display = "d-block";
               $displaySearch = "d-none";
-              $data = ["menu"=>$menu,"popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display,"displaySearch"=>$displaySearch];
+                $data = ["menu"=>$menu,"popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display,"displaySearch"=>$displaySearch,"registroVuelo"=>$registroVuelo];
               $this->printer->generateView('inicioView.html',$data);
               exit();
             }else{
