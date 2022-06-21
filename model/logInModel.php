@@ -19,16 +19,25 @@ use PHPMailer\PHPMailer\Exception;
 
             if(isset($obj['autentificado'])){
                 if($obj['autentificado']==1){
+                    //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
                     session_start();
                     $_SESSION["logueado"]=1;
                     $_SESSION["usuario"]=$email;
                     $_SESSION["user"]=$obj['user'];
                     $_SESSION["nivel"]=$obj['tipo'];
-                    //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
-                    header("Location: index.php?module=inicio");
+                    //LOGUEA OK PERO NO TIENE TURNO MÉDICO
+                    if($_SESSION["nivel"]==""){
+                        header("Location: /registro/solicitarTurno/email=".$_SESSION['usuario']);
+                        exit();
+                    }else{
+                        //LOGUEA OK Y TIENE TURNO MÉDICO
+                        header("Location: /inicio");
+                        exit();
+                    }
                 }else{
                     //REGISTRADO PERO NO AUTENTIFICADO --> NO LOGUEA
                     header("Location: /login/unauthenticated");
+                    exit();
                     
                 }
             }else{

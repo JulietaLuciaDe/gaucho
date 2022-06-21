@@ -1,0 +1,39 @@
+
+INSERT INTO `SUBORBITALES` (`Dia`,`Vuelos`,`Equipos`,`Duracion`,`Partida`) VALUES
+('L','5','Calandria y Colibri','8hs','3BA,2AK'),
+('M','5','Calandria y Colibri','8hs','3BA,2AK'),
+('X','5','Calandria y Colibri','8hs','3BA,2AK'),
+('J','5','Calandria y Colibri','8hs','3BA,2AK'),
+('V','5','Calandria y Colibri','8hs','3BA,2AK'),
+('S','8','Calandria y Colibri','8hs','4BA,4AK'),
+('D','10','Calandria y Colibri','8hs','5BA,5AK');
+
+INSERT INTO `TOUR` (`Dia`,`Duracion`,`Equipos`,`Partida`) VALUES
+('D','35días','Guanaco','BUE');
+
+INSERT INTO `ENTRE DESTINOS` (`Circuito`,`Tipo De equipo`,`tiempo de llegada`,`punto partida`,`Destino`) VALUES
+('1','BA','4hs','Tierra','EEI'),
+('1','BA','1hs','EEI','OrbitalHotel'),
+('1','BA','16hs','OrbitalHotel','Luna'),
+('1','BA','26hs','Luna','Marte'),
+('1','AA','3hs','Tierra','EEI'),
+('1','AA','1hs','EEI','OrbitalHotel'),
+('1','AA','9hs','OrbitalHotel','Luna'),
+('1','AA','22hs','Luna','Marte'),
+('2','BA','4hs','Tierra','EEI'),
+('2','BA','14hs','EEI','Luna'),
+('2','BA','26hs','Luna','Marte'),
+('2','BA','48hs','Marte','Ganimedes'),
+('2','BA','50hs','Ganimedes','Europa'),
+('2','BA','51hs','Europa','Io'),
+('2','BA','70hs','Io','Encedalo'),
+('2','BA','77hs','Encedalo','Titan'),
+('2','AA','3hs','Tierra','EEI'),
+('2','AA','10hs','EEI','Luna'),
+('2','AA','22hs','Luna','Marte'),
+('2','AA','32hs','Marte','Ganimedes'),
+('2','AA','33hs','Ganimedes','Europa'),
+('2','AA','35hs','Europa','Io'),
+('2','AA','50hs','Io','Encedalo'),
+('2','AA','52hs','Encedalo','Titan');
+
