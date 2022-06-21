@@ -36,6 +36,15 @@ class ValidatorHelper
             &&  self::validarSiEstaSet($string))
             &&  self::validarCaracteresMax($string,$cantCaract);
     }
+    //Gente, agregue esta funcion ára validar fechas
+    public static function validarFecha($fecha){
+        $valores = explode('/', $fecha); //Este explora el dato y separa los valores entre los / EJ de como quedaria el array: dd,mm,aaaa
+        if(count($valores) == 3 && checkdate($valores[1], $valores[0], $valores[2])){ //cuenta los valores si son 3,
+            // y hace una funcion check q encontre en internet pero no se que hace dentro jeje
+            return true;
+        }
+        return false;
+    }
 
 
 }
