@@ -56,6 +56,15 @@ class reservaVueloController
                             Disculpe las molestias ocacionadas.";
                 $data = ["popUp" => true,"title"=> $title,"message"=>$message];
                 $this->execute($data,'reservaVuelo.html');
+            } else {
+                $data["id_usuario"] = ;
+                $data["id_vuelo"] = ;
+                $data["id_tipoVuelo"] = ;
+                $data["tipoAsiento"] = ;
+                $data["numeroAsiento"] = ;
+                $data["idServicio"] = ;
+                $data["pago"] = ;
+                $data["numeroPago"] = ;
             }
     }
 
