@@ -37,10 +37,14 @@ class ValidatorHelper
             &&  self::validarCaracteresMax($string,$cantCaract);
     }
 
-    public static function validarFecha($fecha){
-        $valores = explode('/', $fecha); //Este explora el dato y separa los valores entre los / EJ de como quedaria el array: dd,mm,aaaa
-        if(count($valores) == 3 && checkdate($valores[1], $valores[0], $valores[2])){ //cuenta los valores si son 3,
-            // y hace una funcion check q encontre en internet pero no se que hace dentro jeje
+    public static function validacionDeFecha($fecha){ 
+        //Se cambia el formato de la fecha para que lo tome bien el checkdate         
+        $originalDate = $fecha;
+        $DateTime = DateTime::createFromFormat('Y-m-d', $originalDate);
+        $newDate = $DateTime->format('d-m-Y');
+
+        $valores = explode('-', $newDate); //Este explora el dato y separa los valores entre los / EJ de como quedaria el array: dd,mm,aaaa
+        if(count($valores) == 3 && checkdate($valores[1], $valores[0], $valores[2])){ //cuenta si son 3 los valores y verifica con el checkdate si es una fecha valida
             return true;
         }
         return false;
