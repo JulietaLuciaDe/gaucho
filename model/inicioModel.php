@@ -7,7 +7,7 @@
         }
    
 
-    public function buscar($busqueda){
+    public function buscarVuelos($busqueda){
         if(!empty($busqueda)){
             $where ="WHERE ".$busqueda;
         }else{

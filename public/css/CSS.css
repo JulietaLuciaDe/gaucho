@@ -111,6 +111,39 @@ a:hover{
     text-align: center;
 }
 
+.turno{
+    width: 70%;
+    justify-content: center;
+}
+
+.turno input{
+    margin: 0.5rem;
+}
+
+.turno-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.div-turno{
+    display: flex;
+    justify-content: center;
+}
+#centroMedico{
+    width: 60%;
+}
+
+#emailTurno{
+    width: 60%;
+}
+
+.div-turno div{
+    display: flex;
+    flex-direction: column;
+}
+
 .titulo{
     text-align: center;
 }

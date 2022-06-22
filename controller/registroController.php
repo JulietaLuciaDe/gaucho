@@ -8,7 +8,7 @@
             $this->printer = $printer;
         }
 
-        public function execute($data = []){
+        public function execute($data = [],$view ='registroView.html' ){
             if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
                 $menu ="<p>Hola, ".$_SESSION['user']."</p>
                     <a href='/logIn/exit'>Cerrar Sesion</a>";
@@ -23,7 +23,7 @@
                 $data["display"] = "d-block";
               }
               $data += ["menu"=>$menu];
-            $this->printer->generateView('registroView.html',$data);
+            $this->printer->generateView($view,$data);
         }
 
         public function registrar(){
@@ -74,10 +74,9 @@
         }
 
         public function solicitarTurno(){
-            $email = $_GET['email'];
-            $hash = $_GET['hash'];
-            $emailMd5 = md5($email);
-            if($hash==$emailMd5){
+            $email = $_SESSION['usuario'];
+            $result = $this->registroModel->buscarCentrosDisponibles();
+            
                 if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
                     if($this->registroModel->TurnoSolicitado($email)){
                         $title="Turno ya solicitado";
@@ -88,29 +87,47 @@
                         $display = "d-block";
                         $data = ["turno" => true,"email"=> $email,"display"=>$display];
                     }
-                }else{
-                    header("Location: /login");
-                    exit();
-                }
+
                 
             }else{
                 header("Location: /inicio");
                 exit();
             }
+            $data=$data+["centros"=>$result] ;
             $this->execute($data);
         }
 
         public function validarTurnoMedico(){
-            //ESTO ESTÁ INCOMPLETO!!!
+            
             $fecha = $_POST['dia'];
-            $horario = $_POST['hora'];
-            $email = $_POST['user'];
-            //ACA VALIDAR SI ES OK Y AGREGAR UN MENSAJE ("TURNO REGISTRADO/ERROR")
-            $this->registroModel->guardarTurno($email);
+            $hora = $_POST['hora'];
+            $email = $_POST['email'];
+            $centro = $_POST['centroMedico'];
+            
+           
+            if($this->registroModel->turnoDisponible($fecha,$hora,$centro)){
 
-            session_unset();
-            session_destroy();
-            header("Location: /login");
+              if($this->registroModel->guardarTurno($email,$fecha,$hora,$centro)){
+                $title="Turno tomado con éxito";
+                $message="Hemos enviado los resultados a su correo electrónico.
+                          Debe volver a loguearse para buscar viajes.";
+                $data = ["popUp" => true,"title"=> $title,"message"=>$message];
+                $this->execute($data,'loginView.html');
+              }else{
+                echo "ha ocurrido un problema";
+              }
+              
+            }else{
+                $email = $_SESSION['usuario'];
+                $title="Turno no disponible";
+                $message="El turno solicitado ya se encuentra tomado, por favor seleccione otro";
+                $result = $this->registroModel->buscarCentrosDisponibles();
+                
+                $data = ["popUp" => true,"title"=> $title,"message"=>$message,"turno"=>true,"email"=> $email];
+                $data=$data+["centros"=>$result] ;
+                $this->execute($data);
+            }
+            
             
         }
 

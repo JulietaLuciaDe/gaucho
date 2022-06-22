@@ -102,11 +102,11 @@ use PHPMailer\PHPMailer\Exception;
             return (isset($result["1"]))? true : false;
     
         }
-        public function guardarTurno($email){
+        public function guardarTurno($email,$fecha,$hora,$centro){
             $nivel=rand(1, 3);
             $to  = $email; 
             $subject = 'Gaucho Rocket - Turno medico'; 
-            $message = "Estimado/a, ".$SESSION['user']." ha completado el checkeo médico.
+            $message = "Estimado/a, ".$_SESSION['user']." ha completado el checkeo médico.
                         su nivel de pasajero es $nivel";
                         
                         $mail = new PHPMailer(true);
@@ -126,8 +126,14 @@ use PHPMailer\PHPMailer\Exception;
                             $mail->Subject = $subject;
                             $mail->Body    = $message;
                             $mail->send();
-                            $sql = "UPDATE usuarios set turnoSolicitado=true,tipo = ".$nivel." where email = '" . $email. "'";
-                             $this->database->query($sql);
+                            $sql = "UPDATE usuarios set turnoSolicitado=true,tipo = ".$nivel." where email = '".$email."'";
+                            $this->database->query($sql);
+                            $sql = "Select id from usuarios where email = '".$email."'";
+                            $result = $this->database->query($sql);
+                            $result = mysqli_fetch_assoc($result);
+                            $id_user = $result["id"];
+                            $sql = "INSERT INTO reservas_medicas (id_centroMedico,id_usuario,fecha,hora) VALUES ('".$centro."','".$id_user."','".$fecha."',".$hora.")";
+                            $this->database->query($sql);
                             return true;
                         } catch (Exception $e) {
                             return false;
@@ -135,6 +141,33 @@ use PHPMailer\PHPMailer\Exception;
             
             
     
+        }
+
+        public function buscarCentrosDisponibles(){
+            $sql = "Select 1 from reservas_medicas";
+            $datos = $this->database->queryResult($sql);
+            if(!$datos){
+                $sql= "Select nombre,id from centrosmedicos";
+            }else{
+                $sql= "Select nombre,id from centrosmedicos C where C.cantidadTurnos>(Select Count(id_reservaM) from reservas_medicas Group by id_centroMedico) ";
+            }
+            
+            $datos = $this->database->queryResult($sql);
+            return $datos;
+        }
+
+        public function turnoDisponible($fecha,$hora,$centro){
+            
+            $sql= "Select 1 as 'result' from reservas_medicas where (fecha ='".$fecha."' and hora=".$hora." and id_centroMedico = '".$centro."') or ((select Count(id_reservaM) from reservas_medicas where id_centroMedico = '".$centro."')>=(select cantidadTurnos from centrosmedicos where id='".$centro."'))";
+            $datos = $this->database->query($sql);
+            $datos = mysqli_fetch_assoc($datos);
+            
+            if (isset($datos['result'])){
+                return false;
+            }else{
+                return true;
+            }
+            
         }
 
     }

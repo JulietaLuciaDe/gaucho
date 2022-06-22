@@ -2,20 +2,36 @@
 {{> navbar}}
 
 {{#turno}}
-<div class="content container justify-content-center contenido"  >
+<div class="content container justify-content-center contenido turno-content"  >
     <h2 class="p-4 titulo">Elegí un día y horario para tu checkeo</h2>
 
-    <form action="/registro/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row turno">
-        
-        
+   <form action="/registro/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row turno" id="form_medico">
         <label for="user">Correo del solicitante</label>
-        <input type="text" name="user" value={{email}} readonly>
-        <label for="dia">Fecha</label>
-        <input type="date" name="dia" required>
-        <label for="hora">Horario</label>
-        <input type="time" name="hora" required>
-        <input type="submit" class="btn-primary" value="Solicitar Turno">
+        <input type="text" name="email" placeholder={{email}} value={{email}} id="emailTurno" readonly>
+        <div class="div-turno">     
+            <div>
+                <label for="dia">Fecha</label>
+                <input name="dia" id="fechaTurno" name="dia"  data-input required/>    
+            </div> 
+            <div>
+              
+                <label for="hora">Horario</label>
+                <input type="number" name="hora" id="hour" min="12" max="18" value="12"  required>
+               
+            </div>  
+        </div>
+        <label for="centroMedico">Centro Médico</label>
+        
+         <select name="centroMedico" id="centroMedico">
+           {{#centros}}
+                <option value={{id}}>{{nombre}}</option>
+            {{/centros}}
+        </select>
+        
+        <input type="submit" class="btn-primary" value="Solicitar Turno" id="sbmt-medico" onclick="prueba()">
     </form>
+    
+
     
 </div>
 {{/turno}}

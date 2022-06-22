@@ -55,9 +55,10 @@ class InicioController {
           }
         }else{
             if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1 && $_SESSION["nivel"]==""){
+              $md5Email = md5($_SESSION["usuario"]);
               $title = "Checkeo médico incompleto";
-              $message = "Debe completar el checkeo médico para realizar reservas </br>
-                          <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a></br>
+              $message = "Debe solicitar un turno médico para poder navegar como usuario logueado </br>
+                          <a class='recovery' href='/registro/solicitarTurno/email=".$_SESSION['usuario']."&hash=".$md5Email."'>Solicitar Turno</a>
                           <a class='recovery' href='/logIn/exit'>Cerrar Sesion</a>
                           ";
               $display = "d-block";
@@ -70,7 +71,7 @@ class InicioController {
             }
             
         }
-        if(!empty($resultado = $this->inicioModel->buscar($busqueda))){
+        if(!empty($resultado = $this->inicioModel->buscarVuelos($busqueda))){
               $data = ["menu"=> $menu,"resultado" => $resultado];
           }else{
             $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
