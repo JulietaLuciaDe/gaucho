@@ -37,7 +37,33 @@
                ValidatorHelper::validarSeteadoYNoVacio($_POST["password"])){
                 $usuario = $_POST["usuario"];
                 $password = $_POST["password"];
-                $this->logInModel->iniciarSesion($usuario,$password);
+                $obj = $this->logInModel->iniciarSesion($usuario,$password);
+                if(isset($obj['autentificado'])){
+                    if($obj['autentificado']==1){
+                        //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
+                        session_start();
+                        $_SESSION["logueado"]=1;
+                        $_SESSION["usuario"]=$_POST["usuario"];
+                        $_SESSION["user"]=$obj['user'];
+                        $_SESSION["nivel"]=$obj['tipo'];
+                        //LOGUEA OK PERO NO TIENE TURNO MÉDICO
+                        if($_SESSION["nivel"]==""){
+                            header("Location: /registro/solicitarTurno/email=".$_SESSION['usuario']);
+                            exit();
+                        }else{
+                            //LOGUEA OK Y TIENE TURNO MÉDICO
+                            header("Location: /inicio");
+                            exit();
+                        }
+                    }else{
+                        //REGISTRADO PERO NO AUTENTIFICADO --> NO LOGUEA
+                        header("Location: /login/unauthenticated");
+                        exit();
+                    }
+                }else{
+                    //NO REGISTRADO -->  NO LOGUEA
+                   header("Location: /login/notRegistered/email=$email");
+                }
             }else{
                 header("Location: /login");
             }

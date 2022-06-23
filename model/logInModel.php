@@ -17,32 +17,7 @@ use PHPMailer\PHPMailer\Exception;
             $qry = $this->database->query($sqlUser);
             $obj = mysqli_fetch_assoc($qry);
 
-            if(isset($obj['autentificado'])){
-                if($obj['autentificado']==1){
-                    //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
-                    session_start();
-                    $_SESSION["logueado"]=1;
-                    $_SESSION["usuario"]=$email;
-                    $_SESSION["user"]=$obj['user'];
-                    $_SESSION["nivel"]=$obj['tipo'];
-                    //LOGUEA OK PERO NO TIENE TURNO MÉDICO
-                    if($_SESSION["nivel"]==""){
-                        header("Location: /registro/solicitarTurno/email=".$_SESSION['usuario']);
-                        exit();
-                    }else{
-                        //LOGUEA OK Y TIENE TURNO MÉDICO
-                        header("Location: /inicio");
-                        exit();
-                    }
-                }else{
-                    //REGISTRADO PERO NO AUTENTIFICADO --> NO LOGUEA
-                    header("Location: /login/unauthenticated");
-                    exit();
-                    
-                }
-            }else{
-               header("Location: /login/notRegistered/email=$email");
-            }
+            return $obj;
         }  
         
         public function autentificar($correo){
@@ -81,7 +56,7 @@ use PHPMailer\PHPMailer\Exception;
                                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
                                 $mail->setFrom('gauchorocketargentina@gmail.com', 'Gaucho Rocket');
                                 $mail->addAddress($email);     //Add a recipient
-                                //$mail->isHTML(true);                                  //Set email format to HTML
+                                //$mail->isHTML(true);      //Set email format to HTML
                                 $mail->Subject = $subject;
                                 $mail->Body    = $message;
                                 $mail->send();

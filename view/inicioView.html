@@ -15,9 +15,9 @@
                 <!--ESTE SELECT LO VAMOS A TENER QUE TRAER DESDE LA BASE-->
                     <div class="select">
                         <select name="tipoVuelo">
-                            <option value="OR" selected>Orbital</option>
-                            <option value="BA">Entre Destinos (BA)</option>
-                            <option value="AA">Entre Destinos (AA)</option>
+                        {{#tiposVuelo}}
+                            <option value={{id_tipoVuelo}} >{{Descripcion}}</option>
+                        {{/tiposVuelo}}
                         </select>
                     </div>
                     <!-------------------------------------------------->
@@ -67,6 +67,7 @@
                     <th>Origen</th>
                     <th>Destino</th>
                     <th>Duración</th>
+                    <th>Tipo Equipo</th>
                     <th>Tipo Vuelo</th>
                     <th>Reservar</th>
                 </tr>
@@ -79,7 +80,8 @@
                 <td>{{origen}}</td>
                 <td>{{destino}}</td>
                 <td>{{duracion}}</td>
-                <td>{{tipoVuelo}}</td>
+                <td>{{tipoEquipo}}</td>
+                <td>{{tVuelo}}</td>
                 <td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button class='btn-primary btn-busqueda'>Reservar</button></a></td> <!--Len:Te lleva con el
                     ID del vuelo a link donde esta la view de reservas (con su controller),
                     alli se debe buscar ese vuelo por id para poder mostrar datos y ver detalles del vuelo para confirmar reserva

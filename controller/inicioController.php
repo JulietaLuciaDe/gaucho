@@ -13,8 +13,6 @@ class InicioController {
         if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
-            $registroVuelo = '<td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button class="btn-primary btn-busqueda">Reserva</button></a></td>';// intentando
-
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
               $filtroNivel = " (id_tipo IN('OR','BA'))";
             }else{
@@ -24,8 +22,6 @@ class InicioController {
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
-            $registroVuelo = '<td><a href="/logIn"><button class="btn-primary btn-busqueda">Reserva</button></a></td>';// intentando
-
             $filtroNivel = "1";
           }
           //TODO: BOTON SUBMIT NO LO RECONOCE POR EL JS, POR EL MOMENTO VALIDAMOS CON ORIGEN
@@ -47,7 +43,7 @@ class InicioController {
                   }else{
                     $whereVuelta = "";
                   }
-                    $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and T.id= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
+                    $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and V.tipoVuelo= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
                     if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
                       $busqueda = $busqueda." and ".$filtroNivel;
                     }
@@ -64,7 +60,7 @@ class InicioController {
                           ";
               $display = "d-block";
               $displaySearch = "d-none";
-                $data = ["menu"=>$menu,"popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display,"displaySearch"=>$displaySearch,"registroVuelo"=>$registroVuelo];
+              $data = ["menu"=>$menu,"popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display,"displaySearch"=>$displaySearch];
               $this->printer->generateView('inicioView.html',$data);
               exit();
             }else{
@@ -73,13 +69,18 @@ class InicioController {
             
         }
         if(!empty($resultado = $this->inicioModel->buscarVuelos($busqueda))){
-              $data = ["menu"=> $menu,"resultado" => $resultado];
-          }else{
+            $data = ["menu"=> $menu,"resultado" => $resultado];
+        }else{
+         //Si al reservar un vuelo no esta reservado previamente, se debe crear en la base de datos:
+         //$this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
             $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
-            
-//Si al reservar un vuelo no esta, se debe crear en la base de datos:
-           //   $this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
-          }
+        }
+
+        $tiposVuelo = $this->inicioModel->tiposVuelo();
+
+        
+        $data += ["tiposVuelo"=>$tiposVuelo];
+
         $this->printer->generateView('inicioView.html',$data);
         
     }

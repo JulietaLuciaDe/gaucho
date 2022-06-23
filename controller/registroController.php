@@ -89,12 +89,12 @@
                     }
 
                 
-            }else{
-                header("Location: /inicio");
-                exit();
-            }
-            $data=$data+["centros"=>$result] ;
-            $this->execute($data);
+                }else{
+                    header("Location: /login");
+                    exit();
+                }
+                $data=$data+["centros"=>$result] ;
+                $this->execute($data);
         }
 
         public function validarTurnoMedico(){

@@ -292,6 +292,12 @@ input{
  .resultadoBusqueda td,.resultadoBusqueda th{
      color:white;
  }
+
+ .resultadoBusqueda th{
+    font-size:medium; 
+    text-shadow: 1.5px 1.5px 1px black,2px 2px 1px white;
+    
+ }
  
  .btn-busqueda{
      border-radius: 10%;
@@ -306,6 +312,10 @@ input{
 
  .resultadoBusqueda{
     background-color:rgba(0, 0, 0, 0.6) !important;
+    padding-left: 3em;
+    padding-right: 3rem;
+    justify-content: center;
+    font-size:small; 
 
  }
 

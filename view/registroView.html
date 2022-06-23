@@ -7,7 +7,9 @@
 
    <form action="/registro/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row turno" id="form_medico">
         <label for="user">Correo del solicitante</label>
-        <input type="text" name="email" placeholder={{email}} value={{email}} id="emailTurno" readonly>
+        {{#email}}
+            <input type="text" name="email" value='{{email}}' placeholder='{{email}}'  id="emailTurno" readonly>
+        {{/email}}
         <div class="div-turno">     
             <div>
                 <label for="dia">Fecha</label>
