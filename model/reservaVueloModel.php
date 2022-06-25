@@ -26,27 +26,30 @@ class VuelosModel
         return $this->database->query("SELECT * FROM entredestinos");
     }
     
-    /**
-     * @param $fecha
-     */
-    public function getVuelosDia($fecha, $desde = NULL)
-    {
-        global $DIAS;
-        
-        $diaDeLaSemana = date('w', strtotime($fecha));
-        
-        $diaDeLaSemana = $DIAS["$diaDeLaSemana"];
-        
-        if ($desde) {
-            return $this->database->query("SELECT * FROM suborbitales where dia = '$diaDeLaSemana' AND partida = '$desde' ORDER BY horario;");
-        } else {
-            return $this->database->query("SELECT * FROM suborbitales where dia = '$diaDeLaSemana' ORDER BY horario");
-        }
+  
+    public function crearVuelo ($id_vuelo){
+        //primero buscar el vuelo en la tabla vuelo y dsp insertarlo en la tabla de vuelos 
+        //confirmados con los datos faltantes .
+        // $sql = "INSERT INTO vuelos()
+        // VALUES('" . $datos["fecha"] . "','" . $datos["origen"] . "','" . $datos["partida"] ");";
+        //var_dump($sql);
+        return $this->database->insert($sql);
+        $vuelo = mysqli_fetch_assoc($query);
+        return $vuelo;
+    }
+
+    public function getVueloSeleccionado($id){
+        $query = "SELECT * FROM vuelos_confirmados WHERE id_vuelo=.$id";
+        $this->database->query($query);
+        $vuelo = mysqli_fetch_assoc($query);
+        return $vuelo;
     }
      
 
     public function generarReserva($datos)
     {
+
+        //insert en las reservas.
         $sql = "INSERT INTO suborbitales_reservas(fechayhora,desde,matricula,usuario,tipoAsiento,numeroAsiento,servicio)
                 VALUES('" . $datos["fechayhora"] . "','" . $datos["desde"] . "','" . $datos["matricula"] .
             "'," . $datos["usuario"] . ",'" . $datos["tipoAsiento"] . "'," . $datos["numeroAsiento"] .
@@ -55,15 +58,9 @@ class VuelosModel
         return $this->database->insert($sql);
     }
    
-    public function usuarioTienePasajeVuelo($fecha, $hora, $partida, $id_usuario)
+    public function cargarCantidadPasajeros($fecha, $hora, $partida, $id_usuario)
     {
         $sql = "SELECT * FROM suborbitales_reservas where fechayhora = '$fecha $hora' and desde = '$partida' and usuario = $id_usuario;";
-        return $this->database->query($sql);
-    }
-
-       public function tipoUsuario($idUsuario)
-    {
-        $sql = "SELECT tipo FROM usuario where id = $idUsuario;";
         return $this->database->query($sql);
     }
     
@@ -83,13 +80,4 @@ class VuelosModel
         return $this->database->delete($sql);
     }
     
-    public function asientosReservados($fecha, $hora, $partida, $matricula)
-    {
-        $sql = "SELECT tipoAsiento,numeroAsiento 
-        FROM suborbitales_reservas 
-        WHERE fechayhora = '$fecha $hora' 
-        and desde = '$partida'
-        and matricula = '$matricula'";
-        return $this->database->query($sql);
-    }
 }
