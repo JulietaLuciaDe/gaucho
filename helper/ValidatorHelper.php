@@ -27,7 +27,6 @@ class ValidatorHelper
                self::validarSiEstaSet($string);
     }
 
-
     public static function validacionDeNumeros($number,$cantCaract){
         return
             (   self::validarSiEsNumerico($number)  &&  self::validarNoEsVacio($number))
@@ -39,6 +38,11 @@ class ValidatorHelper
             (   self::validarNoEsVacio($string)
             &&  self::validarSiEstaSet($string))
             &&  self::validarCaracteresMax($string,$cantCaract);
+    }
+
+    public static function devolverFechaFormatoLatino($fechaSql){
+        $aux = explode("-",$fechaSql);
+        return $aux[2]."-".$aux[1]."-".$aux[0];
     }
 
     public static function validacionDeFecha($fecha){ 
