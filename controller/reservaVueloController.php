@@ -21,8 +21,17 @@ class reservaVueloController
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funciones publicas
 
-    public function execute($data,$vista){
-        $this->printer->generateView($data,$vista);
+    public function execute($data){
+        if(validatorHelper::validarSesionActiva()){
+            $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                <a href='/logIn/exit'>Cerrar Sesion</a>";
+          }else{
+            $menu ="<a href='/registro'>Registrarse</a>
+            <a href='/logIn'>Ingresar</a>";
+          }
+          $data += ["menu"=>$menu];
+        $this->printer->generateView('reservaVueloView.html',$data);
+
     }
 
     private function validarSiExisteVuelo($id_vuelo,$tabla){
@@ -41,6 +50,7 @@ class reservaVueloController
             if($this->validarSiExisteVuelo($id_vuelo,"vuelos")){
                 if(!($this->validarSiExisteVuelo($id_vuelo,"vuelos_confirmados"))){
                     $this->reservaVueloModel->crearVuelo($id_vuelo);
+                    //aca habria que validar si se insertó ok
                 }
             }else{
                 echo "<h2>Id de vuelo inválido</h2>";
@@ -51,22 +61,14 @@ class reservaVueloController
         }
 
         $vuelo=$this->reservaVueloModel->getVueloSeleccionado($id_vuelo,"vuelos_confirmados");
-        $vueloArray=$vuelo[0];
-
         $email = $_SESSION["usuario"];
-        $datosUsuario=$this->reservaVueloModel->getUsuario($email);
-        $datosUsuarioArray=$datosUsuario[0];
+        
+        $usuario=$this->reservaVueloModel->getUsuario($email);
+        $data = ["usuario" => $usuario];
+        $data += ["vuelo" => $vuelo];
 
-        $data["vuelo"]=$vueloArray;
-        $data["usuario"]=$datosUsuarioArray;
 
-        /*
-        echo var_dump($data["usuario"]);
-        echo "<br>";
-        echo var_dump($data["vuelo"]);
-        */
-
-        $this->execute($data,'reservaVueloView.html');
+        $this->execute($data);
     }
 
     /*

@@ -24,13 +24,6 @@
         $datos = $this->database->queryResult($sqlTiposVuelo);
         return $datos;
     }
-            //**Esto para mi deberia estar en el modulo de reservas */
-//Modificar funcion o base de datos
-  /*  public function registrarVuelo($origen,$destino,$tipoVuelo,$ida, $idaVuelta,$fechaIda,$fechaVuelta){
-        $sql="INSERT INTO vuelos(origen,destino,fecha/*,tipoVuelo,ida,idaVuelta,fechaIda,fechaVuelta)
-                VALUE ('".$origen."','".$destino."','".$tipoVuelo."','".$ida."','".$idaVuelta."','".$fechaIda."','".$fechaVuelta."')";
-        return $this->database->query($sql);
-    }*/
 }
 
 ?>

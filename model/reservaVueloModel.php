@@ -11,7 +11,8 @@ class reservaVueloModel
 
     public function getUsuario($email){
         $query = "SELECT id, nombre, apellido, dni, email FROM usuarios WHERE email='".$email."'";
-        return $this->database->queryResult($query);
+        $usuario = $this->database->queryResult($query);
+        return $usuario;
     }
 
     public function getVuelos()
