@@ -10,7 +10,7 @@ class InicioController {
     }
 
     public function execute() {
-        if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
+        if(ValidatorHelper::validarSesionActiva()){
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
@@ -44,14 +44,14 @@ class InicioController {
                     $whereVuelta = "";
                   }
                     $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and V.tipoVuelo= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
-                    if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
+                    if(ValidatorHelper::validarSesionActiva()){
                       $busqueda = $busqueda." and ".$filtroNivel;
                     }
           }else{
                   $busqueda= $filtroNivel; 
           }
         }else{
-            if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1 && $_SESSION["nivel"]==""){
+            if((ValidatorHelper::validarSesionActiva()) && $_SESSION["nivel"]==""){
               $md5Email = md5($_SESSION["usuario"]);
               $title = "Checkeo médico incompleto";
               $message = "Debe solicitar un turno médico para poder navegar como usuario logueado </br>

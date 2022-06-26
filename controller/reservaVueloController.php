@@ -1,22 +1,22 @@
 <?php
-
 class reservaVueloController
 {
-
-
     private $reservaVueloModel;
-    private $log;
     private $printer;
+    /*
+    private $log;
     private $pdf;
     private $qr;
-
-    public function __construct($logger, $printer, $reservaVueloModel, $pdf, $qr)
+    */
+    public function __construct($reservaVueloModel,$printer)
     {
         $this->reservaVueloModel = $reservaVueloModel;
-        $this->log = $logger;
         $this->printer = $printer;
+        /*
+        $this->log = $logger;
         $this->pdf = $pdf;
         $this->qr = $qr;
+        */
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Funciones publicas
@@ -24,7 +24,52 @@ class reservaVueloController
     public function execute($data,$vista){
         $this->printer->generateView($data,$vista);
     }
-    
+
+    private function validarSiExisteVuelo($id_vuelo,$tabla){
+        $vuelo = $this->reservaVueloModel->getVueloSeleccionado($id_vuelo,$tabla);
+        if(empty($vuelo)||$vuelo==""){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function reserva()
+    {
+        $id_vuelo = $_GET["id"];
+        if(ValidatorHelper::validarSesionActiva()){
+            if($this->validarSiExisteVuelo($id_vuelo,"vuelos")){
+                if(!($this->validarSiExisteVuelo($id_vuelo,"vuelos_confirmados"))){
+                    $this->reservaVueloModel->crearVuelo($id_vuelo);
+                }
+            }else{
+                echo "<h2>Id de vuelo inválido</h2>";
+            }
+        }else{
+            header("Location:/login");
+            exit();
+        }
+
+        $vuelo=$this->reservaVueloModel->getVueloSeleccionado($id_vuelo,"vuelos_confirmados");
+        $vueloArray=$vuelo[0];
+
+        $email = $_SESSION["usuario"];
+        $datosUsuario=$this->reservaVueloModel->getUsuario($email);
+        $datosUsuarioArray=$datosUsuario[0];
+
+        $data["vuelo"]=$vueloArray;
+        $data["usuario"]=$datosUsuarioArray;
+
+        /*
+        echo var_dump($data["usuario"]);
+        echo "<br>";
+        echo var_dump($data["vuelo"]);
+        */
+
+        $this->execute($data,'reservaVueloView.html');
+    }
+
+    /*
     public function reserva($id)
     {
         $id_vuelo=$_GET["id"];
@@ -40,12 +85,12 @@ class reservaVueloController
         $data["destino"] = $vuelo->destino;
         $data["id_equipo"] = $vuelo->id_equipo;
         $this->execute($data,'reservaVuelo.html');
-    }
+    }*/
 
     public function reservado($id_usuario,$id_vuelo,$id_tipoVuelo,$tipoAsiento,$nroAsiento,$id_servicio,$pago,$nroPago){
                     $cantidadMaxima = $this->reservaVueloModel->getCantidadMaxima($id_vuelo); //hacerfuncion
                     $cantidadDePasajerosEnVuelo = $this->reservaVueloModel->getCantidadPasajerosEnVuelo($id_vuelo);// hacerfuncion y determinar que no se pase de esa cantidad con la maxima
-        //verificar si ya reservo en este uelo
+        //verificar si ya reservo en este vuelo
                     if ($cantidadDePasajerosEnVuelo<$cantidadMaxima)
                     if(ValidatorHelper::validacionDeNumeros($id_usuario)&& ValidatorHelper::validacionDeNumeros($id_vuelo)&&
                         ValidatorHelper::validacionDeNumeros($id_tipoVuelo)&& ValidatorHelper::validacionDeTexto($tipoAsiento,30)&&

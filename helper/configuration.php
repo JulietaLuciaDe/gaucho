@@ -62,8 +62,6 @@ class Configuration{
     private function getMustachePrinter(){
         return new MustachePrinter("view");
     }
-    
-
 }
 
 ?>

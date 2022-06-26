@@ -2,6 +2,10 @@
 
 class ValidatorHelper
 {
+    public static function validarSesionActiva(){
+        return (isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1);
+    }
+
     public static function validarNoEsVacio($variable){
         return !empty($variable);
     }
