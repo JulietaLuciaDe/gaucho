@@ -1,47 +1,231 @@
-<!-- terminar pantalla.
-    1) Traera la info de index y se mostrara ONLYREAD.
-    2) Datos del usuario.
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva tu vuelo</title>
+    <!--Agregando Bootstrap 5-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<!--
+1) Traera la info de index y se mostrara ONLYREAD.
+    2) Datos del usuario. --
     3) datos adicionales: campos editables: cant de pasajes, tipo de cabina, servicios adicionales, tramos.
-    4) verificar disponibilidad (verifica tramo, etc) y si es ok podes realizar pago y se habilita la parte 
-    de abajo -> Boton 
+    4) verificar disponibilidad (verifica tramo, etc) y si es ok podes realizar pago y se habilita la parte
+    de abajo -> Boton
     5) hacer la cuenta de la cant de pasajeros
-    tramos etc y ponerlo para habilitar el pago: 
-    seleccion de tarjeta, numero de tarjeta, cuotas 
--->
+    tramos etc y ponerlo para habilitar el pago:
+    seleccion de tarjeta, numero de tarjeta, cuotas
+
 {{> header}}
 {{> navbar}}
 
-<div class="container contenido justify-content-center content registro p-0 {{display}}">
-    <h2 class="p-4 titulo">Reservá tu vuelo a una GRAN aventura!</h2>
-    <form action="/reservaVuelo/concretarReserva" method="POST" id="formulario" enctype="multipart/form-data"
-        class="row justify-content-center p-4 formulario">
-        <div class="col-12 row div-form">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre">
+-id_usuario --
+-id_vuelo (enum)
+-tipoAsiento --
+-id_servicio(enum)
+-pago (si o no)
+-nroPago
+-cantidadAsientos
+-checkIn
+
+Deje comentarios por todos lados porque me mareaba JAJAJAJA perdon
+No se si las {{}} estan bien acomodadas
+Intente agregar lo que mas necesitabas en la pagina
+
+-->
+<body>
+<section class="h-100 bg-dark">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col m-5">
+                <div class="card card-registration my-4">
+                    <div class="row g-0">
+
+                        <div class="col-xl-6 d-none d-xl-block"
+                             style="background-image: url(https://th.bing.com/th/id/OIP.BhOa_QvmwqEdt4J93ZPumgHaNK?pid=ImgDet&rs=1);
+                            background-size: cover;"><!--Poner esto en un CSS-->
+
+                            <!-- <img src="https://th.bing.com/th/id/OIP.BhOa_QvmwqEdt4J93ZPumgHaNK?pid=ImgDet&rs=1"
+                                  alt="Sample photo" class="img-fluid"
+                                  style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" /> -->
+                        </div>
+                        <form action="/reservaVuelo/concretarReserva" method="POST" id="formulario" enctype="multipart/form-data" class="col-xl-6 form-floating">
+                            <div class="card-body p-md-5 text-black">
+                                <h3 class="mb-5 text-center">Reservá tu vuelo a una GRAN aventura!</h3>
+                                <!--{{#user}}-->
+                                <div class="row">
+                                    <div class="">
+                                        <div class="form-outline">                                                 <!--En los value tiene q estar los datos q traemos-->
+                                            <input type="hidden" id="idUser" class="form-control form-control-lg" value={{id}} readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">                                                 <!--En los value tiene q estar los datos q traemos-->
+                                            <input type="text" id="nombre" class="form-control form-control-lg" value={{nombre}} readonly />
+                                            <label class="form-label" for="">Nombre</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">                                                  <!--En los value tiene q estar los datos q traemos-->
+                                            <input type="text" id="apellido" class="form-control form-control-lg"  value="{{apellido}}" readonly/>
+                                            <label class="form-label" for="">Apellido</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">                                              <!--En los value tiene q estar los datos q traemos-->
+                                            <input type="text" id="dni" class="form-control form-control-lg"  value="{{dni}}" readonly/>
+                                            <label class="form-label" for="">DNI</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">                                              <!--En los value tiene q estar los datos q traemos-->
+                                            <input type="text" id="email" class="form-control form-control-lg"  value="{{user}}" readonly/>
+                                            <label class="form-label" for="">Usuario</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">                                         <!--En los value tiene q estar los datos q traemos-->
+                                    <input type="text" id="user" class="form-control form-control-lg"  value="{{email}}" readonly/>
+                                    <label class="form-label" for="">Email</label>
+                                </div>
+                                <!--{{/user}}-->
+                                <div class="form-outline mb-4">
+                                    <input type="password" id="clave" class="form-control form-control-lg is-invalid" required /> <!--La clase 'is-invalid' lo pone rojo a los input, buen dato q encontre-->
+                                    <label class="form-label" for="">Contraseña</label>
+                                </div>
+
+                                <div class="d-md-flex justify-content-start align-items-center mb-4 py-2">
+
+                                    <h6 class="mb-0 me-4">Tipo de Asiento: </h6>
+                                    <!-- {{#tipoAsiento}} -->
+                                    <div class="form-check form-check-inline mb-0 me-4">
+                                        <input class="form-check-input" type="radio" name="descripcion"
+                                               id="tipoAsiento" value="{{idTipoAsiento}}" /> <!--Value-->
+                                        <label class="form-check-label" for="">{{DescripcionAsiento}}</label> <!--Descripcion-->
+                                    </div>
+                                    <!-- {{/tipoAsiento}} -->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+
+                                        <select class="form-select" aria-label="" disabled> <!--Agregado un disable-->
+                                            <option selected>Servicios</option>
+                                            <!--{{#tipoServicio}} -->
+                                            <option value="{{idTipoServicio}}" disabled>{{DescripcionServicio}}</option> <!--Agregado un disable-->
+                                            <!--{{/tipoServicio}} -->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+
+                                        <select class="form-select" aria-label="" disabled> <!--Agregado un disable-->
+                                            <option selected>Tipo de Cabina</option>
+                                            <!--{{#tipoCabina}} -->
+                                            <option value="{{idTipoCabina}}" disabled>{{DescripcionCabina}}</option> <!--Agregado un disable-->
+                                            <!--{{/tipoCAbina}} -->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 mb-4">
+                                        <select class="form-select" aria-label="" disabled> <!--Agregado un disable-->
+                                            <option selected>Tramo</option>
+                                            <!--{{#tramos}} -->
+                                            <option value="{{idTramo}}"  disabled>{{DescripcionTramo}}</option> <!--Agregado un disable-->
+                                            <!--{{/tramos}} -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-outline mb-4 col-md-4 mb-4">
+                                        <input type="number" id="cantidadAsientos" class="form-control form-control-lg" required/>
+                                        <label class="form-label" for="">Cantidad de asientos</label>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <a href="#"class="btn btn-info btn-lg ms-2">Verificar</a> <!-- No ser cual sera el redirect, form u onClick q querran aqui "/reservaVuelo/verificarCantidad?cantidad=cantidadAsientos" -->
+                                    </div>
+                                    <!--{{#verificado}}-->
+                                    <div class=" form-outline mb-2 col-md-3 mb-2 text-center text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
+                                        </svg>
+                                        <!--Lanzara una imagen correcta o lanzara la erronea-->
+                                        <div class="text-danger">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+                                                <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+
+                                        <div class="accordion" id="accordionExample">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingOne">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Metodo de Pago
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <!--Los datos de la tarjeta, no se si hara form o como pega a una API-->
+                                                        <div class="col-12 my-4">
+                                                            <div class="form-check form-check-inline mb-0 me-4">
+                                                                <input class="form-check-input" type="radio" name="visa"
+                                                                       id="visa" value="visa" /> <!--Los value-->
+                                                                <label class="form-check-label" for="">VISA</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline mb-0 me-4">
+                                                                <input class="form-check-input" type="radio" name="mastercard"
+                                                                       id="mastercard" value="mastercard" /><!--Los value-->
+                                                                <label class="form-check-label" for="">MASTERCARD</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-outline mb-6 col-md-6 mb-6">
+                                                                <input type="number" id="numeroTarjeta" class="form-control form-control-lg" required/>
+                                                                <label class="form-label" for="">Numero de tarjeta</label>
+                                                            </div>
+                                                            <div class="form-outline mb-6 col-md-6 mb-6">
+                                                                <select class="form-select" aria-label="">
+                                                                    <option selected>Cuotas</option>
+                                                                    <option value="1" >1</option>
+                                                                    <option value="6" >6</option>
+                                                                    <option value="12" >12</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--{{/verificado}}-->
+                                </div>
+
+
+                                <!--No se si cuando esta todo lo de arriba verificado q aparezca el boton o algo asi-->
+                                <div class="d-flex justify-content-end pt-3">
+                                    <button type="submit" class="btn btn-warning btn-lg ms-2">Reservar</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-12 row div-form">
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" name="apellido">
-        </div>
-        <div class="col-12 row div-form">
-            <label for="dni">DNI</label>
-            <input type="number" id="dni" name="dni">
-        </div>
-        <div class="col-12 row div-form">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email">
-        </div>
-        <div class="col-12 row div-form">
-            <label for="user">Usuario</label>
-            <input type="text" id="user" name="user">
-        </div>
-        <div class="col-12 row div-form">
-            <label for="clave">Contraseña</label>
-            <input type="password" name="clave" id="clave">
-        </div>
-        <div class="col-12 row div-form">
-            <input type="submit" value="Registrarme" class="btn-primary btn-registro">
-        </div>
-    </form>
-</div>
-{{> footer}}
+    </div>
+</section>
+<!--Agregando JS de Bootstrap con sus componentes-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>
