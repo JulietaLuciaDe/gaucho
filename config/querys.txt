@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-06-2022 a las 07:14:04
+-- Tiempo de generación: 26-06-2022 a las 22:00:55
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.4
 
@@ -25,25 +25,27 @@ CREATE TABLE `caract_equipos` (
   `caract_modelo` varchar(15) CHARACTER SET utf8 NOT NULL,
   `id_tipo` varchar(10) CHARACTER SET utf8 NOT NULL,
   `capacidadTotal` int(10) NOT NULL,
-  `id_cabinas` int(10) NOT NULL,
-  `pasajeros` text CHARACTER SET utf8 NOT NULL
+  `pasajeros` text CHARACTER SET utf8 NOT NULL,
+  `cantPrimera` int(11) NOT NULL,
+  `cantEjectuvio` int(11) NOT NULL,
+  `cantTurista` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `caract_equipos`
 --
 
-INSERT INTO `caract_equipos` (`caract_modelo`, `id_tipo`, `capacidadTotal`, `id_cabinas`, `pasajeros`) VALUES
-('Aguila', 'AA', 300, 0, '200|75|25|'),
-('Aguilucho', 'BA', 60, 0, '50|10|'),
-('Calandria', 'OR', 300, 0, '200|75|25|'),
-('Canario', 'BA', 80, 0, '70|10|'),
-('Carancho', 'BA', 110, 0, '110|'),
-('Colibri', 'OR', 120, 0, '100|18|2|'),
-('Condor', 'AA', 350, 0, '300|10|40|'),
-('Guanaco', 'AA', 100, 0, '100|'),
-('Halcon', 'AA', 200, 0, '150|25|25|'),
-('Zorzal', 'BA', 100, 0, '50|50|');
+INSERT INTO `caract_equipos` (`caract_modelo`, `id_tipo`, `capacidadTotal`, `pasajeros`, `cantPrimera`, `cantEjectuvio`, `cantTurista`) VALUES
+('Aguila', 'AA', 300, '200|75|25|', 0, 0, 0),
+('Aguilucho', 'BA', 60, '50|10|', 0, 0, 0),
+('Calandria', 'OR', 300, '200|75|25|', 0, 0, 0),
+('Canario', 'BA', 80, '70|10|', 0, 0, 0),
+('Carancho', 'BA', 110, '110|', 0, 0, 0),
+('Colibri', 'OR', 120, '100|18|2|', 0, 0, 0),
+('Condor', 'AA', 350, '300|10|40|', 0, 0, 0),
+('Guanaco', 'AA', 100, '100|', 0, 0, 0),
+('Halcon', 'AA', 200, '150|25|25|', 0, 0, 0),
+('Zorzal', 'BA', 100, '50|50|', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -145,7 +147,8 @@ CREATE TABLE `reserva` (
   `pago` tinyint(1) NOT NULL,
   `codigoPago` int(11) NOT NULL,
   `cantidadAsientos` int(11) NOT NULL,
-  `checkIn` tinyint(1) NOT NULL
+  `checkIn` tinyint(1) NOT NULL,
+  `tramo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -209,6 +212,53 @@ INSERT INTO `tipo_equipo` (`id`, `nombre`) VALUES
 ('AA', 'Alta Aceleracion'),
 ('BA', 'Baja Aceleracion'),
 ('OR', 'Orbital');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tramo`
+--
+
+CREATE TABLE `tramo` (
+  `id_tramo` int(11) NOT NULL,
+  `circuito` varchar(50) NOT NULL,
+  `tipoEquipo` varchar(50) NOT NULL,
+  `duracion` int(11) NOT NULL,
+  `origen` varchar(50) NOT NULL,
+  `destino` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tramo`
+--
+
+INSERT INTO `tramo` (`id_tramo`, `circuito`, `tipoEquipo`, `duracion`, `origen`, `destino`) VALUES
+(1, 'ED1', 'BA', 4, 'Tierra', 'EEI'),
+(2, 'ED1', 'BA', 1, 'EEI', 'OrbitalHotel'),
+(3, 'ED1', 'BA', 16, 'OrbitalHotel', 'Luna'),
+(4, 'ED1', 'BA', 26, 'Luna', 'Marte'),
+(5, 'ED1', 'AA', 3, 'Tierra', 'EEI'),
+(6, 'ED1', 'AA', 1, 'EEI', 'OrbitalHotel'),
+(7, 'ED1', 'AA', 9, 'OrbitalHotel', 'Luna'),
+(8, 'ED1', 'AA', 22, 'Luna', 'Marte'),
+(9, 'ED2', 'BA', 4, 'Tierra', 'EEI'),
+(10, 'ED2', 'BA', 14, 'EEI', 'Luna'),
+(11, 'ED2', 'BA', 26, 'Luna', 'Marte'),
+(12, 'ED2', 'BA', 48, 'Marte', 'Ganimedes'),
+(13, 'ED2', 'BA', 50, 'Ganimedes', 'Europa'),
+(14, 'ED2', 'BA', 51, 'Europa', 'Io'),
+(15, 'ED2', 'BA', 70, 'Io', 'Encedalo'),
+(16, 'ED2', 'BA', 77, 'Encedalo', 'Titan'),
+(17, 'ED2', 'AA', 3, 'Tierra', 'EEI'),
+(18, 'ED2', 'AA', 10, 'EEI', 'Luna'),
+(19, 'ED2', 'AA', 22, 'Luna', 'Marte'),
+(20, 'ED2', 'AA', 32, 'Marte', 'Ganimedes'),
+(21, 'ED2', 'AA', 33, 'Ganimedes', 'Europa'),
+(22, 'ED2', 'AA', 35, 'Europa', 'Io'),
+(23, 'ED2', 'AA', 50, 'Io', 'Encedalo'),
+(24, 'ED2', 'AA', 52, 'Encedalo', 'Titan'),
+(25, 'TOUR', 'AA', 816, 'Tierra', 'Tierra'),
+(26, 'SUBORBITAL', 'AA', 8, 'Tierra', 'Tierra');
 
 -- --------------------------------------------------------
 
@@ -373,11 +423,8 @@ CREATE TABLE `vuelos_confirmados` (
   `id_equipo` int(11) NOT NULL,
   `origen` varchar(50) NOT NULL,
   `destino` varchar(50) NOT NULL,
-  `tipoVuelo` int(11) NOT NULL,
-  `cantTurista` int(11) NOT NULL,
-  `cantEjecutivo` int(11) NOT NULL,
-  `cantPrimera` int(11) NOT NULL,
-  `id_tipoVuelo` int(11) NOT NULL
+  `id_tipoVuelo` int(11) NOT NULL,
+  `tramos` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -434,6 +481,12 @@ ALTER TABLE `tipo_equipo`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `tramo`
+--
+ALTER TABLE `tramo`
+  ADD PRIMARY KEY (`id_tramo`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -481,6 +534,12 @@ ALTER TABLE `reserva`
 --
 ALTER TABLE `reservas_medicas`
   MODIFY `id_reservaM` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de la tabla `tramo`
+--
+ALTER TABLE `tramo`
+  MODIFY `id_tramo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
