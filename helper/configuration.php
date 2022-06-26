@@ -7,6 +7,8 @@ include_once("controller/logInController.php");
 include_once("model/logInModel.php");
 include_once("controller/inicioController.php");
 include_once("model/inicioModel.php");
+include_once("model/reservaVueloModel.php");
+include_once("controller/reservaVueloController.php");
 include_once("helper/MustachePrinter.php");
 
 
@@ -39,6 +41,14 @@ class Configuration{
 
     private function getInicioModel(){
         return new InicioModel($this->getDatabase());
+    }
+
+    private function getReservaVueloModel(){
+        return new reservaVueloModel($this->getDatabase());
+    }
+
+    public function getReservaVueloController(){
+        return new reservaVueloController($this->getReservaVueloModel(),$this->getMustachePrinter());
     }
 
     private function getDatabase(){
