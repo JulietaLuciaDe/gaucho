@@ -132,7 +132,7 @@ use PHPMailer\PHPMailer\Exception;
                             $result = $this->database->query($sql);
                             $result = mysqli_fetch_assoc($result);
                             $id_user = $result["id"];
-                            $sql = "INSERT INTO reservas_medicas (id_centroMedico,id_usuario,fecha,hora) VALUES ('".$centro."','".$id_user."','".$fecha."',".$hora.")";
+                            $sql = "INSERT INTO reservas_medicas (id_centroMedico,id_usuariofk1,fecha,hora) VALUES ('".$centro."','".$id_user."','".$fecha."',".$hora.")";
                             $this->database->query($sql);
                             return true;
                         } catch (Exception $e) {

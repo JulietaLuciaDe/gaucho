@@ -53,7 +53,8 @@ class reservaVueloController
                     //aca habria que validar si se insertó ok
                 }
             }else{
-                echo "<h2>Id de vuelo inválido</h2>";
+                header("Location:/inicio");
+                exit();
             }
         }else{
             header("Location:/login");

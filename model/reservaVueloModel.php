@@ -15,26 +15,11 @@ class reservaVueloModel
         return $usuario;
     }
 
-    public function getVuelos()
-    {
-        return $this->database->query("SELECT * FROM vuelos");
-    }
-    //ver los id vuelos.
-
-    public function getTour()
-    {
-        return $this->database->query("SELECT * FROM tour");
-    }
-
-    public function getVuelosED()
-    {
-        return $this->database->query("SELECT * FROM entredestinos");
-    }
-
+   
 
     public function crearVuelo($id_vuelo){
-        $query = "INSERT INTO vuelos_confirmados
-        SELECT id_vuelo,origen,destino,fecha FROM vuelos WHERE id_vuelo=".$id_vuelo;
+        $query = "INSERT INTO vuelos_confirmados (id_vuelo,fecha,h_partida,id_equipofk,origen,destino,id_tipoVuelofk,duracion)
+        SELECT id_vuelo,fecha,h_partida,id_equipofk2,origen,destino,tipoVuelofk1,duracion FROM vuelos WHERE id_vuelo=".$id_vuelo;
         $this->database->query($query);
     }
 
@@ -46,6 +31,8 @@ class reservaVueloModel
         return $this->database->queryResult($query);
     }
 
+
+    /*
     public function generarReserva($datos)
     {
 
@@ -78,6 +65,6 @@ class reservaVueloModel
     {
         $sql = "DELETE FROM suborbitales_pagos where id_preferencia = '$preferencia';";
         return $this->database->delete($sql);
-    }
+    }*/
 
 }

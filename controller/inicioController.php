@@ -14,7 +14,7 @@ class InicioController {
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
-              $filtroNivel = " (id_tipo IN('OR','BA'))";
+              $filtroNivel = " (T.id IN('OR','BA'))";
             }else{
               $filtroNivel = "1";
             }
@@ -38,12 +38,12 @@ class InicioController {
                   if($ida==1){
                     if(ValidatorHelper::validacionDeFecha($_POST["fechaVuelta"])){
                       $fechaVuelta = $_POST["fechaVuelta"];
-                      $whereVuelta = "OR (V.origen = '$destino' and V.destino = '$origen' and T.id= '$tipoVuelo' and V.fecha<='$fechaVuelta' and V.fecha>'$fechaIda')";
+                      $whereVuelta = "OR (V.origen = '$destino' and V.destino = '$origen' and TV.id= '$tipoVuelo' and V.fecha<='$fechaVuelta' and V.fecha>'$fechaIda')";
                     }                    
                   }else{
                     $whereVuelta = "";
                   }
-                    $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and V.tipoVuelo= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
+                    $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and V.tipoVuelofk1= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
                     if(ValidatorHelper::validarSesionActiva()){
                       $busqueda = $busqueda." and ".$filtroNivel;
                     }

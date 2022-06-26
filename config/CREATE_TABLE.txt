@@ -1,0 +1,133 @@
+CREATE DATABASE gauchorocket;
+USE gauchorocket;
+
+CREATE TABLE `tipo_equipo` (
+  `id` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `nombre` varchar(50) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `caract_equipos` (
+  `caract_modelo` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `id_tipo` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `pasajeros` text CHARACTER SET utf8 NOT NULL,
+  `cantPrimera` int(11) NOT NULL,
+  `cantEjectuvio` int(11) NOT NULL,
+  `cantTurista` int(11) NOT NULL,
+   PRIMARY KEY (`caract_modelo`),
+   CONSTRAINT `id_tipo` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_equipo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `centrosmedicos` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) CHARACTER SET utf8 NOT NULL,
+  `cantidadTurnos` int(3) NOT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `equipos` (
+  `matricula` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `modelo` varchar(15) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`matricula`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `apellido` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `dni` int(8) NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `pass` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `user` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `tipoUsuario` int(11) NOT NULL,
+  `tipo` tinyint(1) UNSIGNED DEFAULT NULL,
+  `autentificado` tinyint(1) NOT NULL,
+  `turnoSolicitado` tinyint(1) DEFAULT 0,
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `servicios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `precio` int(11) NOT NULL,
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `tipos_vuelo` (
+  `id` varchar(3) CHARACTER SET utf8 NOT NULL,
+  `descripcion` varchar(50) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `vuelos_confirmados` (
+  `id_vuelo` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `h_partida` int(11) NOT NULL,
+  `duracion` int(3) NOT NULL,
+  `id_equipofk` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `origen` varchar(50)  CHARACTER SET utf8 NOT NULL,
+  `destino` varchar(50)  CHARACTER SET utf8 NOT NULL,
+  `id_tipoVuelofk` varchar(3)  CHARACTER SET utf8 NOT NULL,
+  `tramos` varchar(255)  CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id_vuelo`),
+   CONSTRAINT `id_equipofk` FOREIGN KEY (`id_equipofk`) REFERENCES `equipos` (`matricula`), 
+   CONSTRAINT `id_tipoVuelofk` FOREIGN KEY (`id_tipoVuelofk`) REFERENCES `tipos_vuelo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `vuelos` (
+  `id_vuelo` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` date NOT NULL,
+  `h_partida` int(11) NOT NULL,
+  `duracion` int(3) NOT NULL,
+  `id_equipofk2` varchar(10) CHARACTER SET utf8 NOT NULL,
+  `origen` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `destino` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `tipoVuelofk1` varchar(3) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id_vuelo`),
+   CONSTRAINT `id_equipofk2` FOREIGN KEY (`id_equipofk2`) REFERENCES `equipos` (`matricula`), 
+   CONSTRAINT `tipoVuelofk1` FOREIGN KEY (`tipoVuelofk1`) REFERENCES `tipos_vuelo` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `reserva` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuariofk` int(11) NOT NULL,
+  `id_vuelofk` int(11) NOT NULL,
+  `tipoAsiento` int(11) NOT NULL,
+  `id_serviciofk` int(11) NOT NULL,
+  `pago` tinyint(1) NOT NULL,
+  `codigoPago` int(11) NOT NULL,
+  `cantidadAsientos` int(11) NOT NULL,
+  `checkIn` tinyint(1) NOT NULL,
+  `tramos` varchar(255) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id`),
+   CONSTRAINT `id_usuariofk` FOREIGN KEY (`id_usuariofk`) REFERENCES `usuarios` (`id`),
+   CONSTRAINT `id_vuelofk` FOREIGN KEY (`id_vuelofk`) REFERENCES `vuelos_confirmados` (`id_vuelo`),
+   CONSTRAINT `id_serviciofk` FOREIGN KEY (`id_serviciofk`) REFERENCES `servicios` (`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `reservas_medicas` (
+  `id_reservaM` int(10) NOT NULL AUTO_INCREMENT,
+  `id_centroMedico` int(10) NOT NULL,
+  `id_usuariofk1` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` int(2) NOT NULL,
+   PRIMARY KEY (`id_reservaM`),
+   CONSTRAINT `id_usuariofk1` FOREIGN KEY (`id_usuariofk1`) REFERENCES `usuarios` (`id`),
+   CONSTRAINT `id_centroMedico` FOREIGN KEY (`id_centroMedico`) REFERENCES `centrosmedicos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `tramos` (
+  `id_tramo` int(11) NOT NULL AUTO_INCREMENT,
+  `circuito` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `tipoEquipo` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `duracion` int(11) NOT NULL,
+  `origen` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `destino` varchar(50) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id_tramo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
