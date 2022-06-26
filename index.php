@@ -9,7 +9,9 @@ require 'helper/PHPMailer/SMTP.php';
 
 include_once("helper/configuration.php");
 include_once("helper/router.php");
-include_once ("helper/ValidatorHelper.php");
+include_once("helper/ValidatorHelper.php");
+include_once("helper/ValidatorFechaYHora.php");
+
 $configuration = new Configuration();
 $router = new Router($configuration, "getInicioController", "execute");
 session_start();

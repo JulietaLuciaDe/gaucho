@@ -11,8 +11,6 @@ include_once("model/reservaVueloModel.php");
 include_once("controller/reservaVueloController.php");
 include_once("helper/MustachePrinter.php");
 
-
-
 class Configuration{
 
     public function __construct(){
