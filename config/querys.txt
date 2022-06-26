@@ -1,21 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-06-2022 a las 19:17:02
+-- Tiempo de generación: 26-06-2022 a las 07:14:04
 -- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Versión de PHP: 8.1.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `gauchorocket`
@@ -79,6 +73,7 @@ INSERT INTO `centrosmedicos` (`id`, `nombre`, `cantidadTurnos`) VALUES
 --
 
 CREATE TABLE `equipos` (
+  `id_equipo` int(11) NOT NULL,
   `matricula` varchar(10) CHARACTER SET utf8 NOT NULL,
   `modelo` varchar(15) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -87,53 +82,71 @@ CREATE TABLE `equipos` (
 -- Volcado de datos para la tabla `equipos`
 --
 
-INSERT INTO `equipos` (`matricula`, `modelo`) VALUES
-('AA1', 'Aguila'),
-('AA13', 'Aguila'),
-('AA17', 'Aguila'),
-('AA5', 'Aguila'),
-('AA9', 'Aguila'),
-('BA10', 'Aguilucho'),
-('BA11', 'Aguilucho'),
-('BA12', 'Aguilucho'),
-('BA8', 'Aguilucho'),
-('BA9', 'Aguilucho'),
-('O1', 'Calandria'),
-('O2', 'Calandria'),
-('O6', 'Calandria'),
-('O7', 'Calandria'),
-('BA13', 'Canario'),
-('BA14', 'Canario'),
-('BA15', 'Canario'),
-('BA16', 'Canario'),
-('BA17', 'Canario'),
-('BA4', 'Carancho'),
-('BA5', 'Carancho'),
-('BA6', 'Carancho'),
-('BA7', 'Carancho'),
-('O3', 'Colibri'),
-('O4', 'Colibri'),
-('O5', 'Colibri'),
-('O8', 'Colibri'),
-('O9', 'Colibri'),
-('AA10', 'Condor'),
-('AA14', 'Condor'),
-('AA18', 'Condor'),
-('AA2', 'Condor'),
-('AA6', 'Condor'),
-('AA12', 'Guanaco'),
-('AA16', 'Guanaco'),
-('AA20', 'Guanaco'),
-('AA4', 'Guanaco'),
-('AA8', 'Guanaco'),
-('AA11', 'Halcon'),
-('AA15', 'Halcon'),
-('AA19', 'Halcon'),
-('AA3', 'Halcon'),
-('AA7', 'Halcon'),
-('BA1', 'Zorzal'),
-('BA2', 'Zorzal'),
-('BA3', 'Zorzal');
+INSERT INTO `equipos` (`id_equipo`, `matricula`, `modelo`) VALUES
+(1, 'AA1', 'Aguila'),
+(2, 'AA10', 'Condor'),
+(3, 'AA11', 'Halcon'),
+(4, 'AA12', 'Guanaco'),
+(5, 'AA13', 'Aguila'),
+(6, 'AA14', 'Condor'),
+(7, 'AA15', 'Halcon'),
+(8, 'AA16', 'Guanaco'),
+(9, 'AA17', 'Aguila'),
+(10, 'AA18', 'Condor'),
+(11, 'AA19', 'Halcon'),
+(12, 'AA2', 'Condor'),
+(13, 'AA20', 'Guanaco'),
+(14, 'AA3', 'Halcon'),
+(15, 'AA4', 'Guanaco'),
+(16, 'AA5', 'Aguila'),
+(17, 'AA6', 'Condor'),
+(18, 'AA7', 'Halcon'),
+(19, 'AA8', 'Guanaco'),
+(20, 'AA9', 'Aguila'),
+(21, 'BA1', 'Zorzal'),
+(22, 'BA10', 'Aguilucho'),
+(23, 'BA11', 'Aguilucho'),
+(24, 'BA12', 'Aguilucho'),
+(25, 'BA13', 'Canario'),
+(26, 'BA14', 'Canario'),
+(27, 'BA15', 'Canario'),
+(28, 'BA16', 'Canario'),
+(29, 'BA17', 'Canario'),
+(30, 'BA2', 'Zorzal'),
+(31, 'BA3', 'Zorzal'),
+(32, 'BA4', 'Carancho'),
+(33, 'BA5', 'Carancho'),
+(34, 'BA6', 'Carancho'),
+(35, 'BA7', 'Carancho'),
+(36, 'BA8', 'Aguilucho'),
+(37, 'BA9', 'Aguilucho'),
+(38, 'O1', 'Calandria'),
+(39, 'O2', 'Calandria'),
+(40, 'O3', 'Colibri'),
+(41, 'O4', 'Colibri'),
+(42, 'O5', 'Colibri'),
+(43, 'O6', 'Calandria'),
+(44, 'O7', 'Calandria'),
+(45, 'O8', 'Colibri'),
+(46, 'O9', 'Colibri');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reserva`
+--
+
+CREATE TABLE `reserva` (
+  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_vuelo` int(11) NOT NULL,
+  `tipoAsiento` int(11) NOT NULL,
+  `id_servicio` int(11) NOT NULL,
+  `pago` tinyint(1) NOT NULL,
+  `codigoPago` int(11) NOT NULL,
+  `cantidadAsientos` int(11) NOT NULL,
+  `checkIn` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -154,7 +167,8 @@ CREATE TABLE `reservas_medicas` (
 --
 
 INSERT INTO `reservas_medicas` (`id_reservaM`, `id_centroMedico`, `id_usuario`, `fecha`, `hora`) VALUES
-(26, 4, 63, '2022-06-24', 12);
+(26, 4, 63, '2022-06-24', 12),
+(27, 4, 64, '2022-06-27', 12);
 
 -- --------------------------------------------------------
 
@@ -196,7 +210,6 @@ INSERT INTO `tipo_equipo` (`id`, `nombre`) VALUES
 ('BA', 'Baja Aceleracion'),
 ('OR', 'Orbital');
 
-
 -- --------------------------------------------------------
 
 --
@@ -222,7 +235,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `dni`, `email`, `pass`, `user`, `tipoUsuario`, `tipo`, `autentificado`, `turnoSolicitado`) VALUES
-(63, 'Cintia', '5991', 38621737, 'cintiapinaud@gmail.com', '47bce5c74f589f4867dbd57e9ca9f808', 'cntpnd', 0, 2, 1, 1);
+(63, 'Cintia', '5991', 38621737, 'cintiapinaud@gmail.com', '47bce5c74f589f4867dbd57e9ca9f808', 'cntpnd', 0, 2, 1, 1),
+(64, 'Julieta', 'Delfino', 38939695, 'julietaluciadelfino@hotmail.com', '9aa6e5f2256c17d2d430b100032b997c', 'laJuli', 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -346,6 +360,26 @@ INSERT INTO `vuelos` (`id_vuelo`, `fecha`, `h_partida`, `duracion`, `id_equipo`,
 (98, '2030-02-06', 20, 7, 'BA8', 'Ankara', 'Encedalo', 'ED'),
 (99, '2030-03-06', 20, 18, 'BA9', 'Ankara', 'Titan', 'ED');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `vuelos_confirmados`
+--
+
+CREATE TABLE `vuelos_confirmados` (
+  `id_vuelo` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `h_partida` int(11) NOT NULL,
+  `id_equipo` int(11) NOT NULL,
+  `origen` varchar(50) NOT NULL,
+  `destino` varchar(50) NOT NULL,
+  `tipoVuelo` int(11) NOT NULL,
+  `cantTurista` int(11) NOT NULL,
+  `cantEjecutivo` int(11) NOT NULL,
+  `cantPrimera` int(11) NOT NULL,
+  `id_tipoVuelo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tablas volcadas
 --
@@ -367,8 +401,17 @@ ALTER TABLE `centrosmedicos`
 -- Indices de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  ADD PRIMARY KEY (`matricula`),
+  ADD PRIMARY KEY (`id_equipo`),
+  ADD UNIQUE KEY `matricula` (`matricula`),
   ADD KEY `modelo` (`modelo`);
+
+--
+-- Indices de la tabla `reserva`
+--
+ALTER TABLE `reserva`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_vuelo` (`id_vuelo`);
 
 --
 -- Indices de la tabla `reservas_medicas`
@@ -405,6 +448,13 @@ ALTER TABLE `vuelos`
   ADD KEY `tipoVuelo` (`tipoVuelo`);
 
 --
+-- Indices de la tabla `vuelos_confirmados`
+--
+ALTER TABLE `vuelos_confirmados`
+  ADD KEY `id_vuelo` (`id_vuelo`),
+  ADD KEY `id_equipo` (`id_equipo`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -415,16 +465,28 @@ ALTER TABLE `centrosmedicos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `equipos`
+--
+ALTER TABLE `equipos`
+  MODIFY `id_equipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT de la tabla `reserva`
+--
+ALTER TABLE `reserva`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `reservas_medicas`
 --
 ALTER TABLE `reservas_medicas`
-  MODIFY `id_reservaM` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_reservaM` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `vuelos`
@@ -449,6 +511,13 @@ ALTER TABLE `equipos`
   ADD CONSTRAINT `modelo` FOREIGN KEY (`modelo`) REFERENCES `caract_equipos` (`caract_modelo`);
 
 --
+-- Filtros para la tabla `reserva`
+--
+ALTER TABLE `reserva`
+  ADD CONSTRAINT `reserva_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `reserva_ibfk_2` FOREIGN KEY (`id_vuelo`) REFERENCES `vuelos_confirmados` (`id_vuelo`);
+
+--
 -- Filtros para la tabla `reservas_medicas`
 --
 ALTER TABLE `reservas_medicas`
@@ -461,8 +530,11 @@ ALTER TABLE `reservas_medicas`
 ALTER TABLE `vuelos`
   ADD CONSTRAINT `id_equipo` FOREIGN KEY (`id_equipo`) REFERENCES `equipos` (`matricula`),
   ADD CONSTRAINT `tipoVuelo` FOREIGN KEY (`tipoVuelo`) REFERENCES `tipos_vuelo` (`id`);
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Filtros para la tabla `vuelos_confirmados`
+--
+ALTER TABLE `vuelos_confirmados`
+  ADD CONSTRAINT `id_vuelo` FOREIGN KEY (`id_vuelo`) REFERENCES `vuelos` (`id_vuelo`),
+  ADD CONSTRAINT `vuelos_confirmados_ibfk_1` FOREIGN KEY (`id_equipo`) REFERENCES `equipos` (`id_equipo`);
+COMMIT;
