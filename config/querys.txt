@@ -17,6 +17,9 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE DATABASE IF NOT EXISTS `gauchorocket` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `gauchorocket`;
+
 --
 -- Estructura de tabla para la tabla `caract_equipos`
 --
