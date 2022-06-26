@@ -1,7 +1,7 @@
 <?php
 include_once("helper/ValidatorHelper.php");
 date_default_timezone_set("America/Buenos_Aires");
-class ValidatorFechaYHora
+class FechaYHoraHelper
 {
     public static function getFechaYHoraActual(){
         return date("d-m-Y H:i", time());
@@ -20,7 +20,7 @@ class ValidatorFechaYHora
     }
 
     public static function validarSiYaPasoLaFecha($fechaAComparar){
-        return strtotime(ValidatorFechaYHora::getFechaActual())>strtotime(self::getFecha($fechaAComparar));
+        return strtotime(FechaYHoraHelper::getFechaActual())>strtotime(self::getFecha($fechaAComparar));
     }
 
     public static function sumarHoras($fechaYHora,$cantHoras){
