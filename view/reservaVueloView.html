@@ -1,305 +1,131 @@
 {{> header}}
 {{> navbar}}
-<section class="h-100 bg-dark">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col m-5">
-                <div class="card card-registration my-4">
-                    <div class="row g-0">
 
-                        <div class="col-xl-6 d-none d-xl-block" style="background-image: url(https://th.bing.com/th/id/OIP.BhOa_QvmwqEdt4J93ZPumgHaNK?pid=ImgDet&rs=1);
-                            background-size: cover;">
-                            <!--Poner esto en un CSS-->
-
-                            <!-- <img src="https://th.bing.com/th/id/OIP.BhOa_QvmwqEdt4J93ZPumgHaNK?pid=ImgDet&rs=1"
-                              alt="Sample photo" class="img-fluid"
-                              style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" /> -->
-                        </div>
-                        <form action="/reservaVuelo/concretarReserva" method="POST" id="formulario"
-                              enctype="multipart/form-data" class="col-xl-6 form-floating">
-                            <div class="card-body p-md-5 text-black">
-                                <h3 class="mb-5 text-center">Reservá tu vuelo a una GRAN aventura!</h3>
-
-                                <div class="accordion form-outline mb-4" id="accordionExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="acordion">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                Datos del usuario
-                                            </button>
-                                        </h2>
-                                        <div id="collapseOne" class="accordion-collapse collapse"
-                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <!--Los datos de Usuario en el acordeon-->
-
-
-                                                {{#usuario}}
-                                                <div class="row">
-                                                    <div class="">
-                                                        <div class="form-outline">
-                                                            <!--En los value tiene q estar los datos q traemos-->
-                                                            <input type="hidden" id="idUser"
-                                                                   class="form-control form-control-lg" value='{{id}}'
-                                                                   readonly />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mb-4">
-                                                        <div class="form-outline">
-                                                            <!--En los value tiene q estar los datos q traemos-->
-                                                            <p class="form-control form-control-lg" readonly></p>
-                                                            {{nombre}}</p>
-                                                            <label class="form-label" for="">Nombre</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mb-4">
-                                                        <div class="form-outline">
-                                                            <!--En los value tiene q estar los datos q traemos-->
-                                                            <p class="form-control form-control-lg" readonly>
-                                                                {{apellido}}</p>
-                                                            <label class="form-label" for="">Apellido</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-4">
-                                                        <div class="form-outline">
-                                                            <!--En los value tiene q estar los datos q traemos-->
-                                                            <p class="form-control form-control-lg" readonly>{{dni}}
-                                                            </p>
-                                                            <label class="form-label" for="">DNI</label>
-                                                        </div>
-                                                    </div>
-                                                    <!--  <div class="col-md-6 mb-4">
-                                                        <div class="form-outline">
-                                                            <input type="text" id="email"
-                                                                class="form-control form-control-lg"
-                                                                value="{{user}}" readonly />
-                                                            <label class="form-label" for="">Usuario</label>
-                                                        </div>
-                                                    </div> -->
-                                                </div>
-
-                                                <div class="form-outline mb-4">
-                                                    <!--En los value tiene q estar los datos q traemos-->
-                                                    <p class="form-control form-control-lg" readonly>{{email}}</p>
-                                                    <label class="form-label" for="">Email</label>
-                                                </div>
-                                                {{/usuario}}
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--id_equipo, id_tipoVuelo, tramos-->
-                                <!--Los datos de Vuelo en el acordeon-->
-                                <div class="row">
-                                    {{#vuelo}}
-                                    <div class="">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <input type="hidden" id="idVuelo" class="form-control form-control-lg"
-                                                   value='{{id_vuelo}}' readonly />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <p id="origen" class="form-control form-control-lg" readonly>{{origen}}
-                                            </p>
-                                            <label class="form-label" for="">Origen</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <p id="destino" class="form-control form-control-lg" readonly>
-                                                {{destino}}</p>
-                                            <label class="form-label" for="">Destino</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <p class="form-control form-control-lg" readonly>{{fecha}}</p>
-                                            <label class="form-label" for="">Fecha</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <p class="form-control form-control-lg" readonly>{{h_partida}}</p>
-                                            <label class="form-label" for="">Hora de partida</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 mb-2">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <p class="form-control form-control-lg" readonly>{{id_equipo}}</p>
-                                            <label class="form-label" for="">Equipo</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <!--En los value tiene q estar los datos q traemos-->
-                                            <p class="form-control form-control-lg" readonly>{{id_tipoVuelo}}</p>
-                                            <label class="form-label" for="">Tipo de vuelo</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{/vuelo}}
-
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-
-                                        <select class="form-select" aria-label="" disabled>
-                                            <!--Agregado un disable-->
-                                            <option selected>Servicios</option>
-                                            {{#tipoServicio}}
-                                            <option value="{{idTipoServicio}}" disabled>{{DescripcionServicio}}
-                                            </option>
-                                            <!--Agregado un disable-->
-                                            {{/tipoServicio}}
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-
-                                        <select class="form-select" aria-label="" disabled>
-                                            <!--Agregado un disable-->
-                                            <option selected>Tipo de Cabina</option>
-                                            {{#tipoCabina}}
-                                            <option value="{{idTipoCabina}}" disabled>{{DescripcionCabina}}</option>
-                                            <!--Agregado un disable-->
-                                            {{/tipoCabina}}
-                                        </select>
-                                    </div>
-
-                                    {{#tramos}}
-                                    <div class="col-md-5 mb-4">
-                                        <select class="form-select" aria-label="Tramo">
-                                            <option value="{{origen}}">{{origen}}</option>
-                                            <!--Agregado un disable-->
-                                        </select>
-                                    </div>
-                                    <div class="col-md-5 mb-4">
-                                        <select class="form-select" aria-label="Tramo">
-                                            <option value="{{destino}}">{{destino}}</option>
-                                            <!--Agregado un disable-->
-                                        </select>
-                                    </div>
-                                    {{/tramos}}
-
-                                </div>
-                                <div class="row">
-                                    <div class="form-outline mb-4 col-md-4 mb-4">
-                                        <input type="number" id="cantidadAsientos"
-                                               class="form-control form-control-lg is-invalid" required />
-                                        <!--La clase 'is-invalid' lo pone rojo a los input, buen dato q encontre-->
-
-                                        <label class="form-label" for="">Cantidad de asientos</label>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <a href="#" class="btn btn-info btn-lg ms-2">Verificar</a>
-                                        <!-- No ser cual sera el redirect, form u onClick q querran aqui "/reservaVuelo/verificarCantidad?cantidad=cantidadAsientos" -->
-                                    </div>
-                                    <!--{{#verificado}}-->
-                                    <div class=" form-outline mb-2 col-md-3 mb-2 text-center text-success">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                             fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                            <path
-                                                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
-                                            </path>
-                                        </svg>
-                                        <!--Lanzara una imagen correcta o lanzara la erronea-->
-                                        <div class="text-danger">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                                 fill="currentColor" class="bi bi-exclamation-diamond-fill"
-                                                 viewBox="0 0 16 16">
-                                                <path
-                                                        d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z">
-                                                </path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-
-                                        <div class="accordion" id="accordionExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingThree">
-                                                    <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseThree">
-                                                        Metodo de Pago
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-                                                        <!--Los datos de la tarjeta, no se si hara form o como pega a una API-->
-                                                        <div class="col-12 my-4">
-                                                            <div class="form-check form-check-inline mb-0 me-4">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="visa" id="visa" value="visa" />
-                                                                <!--Los value-->
-                                                                <label class="form-check-label" for="">VISA</label>
-                                                            </div>
-                                                            <div class="form-check form-check-inline mb-0 me-4">
-                                                                <input class="form-check-input" type="radio"
-                                                                       name="mastercard" id="mastercard"
-                                                                       value="mastercard" />
-                                                                <!--Los value-->
-                                                                <label class="form-check-label"
-                                                                       for="">MASTERCARD</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="form-outline mb-6 col-md-6 mb-6">
-                                                                <input type="number" id="numeroTarjeta"
-                                                                       class="form-control form-control-lg" required />
-                                                                <label class="form-label" for="">Numero de
-                                                                    tarjeta</label>
-                                                            </div>
-                                                            <div class="form-outline mb-6 col-md-6 mb-6">
-                                                                <select class="form-select" aria-label="">
-                                                                    <option selected>Cuotas</option>
-                                                                    <option value="1">1</option>
-                                                                    <option value="6">6</option>
-                                                                    <option value="12">12</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <!--{{/verificado}}-->
-                                </div>
-
-
-                                <!--No se si cuando esta todo lo de arriba verificado q aparezca el boton o algo asi-->
-                                <div class="d-flex justify-content-end pt-3">
-                                    <button type="submit" class="btn btn-warning btn-lg ms-2">Reservar</button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="contenido-reserva bg-white" style="color:black">
+        <div class="usuario">
+        {{#usuario}}
+        <p>DATOS DEL CLIENTE</p>
+        <div>
+            <p>Nombre: </p>
+            <p>{{nombre}}</p>
         </div>
+        <div>
+            <p>apellido: </p>
+            <p>{{apellido}}</p>
+        </div>
+        <div>
+            <p>Dni: </p>
+            <p>{{dni}}</p>
+        </div>
+        <div>
+            <p>Mail: </p>
+            <p>{{email}}</p>
+        </div>        
+        {{/usuario}}
     </div>
-</section>
-{{> footer}}
+    <div class="vuelo">
+        {{#vuelo}}
+        <p>DATOS DEL VUELO</p>
+        <div>
+            <p>Nr. Vuelo: </p>
+            <p>{{id_vuelo}}</p>
+        </div>
+        <div>
+            <p>Origen: </p>
+            <p>{{destinoOrigen}}</p>
+        </div>
+        <div>
+            <p>Destino</p>
+            <p>{{destinoDestino}}</p>
+        </div>
+        <div>
+            <p>Fecha: </p>
+            <p>{{fecha}}</p>
+        </div>
+        <div>
+            <p>Hora de Partida: </p>
+            <p>{{h_partida}}</p>
+        </div>
+        <div>
+            <p>Tipo de Equipo: </p>
+            <p>{{tipoEquipo}}</p>
+        </div>
+        <div>
+            <p>Tipo de Vuelo: </p>
+            <p>{{tVuelo}}</p>
+        </div>
+        {{/vuelo}}
+</div>
+{{#tramos}}
+<div>
+    <div class="recorrido">
+        <div>
+            <p>El recorrido de este vuelo es el siguiente:</p>
+        </div>
+        <div class="recorridos">
+            {{#datos_destinos}}
+                <p>{{nombreDestino}}--></p>
+            {{/datos_destinos}}
+            <p>Regreso</p>
+        </div>
+        
+    </div>
+    <form action="reservaVuelo/VerificarReserva" method="post"></form>
+    <div >
+        
+            <p>Voy a tomar este vuelo en: </p>
+            <select name="origen">
+            {{#datos_destinos}}
+                <option value={{idDestino}} >{{nombreDestino}}</option>
+            {{/datos_destinos}}
+            </select>
+    
+        
+    </div>
+    <div >
+        
+            <p>Voy a descender de este vuelo en: </p>
+            <select name="destino">
+            {{#datos_destinos}}
+                <option value={{idDestino}} >{{nombreDestino}}</option>
+            {{/datos_destinos}}
+            </select>
+    
+        
+    </div>
+</div>
+{{/tramos}}
+<div>
+    <div>
+        <p>Quiero aplicar el siguiente servicio: </p>
+        <select >
+            {{#servicios}}
+                <option value={{id_servicio}} id="servicio">{{descripcion_servicio}}</option>
+            {{/servicios}}
+        </select>
+    </div>
+    <div>
+        <label for="servicio">Cantidad de asientos requeridos: </label>
+        <input type="number" min = 1 value=1></input>
+    </div>
+    <div>
+        <p>Quiero seleccionar el siguiente tipo de cabina: </p>
+        <select >
+                <label for="cabina">Servicios</label>
+                <option value="T" id="cabina">Turista</option>
+                <option value="E" id="cabina">Ejecutivo</option>
+                <option value="P" id="cabina">Primera</option>
+        </select>
+    </div>
+   
+</div>
+<div class="ocultos-reserva">
+    
+</div>
+<div>
+    <input type="submit" value="Confirmar y reservar" class='btn-primary btn-busqueda'>
+</div>
+</form>
 
-
+</div>
+    {{> footer}}

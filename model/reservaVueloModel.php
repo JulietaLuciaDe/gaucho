@@ -17,17 +17,64 @@ class reservaVueloModel
 
    
 
-    public function crearVuelo($id_vuelo){
-        $query = "INSERT INTO vuelos_confirmados (id_vuelo,fecha,h_partida,id_equipofk,origen,destino,id_tipoVuelofk,duracion)
-        SELECT id_vuelo,fecha,h_partida,id_equipofk2,origen,destino,tipoVuelofk1,duracion FROM vuelos WHERE id_vuelo=".$id_vuelo;
+    public function crearVuelo($id_vuelo,$tramo){
+        $query = "INSERT INTO vuelos_confirmados (id_vuelo,fecha,h_partida,id_equipofk,origen,destino,id_tipoVuelofk)
+        SELECT id_vuelo,fecha,h_partida,id_equipofk2,origen,destino,tipoVuelofk1 FROM vuelos WHERE id_vuelo=".$id_vuelo;
+        $this->database->query($query);
+        $this->asignarTramoVuelo($id_vuelo,$tramo);
+    }
+
+    public function verificarDestinosVuelo($id_vuelo){
+        $querySelect = "SELECT id_destino FROM destino WHERE id_destino>= (Select id_tipoVuelofk from vuelos_confirmados where id_vuelo = ".$id_vuelo.")";
+       return $this->database->queryResult($querySelect);
+
+
+    }
+
+    public function getDestinosyTipoVuelo($id_vuelo){
+        $querySelect = "SELECT origen,destino,tipovuelofk1 FROM vuelos WHERE id_vuelo = ".$id_vuelo;
+       return $this->database->queryResult($querySelect);
+    }
+
+    public function getTramoVuelo($id_vuelo){
+        $querySelect = "SELECT tramo FROM vuelos_confirmados WHERE id_vuelo = ".$id_vuelo;
+        $string = $this->database->queryResult($querySelect);
+        return explode ( '|' , $string[0]['tramo']);
+
+    }
+
+    
+
+
+    public function getDatosDestino($id_destino){
+        $query = "SELECT id_destino,descripcion FROM destinos WHERE id_destino='".$id_destino."'";
+       return $this->database->queryResult($query);
+    }
+
+    
+
+    public function asignarTramoVuelo($id_vuelo,$tramo){
+        $query = "UPDATE vuelos_confirmados set tramo = '".$tramo."' where id_vuelo = ".$id_vuelo;
         $this->database->query($query);
     }
+
+
 
     public function getVueloSeleccionado($id,$tabla){
         $query = "SELECT * FROM ".$tabla." WHERE id_vuelo=".$id;
         /* TODO: Una vez que esté la tabla "vuelos_confirmados", comprobar query correspondiente.
          * $query = "SELECT 1 FROM vuelos_confirmados WHERE id_vuelo=".$id;
          */
+        return $this->database->queryResult($query);
+    }
+
+    public function getDatosVuelo($id){
+        $query = "SELECT V.*,T.nombre as 'tipoEquipo',TV.descripcion as 'tVuelo', D.descripcion as 'destinoOrigen' , DE.descripcion as 'destinoDestino' FROM VUELOS_CONFIRMADOS V JOIN EQUIPOS E ON V.id_equipofk=E.matricula JOIN CARACT_EQUIPOS C ON E.modelo=C.caract_modelo JOIN TIPO_EQUIPO T ON C.id_tipo=T.id JOIN TIPOS_VUELO TV ON V.ID_tipoVuelofk = TV.id JOIN DESTINOS D ON V.origen = D.id_destino JOIN DESTINOS DE ON V.destino = DE.id_destino WHERE id_vuelo=".$id;
+        return $this->database->queryResult($query);
+    }
+
+    public function getServicios(){
+        $query = "SELECT id as 'id_servicio',descripcion as 'descripcion_servicio',precio as 'precio_servicio' FROM servicios";
         return $this->database->queryResult($query);
     }
 

@@ -60,16 +60,24 @@ CREATE TABLE `tipos_vuelo` (
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+
+CREATE TABLE `destinos` (
+  `id_destino` int(3) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(50) CHARACTER SET utf8 NOT NULL,
+   PRIMARY KEY (`id_destino`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 CREATE TABLE `vuelos_confirmados` (
   `id_vuelo` int(11) NOT NULL,
   `fecha` date NOT NULL,
   `h_partida` int(11) NOT NULL,
-  `duracion` int(3) NOT NULL,
   `id_equipofk` varchar(10) CHARACTER SET utf8 NOT NULL,
-  `origen` varchar(50)  CHARACTER SET utf8 NOT NULL,
-  `destino` varchar(50)  CHARACTER SET utf8 NOT NULL,
+  `origen` int(2) NOT NULL,
+  `destino` int(2) NOT NULL,
   `id_tipoVuelofk` varchar(3)  CHARACTER SET utf8 NOT NULL,
-  `tramos` varchar(255)  CHARACTER SET utf8 NOT NULL,
+  `tramo` varchar(255)  CHARACTER SET utf8,
    PRIMARY KEY (`id_vuelo`),
    CONSTRAINT `id_equipofk` FOREIGN KEY (`id_equipofk`) REFERENCES `equipos` (`matricula`), 
    CONSTRAINT `id_tipoVuelofk` FOREIGN KEY (`id_tipoVuelofk`) REFERENCES `tipos_vuelo` (`id`)
@@ -79,10 +87,9 @@ CREATE TABLE `vuelos` (
   `id_vuelo` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
   `h_partida` int(11) NOT NULL,
-  `duracion` int(3) NOT NULL,
   `id_equipofk2` varchar(10) CHARACTER SET utf8 NOT NULL,
-  `origen` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `destino` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `origen` int(2) NOT NULL,
+  `destino` int(2) NOT NULL,
   `tipoVuelofk1` varchar(3) CHARACTER SET utf8 NOT NULL,
    PRIMARY KEY (`id_vuelo`),
    CONSTRAINT `id_equipofk2` FOREIGN KEY (`id_equipofk2`) REFERENCES `equipos` (`matricula`), 
@@ -121,13 +128,14 @@ CREATE TABLE `reservas_medicas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+
 CREATE TABLE `tramos` (
   `id_tramo` int(11) NOT NULL AUTO_INCREMENT,
-  `circuito` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `tipoEquipo` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `circuito` varchar(3) CHARACTER SET utf8 NOT NULL,
+  `tipoEquipo` varchar(3) CHARACTER SET utf8 NOT NULL,
   `duracion` int(11) NOT NULL,
-  `origen` varchar(50) CHARACTER SET utf8 NOT NULL,
-  `destino` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `precio` double NOT NULL,
+  `origen` int(2) NOT NULL,
+  `destino` int(2) NOT NULL, 
    PRIMARY KEY (`id_tramo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-

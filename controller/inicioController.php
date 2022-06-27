@@ -33,17 +33,18 @@ class InicioController {
                   $origen= $_POST["origen"];
                   $destino= $_POST["destino"];
                   $tipoVuelo = $_POST["tipoVuelo"];
-                  $ida = $_POST["ida"];
+                  $tipoEquipo = $_POST["tipoEquipo"];
+                  //$ida = $_POST["ida"];
                   $fechaIda = $_POST["fechaIda"];
-                  if($ida==1){
+                  /*if($ida==1){
                     if(ValidatorHelper::validacionDeFecha($_POST["fechaVuelta"])){
                       $fechaVuelta = $_POST["fechaVuelta"];
                       $whereVuelta = "OR (V.origen = '$destino' and V.destino = '$origen' and TV.id= '$tipoVuelo' and V.fecha<='$fechaVuelta' and V.fecha>'$fechaIda')";
                     }                    
                   }else{
                     $whereVuelta = "";
-                  }
-                    $busqueda = "((V.origen = '$origen' and V.destino = '$destino' and V.tipoVuelofk1= '$tipoVuelo' and V.fecha>='$fechaIda') $whereVuelta)";
+                  }*/
+                    $busqueda = "(V.origen = (Select id_destino from destinos where descripcion = '$origen') and V.destino = (Select id_destino from destinos where descripcion = '$destino') and V.tipoVuelofk1= '$tipoVuelo' and T.id= '$tipoEquipo' and V.fecha>='$fechaIda')";
                     if(ValidatorHelper::validarSesionActiva()){
                       $busqueda = $busqueda." and ".$filtroNivel;
                     }
@@ -70,17 +71,15 @@ class InicioController {
         }
         if(!empty($resultado = $this->inicioModel->buscarVuelos($busqueda))){
             $data = ["menu"=> $menu,"resultado" => $resultado];
-        }else{
-         //Si al reservar un vuelo no esta reservado previamente, se debe crear en la base de datos:
-         //$this->inicioModel->registrarVuelo($origen,$destino,$tipoVuelo/*,$ida, $idaVuelta*/,$fechaIda,$fechaVuelta);
+        }else{ 
             $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
         }
 
         $tiposVuelo = $this->inicioModel->tiposVuelo();
-
+        $tiposEquipo = $this->inicioModel->tiposEquipo();
         
         $data += ["tiposVuelo"=>$tiposVuelo];
-
+        $data += ["tiposEquipo"=>$tiposEquipo];
         $this->printer->generateView('inicioView.html',$data);
         
     }

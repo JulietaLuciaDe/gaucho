@@ -49,8 +49,24 @@ class reservaVueloController
         if(ValidatorHelper::validarSesionActiva()){
             if($this->validarSiExisteVuelo($id_vuelo,"vuelos")){
                 if(!($this->validarSiExisteVuelo($id_vuelo,"vuelos_confirmados"))){
-                    $this->reservaVueloModel->crearVuelo($id_vuelo);
-                    //aca habria que validar si se insertó ok
+                    $tramo = $this->reservaVueloModel->getDestinosyTipoVuelo($id_vuelo);
+                    
+                     $destinos = '';
+
+                    for($i=$tramo[0]["origen"];$i<=$tramo[0]["destino"];$i++){
+                        if($tramo[0]["tipovuelofk1"]=='ED2' && $i==3){
+                            continue;
+                        }else{
+                            $destinos = $destinos.$i;
+                            $destinos = $destinos.'|';
+                        }
+                        
+                    }
+                    
+                
+                    $this->reservaVueloModel->crearVuelo($id_vuelo,$destinos);
+                        
+                    
                 }
             }else{
                 header("Location:/inicio");
@@ -61,16 +77,44 @@ class reservaVueloController
             exit();
         }
 
-        $vuelo=$this->reservaVueloModel->getVueloSeleccionado($id_vuelo,"vuelos_confirmados");
+        $vuelo=$this->reservaVueloModel->getDatosVuelo($id_vuelo);
         $email = $_SESSION["usuario"];
-        
         $usuario=$this->reservaVueloModel->getUsuario($email);
+        $servicios = $this->reservaVueloModel->getServicios();
+        $destinos = $this->reservaVueloModel->getTramoVuelo($id_vuelo);
+        $cantDestinos = count($destinos);
+        
+        $datos_destinos = $this->getDestinos($destinos);
         $data = ["usuario" => $usuario];
         $data += ["vuelo" => $vuelo];
-
-
+        $data += ["servicios" => $servicios];
+        $data += ["datos_destinos" => $datos_destinos];
+        if($cantDestinos>2){
+            $data += ["tramos" => true];
+        }
         $this->execute($data);
     }
+
+  
+    public function getDestinos($destinos)
+    {   
+        $cant=count($destinos);
+        unset($destinos[$cant-1]);
+        $i = 0;
+        foreach($destinos as $valor){
+            $destino = $this->reservaVueloModel->getDatosDestino($valor);
+            $id_destinos[$i]= ['idDestino'=>$destino[0]['id_destino'],'nombreDestino'=>$destino[0]['descripcion']];
+            $i+=1;
+        }
+        
+        return $id_destinos;
+    }
+
+   
+    public function VerificarReserva(){
+        
+    }
+
 
     /*
     public function reserva($id)
