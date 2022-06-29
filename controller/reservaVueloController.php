@@ -18,13 +18,12 @@ class reservaVueloController
         $this->qr = $qr;
         */
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Funciones publicas
 
     public function execute($data){
         if(validatorHelper::validarSesionActiva()){
             $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                <a href='/logIn/exit'>Cerrar Sesion</a>";
+                  <a href='/misReservas'>Mis Reservas</a>
+                  <a href='/logIn/exit'>Cerrar Sesion</a>";
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
@@ -51,7 +50,7 @@ class reservaVueloController
                 if(!($this->validarSiExisteVuelo($id_vuelo,"vuelos_confirmados"))){
                     $tramo = $this->reservaVueloModel->getDestinosyTipoVuelo($id_vuelo);
                     
-                     $destinos = '';
+                     $destinos = '|';
 
                     for($i=$tramo[0]["origen"];$i<=$tramo[0]["destino"];$i++){
                         if($tramo[0]["tipovuelofk1"]=='ED2' && $i==3){
@@ -81,6 +80,7 @@ class reservaVueloController
         $email = $_SESSION["usuario"];
         $usuario=$this->reservaVueloModel->getUsuario($email);
         $servicios = $this->reservaVueloModel->getServicios();
+        $cabinas = $this->reservaVueloModel->getCabinasDisponibles($id_vuelo);
         $destinos = $this->reservaVueloModel->getTramoVuelo($id_vuelo);
         $cantDestinos = count($destinos);
         
@@ -88,6 +88,7 @@ class reservaVueloController
         $data = ["usuario" => $usuario];
         $data += ["vuelo" => $vuelo];
         $data += ["servicios" => $servicios];
+        $data += ["cabinas" => $cabinas];
         $data += ["datos_destinos" => $datos_destinos];
         if($cantDestinos>2){
             $data += ["tramos" => true];
@@ -112,10 +113,76 @@ class reservaVueloController
 
    
     public function VerificarReserva(){
-        
+        if(ValidatorHelper::validarSesionActiva()){
+            if(isset($_POST['tipoVuelo'])){
+                $tipoVuelo = $_POST['tipoVuelo'];
+                $EDValid =true;
+                $origen = $_POST['OrigenVuelo'];
+                $destino = $_POST['DestinoVuelo'];
+                if($tipoVuelo=='ED1' || $tipoVuelo =='ED2'){
+                    $EDValid = ValidatorHelper::validacionDeNumeros($_POST['origen'],2) &&
+                    ValidatorHelper::validacionDeNumeros($_POST['destino'],2)&&
+                    ($_POST['origen']!=$_POST['destino']);
+                    if($EDValid){
+                        $origen = $_POST['origen'];
+                        $destino = $_POST['destino'];
+                    }
+                }
+            if($EDValid && ValidatorHelper::validacionDeNumeros($_POST['vuelo'],11)&&
+            ValidatorHelper::validacionDeNumeros($_POST['servicio'],1)&&
+            ValidatorHelper::validacionDeNumeros($_POST['asientos'],3)&&
+            ValidatorHelper::validacionDeTexto($_POST['cabina'],3)){       
+                $vuelo = $_POST['vuelo'];
+                
+                $servicio = $_POST['servicio'];
+                $cantAsientos = $_POST['asientos'];
+                $tipoCabina = $_POST['cabina'];
+                if($this->reservaVueloModel->ValidarCabinaSeleccionada($vuelo,$tipoCabina)){
+                    if($this->validarSiExisteVuelo($vuelo,"vuelos_confirmados")){
+                        $tramos = $this->reservaVueloModel->verificarDisponibilidadAsientos($vuelo,$tipoCabina,$cantAsientos,$origen,$destino);
+                        if(!empty($tramos)){
+                            $costoReserva = $this->reservaVueloModel->calcularCostoReserva($tramos,$cantAsientos,$tipoCabina,$servicio);
+                            $tramo = $this->getStringTramo($tramos);
+                            $reservado = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos);
+                            if($reservado){
+                                echo "reservado ok, pasar a pago";
+                            }else{
+                                echo "Hubo un problema al crear la reserva";
+                            }
+                        }else{
+                            echo "ups! la cantidad de asientos seleccionado supera el disponible en el vuelo ";
+                        }
+                    }else{
+                        header("Location: /inicio");
+                        exit();
+                    }
+                }else{
+                    echo "cabina invalida para el vuelo seleccionado (habria que validarlo en el front)";
+                }
+            }else{
+                echo "no valido dato";
+            }
+        }else{
+            header("Location: /login");
+            exit();
+        }
+    }else{
+        header("Location: /inicio");
+                exit();
+    }
     }
 
 
+
+public function getStringTramo($tramos){
+    $cantTramos = count($tramos);
+    $tramo = '';
+    for($i=0;$i<$cantTramos;$i++){
+        $tramo = $tramo.'|'.$tramos[$i]['id_tramo'];
+    }
+    return $tramo;
+}
+}
     /*
     public function reserva($id)
     {
@@ -132,7 +199,7 @@ class reservaVueloController
         $data["destino"] = $vuelo->destino;
         $data["id_equipo"] = $vuelo->id_equipo;
         $this->execute($data,'reservaVuelo.html');
-    }*/
+    }
 
     public function reservado($id_usuario,$id_vuelo,$id_tipoVuelo,$tipoAsiento,$nroAsiento,$id_servicio,$pago,$nroPago){
                     $cantidadMaxima = $this->reservaVueloModel->getCantidadMaxima($id_vuelo); //hacerfuncion
@@ -155,5 +222,5 @@ class reservaVueloController
 
 
 
-    }
-}
+    }*/
+

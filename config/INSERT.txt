@@ -4,17 +4,17 @@ INSERT INTO `tipo_equipo` (`id`, `nombre`) VALUES
 ('OR', 'Orbital');
 
 
-INSERT INTO `caract_equipos` (`caract_modelo`, `id_tipo`, `pasajeros`, `cantPrimera`, `cantEjectuvio`, `cantTurista`) VALUES
-('Aguila', 'AA',  'pasajero', 25, 75, 200),
-('Aguilucho', 'BA',  'pasajero', 10, 50, 0),
-('Calandria', 'OR',  'pasajero', 25, 75, 200),
-('Canario', 'BA', 'pasajero', 10, 70, 0),
-('Carancho', 'BA', 'pasajero', 0, 0, 110),
-('Colibri', 'OR', 'pasajero', 2, 18, 100),
-('Condor', 'AA',  'pasajero', 40, 10, 300),
-('Guanaco', 'AA',  'pasajero', 100, 0, 0),
-('Halcon', 'AA', 'pasajero', 25, 25, 150),
-('Zorzal', 'BA', 'pasajero', 0, 50, 50);
+INSERT INTO `caract_equipos` (`caract_modelo`, `id_tipo`, `tiposCabina`, `CPR`, `CEJ`, `CTU`) VALUES
+('Aguila', 'AA',  '"CPR","CEJ","CTU"', 25, 75, 200),
+('Aguilucho', 'BA',  '"CPR","CEJ"', 10, 50, 0),
+('Calandria', 'OR', '"CPR","CEJ","CTU"', 25, 75, 200),
+('Canario', 'BA', '"CPR","CEJ"', 10, 70, 0),
+('Carancho', 'BA', '"CTU"', 0, 0, 110),
+('Colibri', 'OR', '"CPR","CEJ","CTU"', 2, 18, 100),
+('Condor', 'AA',  '"CPR","CEJ","CTU"', 40, 10, 300),
+('Guanaco', 'AA',  '"CPR"', 100, 0, 0),
+('Halcon', 'AA', '"CPR","CEJ","CTU"', 25, 25, 150),
+('Zorzal', 'BA', '"CEJ","CTU"', 0, 50, 50);
 
 INSERT INTO `centrosmedicos` (`nombre`, `cantidadTurnos`) VALUES
 ('BuenosAires', 300),
@@ -70,8 +70,8 @@ INSERT INTO `equipos` (`modelo`,`matricula`) VALUES
 ('Zorzal','BA3');
 
 INSERT INTO `tipos_vuelo` (`id`, `descripcion`) VALUES
-('ED1', 'Entre Destinos - Circuito Corto'),
-('ED2', 'Entre Destinos - Circuito Largo'),
+('ED1', 'Circuito Corto'),
+('ED2', 'Circuito Largo'),
 ('OR', 'Suborbital'),
 ('TO', 'Tour');
 
@@ -79,6 +79,11 @@ INSERT INTO `servicios` (`descripcion`,`precio`) VALUES
 ('Spa',100.00),
 ('Standard',60.00),
 ('Gourmet',30.00);
+
+INSERT INTO `tipo_cabina` (`id_cabina`,`descripcion`,`precio`) VALUES
+('CTU','Turista',0.00),
+('CEJ','Ejecutivo',500.00),
+('CPR','Primera',1000.00);
 
 
 INSERT INTO `destinos` (`descripcion`) VALUES
@@ -120,7 +125,7 @@ INSERT INTO `tramos` (`id_tramo`, `circuito`, `tipoEquipo`, `duracion`,`precio`,
 (23, 'ED2', 'AA', 50,500.00,8, 9),
 (24, 'ED2', 'AA', 52,500.00,9, 10),
 (25, 'TO', 'AA', 840,500.00, 1, 1),
-(26, 'SO', 'AA', 8,500.00, 1, 1);
+(26, 'OR', 'OR', 8,500.00, 1, 1);
 
 
 

@@ -13,7 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 
         public function iniciarSesion($email,$password){
             $pass = md5($password);
-            $sqlUser = "SELECT autentificado,user,tipo FROM usuarios WHERE email = '" . $email. "' AND pass = '" . $pass. "'";
+            $sqlUser = "SELECT autentificado,user,tipo,id FROM usuarios WHERE email = '" . $email. "' AND pass = '" . $pass. "'";
             $qry = $this->database->query($sqlUser);
             $obj = mysqli_fetch_assoc($qry);
 

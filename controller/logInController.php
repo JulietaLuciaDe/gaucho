@@ -45,6 +45,7 @@
                         $_SESSION["logueado"]=1;
                         $_SESSION["usuario"]=$_POST["usuario"];
                         $_SESSION["user"]=$obj['user'];
+                        $_SESSION["id"]=$obj['id'];
                         $_SESSION["nivel"]=$obj['tipo'];
                         //LOGUEA OK PERO NO TIENE TURNO MÉDICO
                         if($_SESSION["nivel"]==""){

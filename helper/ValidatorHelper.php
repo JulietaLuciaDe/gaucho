@@ -11,7 +11,7 @@ class ValidatorHelper
     }
 
     public static function validarCaracteresMax($variable, $cantCaractMax){
-        return strlen($variable)<$cantCaractMax;
+        return strlen($variable)<=$cantCaractMax;
     }
 
     public static function validarSiEstaSet($variable){

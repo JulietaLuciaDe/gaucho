@@ -1,131 +1,100 @@
 {{> header}}
 {{> navbar}}
 
-<div class="contenido-reserva bg-white" style="color:black">
+<div class="contenido-reserva " style="color:black">
+    <form action="/reservaVuelo/VerificarReserva" method="post" enctype="multipart/form-data" id="reservaForm" name ="form-reserva">
         <div class="usuario">
         {{#usuario}}
-        <p>DATOS DEL CLIENTE</p>
-        <div>
-            <p>Nombre: </p>
-            <p>{{nombre}}</p>
-        </div>
-        <div>
-            <p>apellido: </p>
-            <p>{{apellido}}</p>
-        </div>
-        <div>
-            <p>Dni: </p>
-            <p>{{dni}}</p>
-        </div>
-        <div>
-            <p>Mail: </p>
-            <p>{{email}}</p>
-        </div>        
+        <input type="text" name="usuario" style="display:none;" value = {{id}}>    
         {{/usuario}}
-    </div>
+        </div>
     <div class="vuelo">
         {{#vuelo}}
-        <p>DATOS DEL VUELO</p>
+        <input type="text" name="vuelo"  style="display:none;" value = {{id_vuelo}}>
+        <input type="text" id="tipoVuelo"  name="tipoVuelo" style="display:none;" value = {{tVuelo}}>
+        <input type="text" id="OrigenVuelo"  name="OrigenVuelo" style="display:none;" value = {{IDdestinoOrigen}}>
+        <input type="text" id="DestinoVuelo"  name="DestinoVuelo" style="display:none;" value = {{IDdestinoDestino}}>
         <div>
-            <p>Nr. Vuelo: </p>
-            <p>{{id_vuelo}}</p>
+            <p>Este vuelo sale de {{destinoOrigen}} </p>
         </div>
         <div>
-            <p>Origen: </p>
-            <p>{{destinoOrigen}}</p>
+            <p>El dia {{fecha}}</p>
         </div>
         <div>
-            <p>Destino</p>
-            <p>{{destinoDestino}}</p>
+            <p>A las {{h_partida}} hs</p>
         </div>
         <div>
-            <p>Fecha: </p>
-            <p>{{fecha}}</p>
+            <p>Con ultimo destino {{destinoDestino}}</p>
         </div>
-        <div>
-            <p>Hora de Partida: </p>
-            <p>{{h_partida}}</p>
-        </div>
-        <div>
-            <p>Tipo de Equipo: </p>
-            <p>{{tipoEquipo}}</p>
-        </div>
-        <div>
-            <p>Tipo de Vuelo: </p>
-            <p>{{tVuelo}}</p>
-        </div>
+        {{#tramos}}
+            <div>
+                <div class="recorrido">
+                    <div>
+                        <p>Recorrido:</p>
+                    </div>
+                    <div class="recorridos">
+                        {{#datos_destinos}}
+                            <p>{{nombreDestino}}--></p>
+                        {{/datos_destinos}}
+                        <p>Regreso</p>
+                    </div>
+                </div>
+                <div >
+                        <p>Voy a tomar este vuelo en: </p>
+                        <select name="origen" id="origen" >
+                        {{#datos_destinos}}
+                            <option value={{idDestino}} >{{nombreDestino}}</option>
+                        {{/datos_destinos}}
+                        </select>
+                
+                    
+                </div>
+                <div >
+                    
+                        <p>Voy a descender de este vuelo en: </p>
+                        <select name="destino" id="destino" >
+                        {{#datos_destinos}}
+                            <option value={{idDestino}} >{{nombreDestino}}</option>
+                        {{/datos_destinos}}
+                        </select>
+                
+                    
+                </div>
+            </div>
+        {{/tramos}}
+       
+       
         {{/vuelo}}
 </div>
-{{#tramos}}
-<div>
-    <div class="recorrido">
-        <div>
-            <p>El recorrido de este vuelo es el siguiente:</p>
-        </div>
-        <div class="recorridos">
-            {{#datos_destinos}}
-                <p>{{nombreDestino}}--></p>
-            {{/datos_destinos}}
-            <p>Regreso</p>
-        </div>
-        
-    </div>
-    <form action="reservaVuelo/VerificarReserva" method="post"></form>
-    <div >
-        
-            <p>Voy a tomar este vuelo en: </p>
-            <select name="origen">
-            {{#datos_destinos}}
-                <option value={{idDestino}} >{{nombreDestino}}</option>
-            {{/datos_destinos}}
-            </select>
-    
-        
-    </div>
-    <div >
-        
-            <p>Voy a descender de este vuelo en: </p>
-            <select name="destino">
-            {{#datos_destinos}}
-                <option value={{idDestino}} >{{nombreDestino}}</option>
-            {{/datos_destinos}}
-            </select>
-    
-        
-    </div>
-</div>
-{{/tramos}}
+
 <div>
     <div>
-        <p>Quiero aplicar el siguiente servicio: </p>
-        <select >
+        <p>Servicios adicionales: </p>
+        <select name="servicio">
             {{#servicios}}
                 <option value={{id_servicio}} id="servicio">{{descripcion_servicio}}</option>
             {{/servicios}}
         </select>
     </div>
     <div>
-        <label for="servicio">Cantidad de asientos requeridos: </label>
-        <input type="number" min = 1 value=1></input>
+        <label for="asientos">Cantidad de pasajes: </label>
+        <input type="number" min = 1 value=1 name="asientos"></input>
     </div>
     <div>
-        <p>Quiero seleccionar el siguiente tipo de cabina: </p>
-        <select >
-                <label for="cabina">Servicios</label>
-                <option value="T" id="cabina">Turista</option>
-                <option value="E" id="cabina">Ejecutivo</option>
-                <option value="P" id="cabina">Primera</option>
+        <p>Tipo de cabina: </p>
+        <select name="cabina">
+            {{#cabinas}}
+                <option value={{id_cabina}} id="cabina">{{nombre_cabina}} - Adicional: ${{precio_cabina}}</option>
+            {{/cabinas}}
         </select>
     </div>
    
 </div>
-<div class="ocultos-reserva">
-    
-</div>
 <div>
-    <input type="submit" value="Confirmar y reservar" class='btn-primary btn-busqueda'>
+    <input type="submit" value="Verificar disponibilidad y dirigirme al pago" class='btn-primary btn-busqueda' >
 </div>
 </form>
 
 </div>
+
     {{> footer}}
