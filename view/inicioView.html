@@ -1,27 +1,28 @@
 {{> header}}
 {{> navbar}}
 <div class='content {{displaySearch}}'>
-    
+
     <div class="buscador row justify-content-around">
         <div class="text-search col-3">
             <p>ENCONTRÁ TU PRÓXIMO VIAJE</p>
         </div>
-
-            <form action='/inicio/execute' method="post" class="col-7 form-search" name='buscar' id='busqueda' enctype="multipart/form-data">
-                <div class="destino">
-                    <input type='text' placeholder='Origen' id='origen' name='origen' required>
-                    <input type='text' placeholder='Destino' id='destino' name='destino' required>
-                </div>
-                <!--ESTE SELECT LO VAMOS A TENER QUE TRAER DESDE LA BASE-->
-                    <div class="select">
-                        <select name="tipoVuelo">
-                        {{#tiposVuelo}}
-                            <option value={{id_tipoVuelo}} >{{Descripcion}}</option>
-                        {{/tiposVuelo}}
-                        </select>
-                    </div>
-                    <!-------------------------------------------------->
-               <!---- <div class="radio">
+        <a href="/pdf/generarPdf"><button class='btn-primary btn-busqueda'>BOTON PRUEBA DESCARGA PDF</button></a></td>
+        <form action='/inicio/execute' method="post" class="col-7 form-search" name='buscar' id='busqueda'
+            enctype="multipart/form-data">
+            <div class="destino">
+                <input type='text' placeholder='Origen' id='origen' name='origen' required>
+                <input type='text' placeholder='Destino' id='destino' name='destino' required>
+            </div>
+            <!--ESTE SELECT LO VAMOS A TENER QUE TRAER DESDE LA BASE-->
+            <div class="select">
+                <select name="tipoVuelo">
+                    {{#tiposVuelo}}
+                    <option value={{id_tipoVuelo}}>{{Descripcion}}</option>
+                    {{/tiposVuelo}}
+                </select>
+            </div>
+            <!-------------------------------------------------->
+            <!---- <div class="radio">
                     <div>
                         <input type="radio" id="ida" name="ida" value="0" checked>
                         <label for="idaRadio">IDA</label>
@@ -34,36 +35,37 @@
                     
                     
                 </div>---->
-                <div class="fechas">
-                    <div>
-                        <label for="fechaIda">Fecha</label>
-                        <input type="date" id="fechaIda" name="fechaIda" required>
-                    </div>
-                    <div class="select">
-                        <select name="tipoEquipo">
+            <div class="fechas">
+                <div>
+                    <label for="fechaIda">Fecha</label>
+                    <input type="date" id="fechaIda" name="fechaIda" required>
+                </div>
+                <div class="select">
+                    <select name="tipoEquipo">
                         {{#tiposEquipo}}
-                            <option value={{id_tipoEquipo}} >{{Nombre}}</option>
+                        <option value={{id_tipoEquipo}}>{{Nombre}}</option>
                         {{/tiposEquipo}}
-                        </select>
-                    </div>
-                   <!--  <div>
+                    </select>
+                </div>
+                <!--  <div>
                          <label for="fechaVuelta">VUELTA</label>
                         <input type="date" id="fechaVuelta" name="fechaVuelta" >
                     </div>-->
-                </div>
-                <div class="justify-content-center">
-                    <input class= 'btn-busqueda' type='submit' value='Buscar' id="botonBuscar" name="botonBuscar">
-                </div>
-                
-            </form>
+            </div>
+            <div class="justify-content-center">
+                <input class='btn-busqueda' type='submit' value='Buscar' id="botonBuscar" name="botonBuscar">
+            </div>
+
+        </form>
     </div>
-    
-        {{#noData}}
-        <div style="background: linear-gradient(to right, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.0));color:black; text-align:center;">
-            <p >No se encontraron vuelos para la búsqueda solicitada</p>
-        </div>
-        {{/noData}}
-    
+
+    {{#noData}}
+    <div
+        style="background: linear-gradient(to right, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.0));color:black; text-align:center;">
+        <p>No se encontraron vuelos para la búsqueda solicitada</p>
+    </div>
+    {{/noData}}
+
     <div class="resultadoBusqueda ">
         <table class='table table-responsive'>
             <thead>
@@ -78,24 +80,26 @@
                     <th>Reservar</th>
                 </tr>
             </thead>
-        {{#resultado}}
+            {{#resultado}}
             <tr>
                 <td>{{id_vuelo}}</td>
-                <td>{{fecha}}</td>  
-                <td>{{h_partida}}</td>                              
+                <td>{{fecha}}</td>
+                <td>{{h_partida}}</td>
                 <td>{{destinoOrigen}}</td>
                 <td>{{destinoDestino}}</td>
                 <td>{{tipoEquipo}}</td>
                 <td>{{tVuelo}}</td>
-                <td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button class='btn-primary btn-busqueda'>Reservar</button></a></td> <!--Len:Te lleva con el
+                <td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button
+                            class='btn-primary btn-busqueda'>Reservar</button></a></td>
+                <!--Len:Te lleva con el
                     ID del vuelo a link donde esta la view de reservas (con su controller),
                     alli se debe buscar ese vuelo por id para poder mostrar datos y ver detalles del vuelo para confirmar reserva
                     el valor se envia por GET-->
             </tr>
-        {{/resultado}}
+            {{/resultado}}
 
         </table>
     </div>
-                    
-          </div>
+
+</div>
 {{> footer}}

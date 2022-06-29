@@ -1,10 +1,13 @@
 <?php
- 
+require_once  'dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
+
 class InicioController {
     private $printer;
     private $inicioModel;
+    private $pdf;
 
-    public function __construct($inicioModel,$printer) {
+    public function __construct($inicioModel, $printer) {
         $this->printer = $printer;
         $this->inicioModel = $inicioModel;
     }
@@ -83,4 +86,27 @@ class InicioController {
         $this->printer->generateView('inicioView.html',$data);
         
     }
+
+    public function generarPDF(){
+      include_once("view/pdfView.html");
+      $html = ob_get_clean();
+      $nombrePDF= "CheckIn";
+      $pdf = new Dompdf();//Inicializa
+      $pdf->setPaper('A4','landscape');//Se ajusta el papel
+      $pdf->loadHtml($html);//lo carga en la hoja el html
+      $pdf->render();//renderiza de html a pdf
+      $pdf->stream($nombrePDF, ['Attachment'=>1]);//genera el pdf en el navegador /false misma pag / true descarga
+      //El ['Attachment'=>0] es para q lo genere en otra pestaña
+    }
+    // public function generarPDF($nombreArchivo, $link){
+    //   include_once("view/".$link);
+    //   $html = ob_get_clean();
+    //   $nombrePDF= $nombreArchivo;
+    //   $pdf = new Dompdf();//Inicializa
+    //   $pdf->setPaper('A4','landscape');//Se ajusta el papel
+    //   $pdf->loadHtml($html);//lo carga en la hoja el html
+    //   $pdf->render();//renderiza de html a pdf
+    //   $pdf->stream($nombrePDF, ['Attachment'=>1]);//genera el pdf en el navegador /false misma pag / true descarga
+    //   //El ['Attachment'=>0] es para q lo genere en otra pestaña
+    // }
 }
