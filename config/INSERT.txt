@@ -1,0 +1,1125 @@
+INSERT INTO `tipo_equipo` (`id`, `nombre`) VALUES
+('AA', 'Alta Aceleracion'),
+('BA', 'Baja Aceleracion'),
+('OR', 'Orbital');
+
+
+INSERT INTO `caract_equipos` (`caract_modelo`, `id_tipo`, `tiposCabina`, `CPR`, `CEJ`, `CTU`) VALUES
+('Aguila', 'AA',  '"CPR","CEJ","CTU"', 25, 75, 200),
+('Aguilucho', 'BA',  '"CPR","CEJ"', 10, 50, 0),
+('Calandria', 'OR', '"CPR","CEJ","CTU"', 25, 75, 200),
+('Canario', 'BA', '"CPR","CEJ"', 10, 70, 0),
+('Carancho', 'BA', '"CTU"', 0, 0, 110),
+('Colibri', 'OR', '"CPR","CEJ","CTU"', 2, 18, 100),
+('Condor', 'AA',  '"CPR","CEJ","CTU"', 40, 10, 300),
+('Guanaco', 'AA',  '"CPR"', 100, 0, 0),
+('Halcon', 'AA', '"CPR","CEJ","CTU"', 25, 25, 150),
+('Zorzal', 'BA', '"CEJ","CTU"', 0, 50, 50);
+
+INSERT INTO `centrosmedicos` (`nombre`, `cantidadTurnos`) VALUES
+('BuenosAires', 300),
+('Shanghái', 210),
+('Ankara', 200);
+
+INSERT INTO `equipos` (`modelo`,`matricula`) VALUES
+('Aguila','AA1'),
+('Aguila','AA5'),
+('Aguila','AA9'),
+('Aguila','AA13'),
+('Aguila','AA17'),
+('Aguilucho','BA8'),
+('Aguilucho','BA9'),
+('Aguilucho','BA10'),
+('Aguilucho','BA11'),
+('Aguilucho','BA12'),
+('Calandria','O1'),
+('Calandria','O2'),
+('Calandria','O6'),
+('Calandria','O7'),
+('Canario','BA13'),
+('Canario','BA14'),
+('Canario','BA15'),
+('Canario','BA16'),
+('Canario','BA17'),
+('Carancho','BA4'),
+('Carancho','BA5'),
+('Carancho','BA6'),
+('Carancho','BA7'),
+('Colibri','O3'),
+('Colibri','O4'),
+('Colibri','O5'),
+('Colibri','O8'),
+('Colibri','O9'),
+('Condor','AA2'),
+('Condor','AA6'),
+('Condor','AA10'),
+('Condor','AA14'),
+('Condor','AA18'),
+('Guanaco','AA4'),
+('Guanaco','AA8'),
+('Guanaco','AA12'),
+('Guanaco','AA16'),
+('Guanaco','AA20'),
+('Halcon','AA3'),
+('Halcon','AA7'),
+('Halcon','AA11'),
+('Halcon','AA15'),
+('Halcon','AA19'),
+('Zorzal','BA1'),
+('Zorzal','BA2'),
+('Zorzal','BA3');
+
+INSERT INTO `tipos_vuelo` (`id`, `descripcion`) VALUES
+('ED1', 'Circuito Corto'),
+('ED2', 'Circuito Largo'),
+('OR', 'Suborbital'),
+('TO', 'Tour');
+
+INSERT INTO `servicios` (`descripcion`,`precio`) VALUES
+('Spa',100.00),
+('Standard',60.00),
+('Gourmet',30.00);
+
+INSERT INTO `tipo_cabina` (`id_cabina`,`descripcion`,`precio`) VALUES
+('CTU','Turista',0.00),
+('CEJ','Ejecutivo',500.00),
+('CPR','Primera',1000.00);
+
+
+INSERT INTO `destinos` (`descripcion`) VALUES
+('Tierra'),
+('EEI'),
+('OrbitalHotel'),
+('Luna'),
+('Marte'),
+('Ganimedes'),
+('Europa'),
+('Io'),
+('Encedalo'),
+('Titan');
+
+
+INSERT INTO `tramos` (`id_tramo`, `circuito`, `tipoEquipo`, `duracion`,`precio`, `origen`, `destino`) VALUES
+(1, 'ED1', 'BA', 4,500.00, 1, 2),
+(2, 'ED1', 'BA', 1,500.00, 2, 3),
+(3, 'ED1', 'BA', 16,500.00, 3, 4),
+(4, 'ED1', 'BA', 26,500.00, 4, 5),
+(5, 'ED1', 'AA', 3,500.00, 1, 2),
+(6, 'ED1', 'AA', 1,500.00,  2, 3),
+(7, 'ED1', 'AA', 9,500.00, 3, 4),
+(8, 'ED1', 'AA', 22,500.00,  4, 5),
+(9, 'ED2', 'BA', 4,500.00, 1, 2),
+(10, 'ED2', 'BA', 14,500.00, 2, 4),
+(11, 'ED2', 'BA', 26,500.00, 4, 5),
+(12, 'ED2', 'BA', 48,500.00, 5, 6),
+(13, 'ED2', 'BA', 50,500.00, 6, 7),
+(14, 'ED2', 'BA', 51,500.00, 7, 8),
+(15, 'ED2', 'BA', 70,500.00, 8, 9),
+(16, 'ED2', 'BA', 77,500.00, 9, 10),
+(17, 'ED2', 'AA', 3,500.00, 1, 2),
+(18, 'ED2', 'AA', 10,500.00,  2, 4),
+(19, 'ED2', 'AA', 22,500.00,  4, 5),
+(20, 'ED2', 'AA', 32,500.00, 5, 6),
+(21, 'ED2', 'AA', 33,500.00,  6, 7),
+(22, 'ED2', 'AA', 35,500.00,7, 8),
+(23, 'ED2', 'AA', 50,500.00,8, 9),
+(24, 'ED2', 'AA', 52,500.00,9, 10),
+(25, 'TO', 'AA', 840,500.00, 1, 1),
+(26, 'OR', 'OR', 8,500.00, 1, 1);
+
+
+
+/* INSERT QUERY NO: 1 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 2 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 3 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 4 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 5 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 6 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 7 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 8 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 9 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 10 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 11 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 12 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 13 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 14 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 15 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 16 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 17 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 18 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 19 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 20 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 21 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 22 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 23 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 24 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 25 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 26 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 27 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 28 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 29 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 30 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 31 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 32 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 33 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 34 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 35 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 36 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 37 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 38 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 39 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 40 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 41 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 42 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 43 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 44 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 45 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 46 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 47 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 48 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 49 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 50 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 51 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 52 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 53 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 54 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-06', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 55 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 15, 'O2', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 56 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 15, 'O1', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 57 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 9, 'O6', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 58 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 13, 'O7', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 59 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 9, 'O3', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 60 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 13, 'O4', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 61 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 13, 'O5', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 62 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 9, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 63 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 9, 'O9', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 64 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 8, 'AA4', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 65 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-07', 9, 'AA8', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 66 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-14', 8, 'AA12', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 67 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-14', 9, 'AA16', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 68 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-21', 10, 'AA20', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 69 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-09-04', 8, 'AA4', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 70 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-09-04', 9, 'AA8', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 71 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-09-11', 8, 'AA12', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 72 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-09-11', 9, 'AA16', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 73 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-09-18', 10, 'AA20', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 74 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-10-02', 8, 'AA4', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 75 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-10-02', 9, 'AA8', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 76 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-10-09', 8, 'AA12', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 77 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-10-09', 9, 'AA16', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 78 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-10-16', 10, 'AA20', 1, 1, 'TO'
+);
+
+/* INSERT QUERY NO: 79 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'BA1', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 80 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'BA2', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 81 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'BA3', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 82 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 10, 'BA4', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 83 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 10, 'BA5', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 84 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 10, 'BA6', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 85 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 11, 'BA7', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 86 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 11, 'BA8', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 87 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 11, 'BA9', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 88 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'BA10', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 89 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'BA11', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 90 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'BA12', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 91 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 10, 'BA13', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 92 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 10, 'BA14', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 93 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 10, 'BA15', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 94 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 11, 'BA16', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 95 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 11, 'BA17', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 96 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 9, 'BA1', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 97 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 9, 'BA3', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 98 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 10, 'BA5', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 99 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 11, 'BA7', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 100 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-03', 11, 'BA9', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 101 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'BA11', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 102 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 10, 'BA13', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 103 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 10, 'BA15', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 104 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 11, 'BA17', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 105 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-16', 9, 'BA2', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 106 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-16', 10, 'BA4', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 107 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-16', 10, 'BA6', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 108 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-16', 11, 'BA8', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 109 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-17', 9, 'BA10', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 110 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-17', 9, 'BA12', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 111 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-17', 10, 'BA14', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 112 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-17', 11, 'BA16', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 113 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'AA1', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 114 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'AA5', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 115 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 10, 'AA9', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 116 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 11, 'AA13', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 117 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 11, 'AA17', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 118 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'AA2', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 119 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 10, 'AA6', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 120 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 9, 'AA10', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 121 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 10, 'AA14', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 122 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 10, 'AA18', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 123 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-01', 11, 'AA3', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 124 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'AA7', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 125 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 9, 'AA11', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 126 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 10, 'AA15', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 127 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-02', 11, 'AA19', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 128 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'AA1', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 129 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 9, 'AA5', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 130 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 10, 'AA9', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 131 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-04', 11, 'AA13', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 132 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 11, 'AA17', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 133 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 9, 'AA2', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 134 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-05', 10, 'AA6', 1, 5, 'ED1'
+);
+
+/* INSERT QUERY NO: 135 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-11', 9, 'AA10', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 136 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-11', 10, 'AA14', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 137 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-11', 10, 'AA18', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 138 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-11', 11, 'AA3', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 139 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-12', 9, 'AA7', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 140 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-12', 9, 'AA11', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 141 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-12', 10, 'AA15', 1, 10, 'ED2'
+);
+
+/* INSERT QUERY NO: 142 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-08-12', 11, 'AA19', 1, 10, 'ED2'
+);
+
