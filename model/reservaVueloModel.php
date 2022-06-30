@@ -70,7 +70,7 @@ class reservaVueloModel
     }
 
     public function getDatosVuelo($id){
-        $query = "SELECT V.*,T.nombre as 'tipoEquipo',TV.descripcion as 'tVuelo', D.descripcion as 'destinoOrigen' , DE.descripcion as 'destinoDestino',D.id_destino as 'IDdestinoOrigen' , DE.id_destino as 'IDdestinoDestino' FROM VUELOS_CONFIRMADOS V JOIN EQUIPOS E ON V.id_equipofk=E.matricula JOIN CARACT_EQUIPOS C ON E.modelo=C.caract_modelo JOIN TIPO_EQUIPO T ON C.id_tipo=T.id JOIN TIPOS_VUELO TV ON V.ID_tipoVuelofk = TV.id JOIN DESTINOS D ON V.origen = D.id_destino JOIN DESTINOS DE ON V.destino = DE.id_destino WHERE id_vuelo=".$id;
+        $query = "SELECT V.*,T.nombre as 'tipoEquipo',TV.descripcion as 'tVuelo',TV.id as 'idtVuelo', D.descripcion as 'destinoOrigen' , DE.descripcion as 'destinoDestino',D.id_destino as 'IDdestinoOrigen' , DE.id_destino as 'IDdestinoDestino' FROM VUELOS_CONFIRMADOS V JOIN EQUIPOS E ON V.id_equipofk=E.matricula JOIN CARACT_EQUIPOS C ON E.modelo=C.caract_modelo JOIN TIPO_EQUIPO T ON C.id_tipo=T.id JOIN TIPOS_VUELO TV ON V.ID_tipoVuelofk = TV.id JOIN DESTINOS D ON V.origen = D.id_destino JOIN DESTINOS DE ON V.destino = DE.id_destino WHERE id_vuelo=".$id;
         return $this->database->queryResult($query);
     }
 

@@ -1,6 +1,7 @@
 var tipoVuelo = document.getElementById("tipoVuelo").value;
+
 if(tipoVuelo=='ED1' || tipoVuelo=='ED2'){
-  alert('ACAAA');
+  
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("reservaForm").addEventListener("submit", validarFormularioReserva);
