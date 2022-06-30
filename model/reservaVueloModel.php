@@ -1,5 +1,4 @@
 <?php
-// ver modificar los sql bien con los datos que tenemos nosotros!
 class reservaVueloModel
 {
     private $database;
@@ -15,8 +14,6 @@ class reservaVueloModel
         return $usuario;
     }
 
-   
-
     public function crearVuelo($id_vuelo,$tramo){
         $query = "INSERT INTO vuelos_confirmados (id_vuelo,fecha,h_partida,id_equipofk,origen,destino,id_tipoVuelofk)
         SELECT id_vuelo,fecha,h_partida,id_equipofk2,origen,destino,tipoVuelofk1 FROM vuelos WHERE id_vuelo=".$id_vuelo;
@@ -27,8 +24,6 @@ class reservaVueloModel
     public function verificarDestinosVuelo($id_vuelo){
         $querySelect = "SELECT id_destino FROM destino WHERE id_destino>= (Select id_tipoVuelofk from vuelos_confirmados where id_vuelo = ".$id_vuelo.")";
        return $this->database->queryResult($querySelect);
-
-
     }
 
     public function getDestinosyTipoVuelo($id_vuelo){
@@ -41,18 +36,12 @@ class reservaVueloModel
         $string = $this->database->queryResult($querySelect);
         $string = substr($string[0]['tramo'], 1);
         return explode ( '|' , $string);
-
     }
-
-    
-
 
     public function getDatosDestino($id_destino){
         $query = "SELECT id_destino,descripcion FROM destinos WHERE id_destino='".$id_destino."'";
        return $this->database->queryResult($query);
     }
-
-    
 
     public function asignarTramoVuelo($id_vuelo,$tramo){
         $query = "UPDATE vuelos_confirmados set tramo = '".$tramo."' where id_vuelo = ".$id_vuelo;
@@ -72,9 +61,6 @@ class reservaVueloModel
 
     public function getVueloSeleccionado($id,$tabla){
         $query = "SELECT * FROM ".$tabla." WHERE id_vuelo=".$id;
-        /* TODO: Una vez que esté la tabla "vuelos_confirmados", comprobar query correspondiente.
-         * $query = "SELECT 1 FROM vuelos_confirmados WHERE id_vuelo=".$id;
-         */
         return $this->database->queryResult($query);
     }
 
@@ -94,10 +80,8 @@ class reservaVueloModel
         $result = $result[0]['tiposCabina'];
         $query1 = "SELECT id_cabina ,descripcion as 'nombre_cabina',precio as 'precio_cabina' FROM tipo_cabina where id_cabina IN (".$result.")"; 
         $result = $this->database->queryResult($query1);
-        
         return $result;
     }
-
 
     public function ValidarCabinaSeleccionada($vuelo,$tipoCabina){
         $query = "SELECT ".$tipoCabina." FROM caract_equipos where caract_modelo = (Select modelo from equipos where matricula = (select id_equipofk from vuelos_confirmados where id_vuelo = ".$vuelo."))";
@@ -108,9 +92,7 @@ class reservaVueloModel
             $return =true;
         }
         return $return;
-      
     }
-
 
     public function verificarDisponibilidadAsientos($vuelo,$tipoCabina,$cantAsientos,$origen,$destino){
         $totalCabinaVuelo = $this->getAsientosTotales($vuelo,$tipoCabina);
@@ -126,12 +108,9 @@ class reservaVueloModel
                 continue;
             }else{
                 $return = '';
-                break;
-                
-                
+                break;  
             }        
         }
-
         return $return;
     }
 
@@ -157,8 +136,9 @@ class reservaVueloModel
         $cantAsientos = intval($cantAsientos);
         $query = "INSERT INTO reserva (id_usuariofk,id_vuelofk,tipoAsiento,id_serviciofk,pago,cantidadAsientos,checkIn,tramos, TotalReserva)
         VALUES (".$_SESSION["id"].",".$vuelo.",'".$tipoCabina."',".$servicio.",0,".$cantAsientos.",0,'".$tramo."',$costoReserva)";
-        return $this->database->query($query);
-        //ACA VOY A ESTAR DESARROLLANDO PARA QUE ME RETORNE EL ID DE RESERVA
+        $this->database->query($query);
+        $query = "SELECT id from reserva where id_usuariofk = ".$_SESSION["id"]." and id_vuelofk = ".$vuelo;
+        return $this->database->queryResult($query);
     }
 
     public function getPrecioTramo($tramo){
@@ -193,39 +173,13 @@ class reservaVueloModel
         return $this->database->queryResult($queryReservadas);
     }
 
-    /*
-    public function generarReserva($datos)
-    {
-
-        //insert en las reservas.
-        $sql = "INSERT INTO suborbitales_reservas(fechayhora,desde,matricula,usuario,tipoAsiento,numeroAsiento,servicio)
-                VALUES('" . $datos["fechayhora"] . "','" . $datos["desde"] . "','" . $datos["matricula"] .
-            "'," . $datos["usuario"] . ",'" . $datos["tipoAsiento"] . "'," . $datos["numeroAsiento"] .
-            ",'" . $datos["servicio"] . "' );";
-        //var_dump($sql);
-        return $this->database->insert($sql);
+    public function getDatosPagoReserva($reserva){
+        $query = "SELECT TC.descripcion as 'tCabina', S.descripcion as 'tServicio', R.cantidadAsientos, R.TotalReserva
+                            from reserva R JOIN tipo_cabina TC ON TC.id_cabina = R.tipoAsiento JOIN servicios S ON S.id = R.id_serviciofk where R.id = ".$reserva;
+        return $this->database->queryResult($query);
     }
-
-    public function cargarCantidadPasajeros($fecha, $hora, $partida, $id_usuario)
-    {
-        $sql = "SELECT * FROM suborbitales_reservas where fechayhora = '$fecha $hora' and desde = '$partida' and usuario = $id_usuario;";
-        return $this->database->query($sql);
-    }
-
-    public function guardarPago($datos)
-    {
-        $sql = "INSERT INTO suborbitales_pagos(fechayhora,desde,matricula,usuario,tipoAsiento,numeroAsiento,servicio,id_preferencia)
-                VALUES('" . $datos["fecha"] . " " . $datos["hora"] . "','" . $datos["partida"] . "','" . $datos["matricula"] .
-            "'," . $datos["id_usuario"] . ",'" . $datos["tipo_asiento"] . "'," . $datos["num_asiento"] .
-            ",'" . $datos["servicio"] . "','" . $datos["preferencia"] . "' );";
-
-        return $this->database->insert($sql);
-    }
-
-    public function eliminarPagoRealizado($preferencia)
-    {
-        $sql = "DELETE FROM suborbitales_pagos where id_preferencia = '$preferencia';";
-        return $this->database->delete($sql);
-    }*/
 
 }
+
+
+        
