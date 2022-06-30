@@ -33,6 +33,22 @@ class reservaVueloController
 
     }
 
+    public function mostrarSeccionPago($reserva){
+        if(validatorHelper::validarSesionActiva()){
+            $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                  <a href='/misReservas'>Mis Reservas</a>
+                  <a href='/logIn/exit'>Cerrar Sesion</a>";
+          }else{
+            $menu ="<a href='/registro'>Registrarse</a>
+            <a href='/logIn'>Ingresar</a>";
+          }
+          $data += ["menu"=>$menu];
+          //aca voy a estar desarrollando el pago
+          ///////////////DESARROLLAR ACA LOS DATOS QUE VA A MOSTRAR EL PAGO
+        $this->printer->generateView('pagoReservaView.html',$data);
+
+    }
+
     private function validarSiExisteVuelo($id_vuelo,$tabla){
         $vuelo = $this->reservaVueloModel->getVueloSeleccionado($id_vuelo,$tabla);
         if(empty($vuelo)||$vuelo==""){
@@ -139,18 +155,24 @@ class reservaVueloController
                 $tipoCabina = $_POST['cabina'];
                 if($this->reservaVueloModel->ValidarCabinaSeleccionada($vuelo,$tipoCabina)){
                     if($this->validarSiExisteVuelo($vuelo,"vuelos_confirmados")){
-                        $tramos = $this->reservaVueloModel->verificarDisponibilidadAsientos($vuelo,$tipoCabina,$cantAsientos,$origen,$destino);
-                        if(!empty($tramos)){
-                            $costoReserva = $this->reservaVueloModel->calcularCostoReserva($tramos,$cantAsientos,$tipoCabina,$servicio);
-                            $tramo = $this->getStringTramo($tramos);
-                            $reservado = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos);
-                            if($reservado){
-                                echo "reservado ok, pasar a pago";
+                        if($this->reservaVueloModel->validarVueloYaReservado($vuelo)){
+                            $tramos = $this->reservaVueloModel->verificarDisponibilidadAsientos($vuelo,$tipoCabina,$cantAsientos,$origen,$destino);
+                            if(!empty($tramos)){
+                                $costoReserva = $this->reservaVueloModel->calcularCostoReserva($tramos,$cantAsientos,$tipoCabina,$servicio);
+                                $tramo = $this->getStringTramo($tramos);
+                                $reservado = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva);
+                                if($reservado){
+                                    //esto lo dejo comentado por ahora para que no rompa porque no está desarrollado ok
+                                   // $this->reservaVueloModel->mostrarSeccionPago($reserva);
+                                    echo "reservado ok, pasar a pago";
+                                }else{
+                                    echo "Hubo un problema al crear la reserva";
+                                }
                             }else{
-                                echo "Hubo un problema al crear la reserva";
+                                echo "ups! la cantidad de asientos seleccionado supera el disponible en el vuelo ";
                             }
                         }else{
-                            echo "ups! la cantidad de asientos seleccionado supera el disponible en el vuelo ";
+                            echo "ya ha contratado pasajes en este vuelo.Si desea realizar algun cambio debe cancelar la reserva y volver a gestionarlo";
                         }
                     }else{
                         header("Location: /inicio");

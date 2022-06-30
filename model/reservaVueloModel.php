@@ -59,7 +59,16 @@ class reservaVueloModel
         $this->database->query($query);
     }
 
+    public function validarVueloYaReservado($vuelo){
 
+        $query = "SELECT 1 from reserva where id_vuelofk = ".$vuelo. " and id_usuariofk = ".$_SESSION["id"]; 
+        $result = $this->database->queryResult($query);
+        if(!empty($result)){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     public function getVueloSeleccionado($id,$tabla){
         $query = "SELECT * FROM ".$tabla." WHERE id_vuelo=".$id;
@@ -142,14 +151,14 @@ class reservaVueloModel
     }
 
 
-    public function CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos){
+    public function CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva){
         $vuelo = intval($vuelo);
-        $tipoCabina = intval($tipoCabina);
         $servicio = intval($servicio);
         $cantAsientos = intval($cantAsientos);
-        $query = "INSERT INTO reserva (id_usuariofk,id_vuelofk,tipoAsiento,id_serviciofk,pago,cantidadAsientos,checkIn,tramos)
-        VALUES (".$_SESSION["id"].",".$vuelo.",'".$tipoCabina."',".$servicio.",0,".$cantAsientos.",0,'".$tramo."')";
+        $query = "INSERT INTO reserva (id_usuariofk,id_vuelofk,tipoAsiento,id_serviciofk,pago,cantidadAsientos,checkIn,tramos, TotalReserva)
+        VALUES (".$_SESSION["id"].",".$vuelo.",'".$tipoCabina."',".$servicio.",0,".$cantAsientos.",0,'".$tramo."',$costoReserva)";
         return $this->database->query($query);
+        //ACA VOY A ESTAR DESARROLLANDO PARA QUE ME RETORNE EL ID DE RESERVA
     }
 
     public function getPrecioTramo($tramo){
