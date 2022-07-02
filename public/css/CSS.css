@@ -7,7 +7,7 @@
 
 body{
     font-family: 'Exo', sans-serif;
-    /*background-image: url(http://localhost/public/img/background5.jpg);*/
+    background-image: url(http://localhost/public/img/background4.jpg);
     background-color: black;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -17,6 +17,18 @@ body{
     width: 100%;
     letter-spacing: 0.2rem;
 
+}
+
+.pagoCreditos{
+    display: flex;
+    flex-direction: row;
+
+}
+
+
+.pagoCreditos img{
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .logo{
@@ -70,14 +82,19 @@ a:hover{
     
 }
 
+.resumeReserva{
+    background-color:rgba(0, 0, 0, 0.7) !important;
+    width: 60%;
+    margin: 0.5rem;
+}
+
 .contenido{
     text-align: center;
 }
 
 
 .content{
-    /*VERIFICAR LA PROPIEDAD HEIGHT DE CONTENIDO CUANDO TENGAMOS TODAS LAS PAGINAS*/
-    height: 100%;
+    height: auto;
 }
 .div-form{
     width: 70%;
@@ -160,6 +177,7 @@ footer{
     width: 100%;
     padding: 1rem;
     justify-content: center;
+    bottom: 0;
 
 }
 
@@ -433,7 +451,7 @@ input{
    
     
     .contenedorPago {
-        width: 90%;
+        width: 70%;
         max-width: 1000px;
         padding: 40px 20px;
         margin: auto;
@@ -497,7 +515,7 @@ input{
     
     .delantera .grupo .label {
         font-size: 16px;
-        color: #7d8994;
+        color: #a9adb1;
         margin-bottom: 5px;
     }
     
@@ -523,6 +541,8 @@ input{
         top: 0;
         transform: rotateY(180deg);
         backface-visibility: hidden;
+        width: 100%;
+        height: 100%;
     }
     
     .trasera .barra-magnetica {
@@ -608,7 +628,7 @@ input{
     }
     
     .contenedor-btn .btn-abrir-formulario.active {
-        transform: rotate(45deg);
+        transform: rotate(180deg);
     }
     
     /* ---------- Formulario Tarjeta ----------*/

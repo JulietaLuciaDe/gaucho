@@ -2,7 +2,8 @@
  require_once  'dompdf/autoload.inc.php';
  use Dompdf\Dompdf;
  
-class misReservasModel {
+
+class MisReservasController {
     private $printer;
     private $misReservasModel;
     private $pdf;
@@ -17,20 +18,13 @@ class misReservasModel {
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
                   <a href='/misReservas/excute'>Mis Reservas</a>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
-            if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
-              $filtroNivel = " (T.id IN('OR','BA'))";
-            }else{
-              $filtroNivel = "1";
-            }
-           
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
-            $filtroNivel = "1";
           }
 
         $reservas = $this->misReservasModel->misReservas();
-        $data += ["misReservas"=>$misReservas];
+        $data = ["misReservas"=>$reservas];
         $this->printer->generateView('misReservasView.html',$data);
         
     }

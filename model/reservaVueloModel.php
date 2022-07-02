@@ -1,4 +1,8 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class reservaVueloModel
 {
     private $database;
@@ -80,6 +84,48 @@ class reservaVueloModel
         $result = $result[0]['tiposCabina'];
         $query1 = "SELECT id_cabina ,descripcion as 'nombre_cabina',precio as 'precio_cabina' FROM tipo_cabina where id_cabina IN (".$result.")"; 
         $result = $this->database->queryResult($query1);
+        return $result;
+    }
+
+   public function sendMailReservado($reserva){
+        $reservaData = $this->getDatosReserva($reserva);
+        $email = $_SESSION["usuario"];
+        $to  = $email; 
+            $hash = md5($email);
+            $subject = "Gaucho Rocket RESERVA - ".$reservaData[0]['id']; 
+            $message = "Has adquirido ".$reservaData[0]['cantidadAsientos']." pasajes en el vuelo 
+                        ".$reservaData[0]['id_vuelofk'].".
+                        
+                        Su reserva se encuentra pendiente de pago.";
+                        
+                        $mail = new PHPMailer(true);
+                        
+                        try {
+                            $mail->SMTPDebug = 0;                      //Enable verbose debug output
+                            $mail->isSMTP();                                            //Send using SMTP
+                            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                            $mail->Username   = 'gauchorocketargentina@gmail.com';                     //SMTP username
+                            $mail->Password   = 'hgdmsmjtkucnctgg';                               //SMTP password
+                            $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+                            $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                            $mail->setFrom('gauchorocketargentina@gmail.com', 'Gaucho Rocket');
+                            $mail->addAddress($to);     //Add a recipient
+                            //$mail->isHTML(true);                                  //Set email format to HTML
+                            $mail->Subject = $subject;
+                            $mail->Body    = $message;
+                            $mail->send();
+                            return true;
+                        } catch (Exception $e) {
+                            return false;
+                        }
+        
+    }
+
+    public function getDatosReserva($reserva){
+        $reserva = $reserva[0]['id'];
+        $query = "SELECT * from reserva where id= ".$reserva;
+        $result = $this->database->queryResult($query);
         return $result;
     }
 
@@ -174,9 +220,14 @@ class reservaVueloModel
     }
 
     public function getDatosPagoReserva($reserva){
-        $query = "SELECT TC.descripcion as 'tCabina', S.descripcion as 'tServicio', R.cantidadAsientos, R.TotalReserva
+        $query = "SELECT R.id,TC.descripcion as 'tCabina', S.descripcion as 'tServicio', R.cantidadAsientos, R.TotalReserva
                             from reserva R JOIN tipo_cabina TC ON TC.id_cabina = R.tipoAsiento JOIN servicios S ON S.id = R.id_serviciofk where R.id = ".$reserva;
         return $this->database->queryResult($query);
+    }
+
+    public function marcarReservaPagada($reserva){
+        $query = "UPDATE reserva set pago = 1 where id = ".$reserva;
+        return $this->database->query($query);
     }
 
 }

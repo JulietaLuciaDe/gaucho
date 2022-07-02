@@ -123,3 +123,63 @@ formulario.inputCCV.addEventListener('keyup', () => {
 
 	ccv.textContent = formulario.inputCCV.value;
 });
+
+
+
+
+$("#selectMoneda").change(function () {
+	$("#selectMoneda option:selected").each(function () {
+
+		/*REVISAR ESTA LOGICA*/
+		
+		var tc = 73.10;
+		// monedaCambio = 'USD'
+		var cobroCredito = document.getElementById("cobroCredito").innerText;
+		cobroCredito
+		monedaSelect = $(this).val();
+		var totalConvertido = tc*cobroCredito;
+		
+		if(monedaSelect=='ARP'){
+			tc= 150;
+			var totalConvertido = tc*cobroCredito;
+			
+		}
+		var inputTotalConvert = document.getElementById("totalConvert");
+		inputTotalConvert.setAttribute('value',totalConvertido);
+
+		});            
+	});
+
+
+	document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById("formulario-tarjeta").addEventListener("submit", validarFormularioTarjeta);
+	  });
+	  
+	  function validarFormularioTarjeta(evento) {
+		evento.preventDefault();
+
+		var moneda = document.getElementById("selectMoneda").value;
+		var mes = document.getElementById("selectMes").value;
+		//var año = document.getElementById("selectYear").value;
+		//var ccv = document.getElementById("inputCCV").value;
+			
+	
+		if(!(moneda=='ARP' || moneda =='USD')) {
+		  alert("Ingrese una moneda de pago");
+		  return;
+		}
+
+		if(isNaN(mes) || mes<1 || mes>12) {
+			alert("Ingrese un mes válido");
+			return;
+		  }
+		  //ACA HABRIA QUE VALIDAR QUE NO SEA UN AÑO VIEJO
+		 
+
+
+
+		this.submit();
+    
+	}
+  
+

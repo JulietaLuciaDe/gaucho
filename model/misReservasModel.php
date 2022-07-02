@@ -1,5 +1,5 @@
 <?php
-    class misReservasModel{
+    class MisReservasModel{
         private $database;
 
         public function __construct($database){
@@ -7,8 +7,7 @@
         }
    
     public function misReservas(){
-        echo "Hola"
-        $id_usuario=$_SESSION['Id'];
+        $id_usuario=$_SESSION['id'];
         $sqlmisReservas="select id, tipoAsiento, tramos from reserva r WHERE id_usuariofk= '".$id_usuario."'";
         $datos = $this->database->queryResult($sqlmisReservas);
         return $datos;

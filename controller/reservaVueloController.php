@@ -18,33 +18,26 @@ class reservaVueloController
         */
     }
 
-    public function execute($data){
+    public function execute($view = 'reservaVueloView.html',$data = []){
         if(validatorHelper::validarSesionActiva()){
             $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                  <a href='/misReservas'>Mis Reservas</a>
+                <a href='/misReservas/execute'>Mis Reservas</a>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
           }
           $data += ["menu"=>$menu];
-        $this->printer->generateView('reservaVueloView.html',$data);
+        $this->printer->generateView($view,$data);
     }
 
+    
+
     public function mostrarSeccionPago($reserva){
-        if(validatorHelper::validarSesionActiva()){
-            $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                  <a href='/misReservas'>Mis Reservas</a>
-                  <a href='/logIn/exit'>Cerrar Sesion</a>";
-          }else{
-            $menu ="<a href='/registro'>Registrarse</a>
-            <a href='/logIn'>Ingresar</a>";
-          }
-          $data = ["menu"=>$menu];
           $reserva = $reserva[0]['id'];
           $datosReserva = $this->reservaVueloModel->getDatosPagoReserva($reserva);
-          $data += ["reservaData"=>$datosReserva];
-        $this->printer->generateView('pagoReservaView.html',$data);
+          $data = ["reservaData"=>$datosReserva];
+        $this->execute('pagoReservaView.html',$data);
         //HAY QUE CREAR NUEVOS METODOS PARA VALIDAR PAGO Y MARCARLO PAGADO
     }
 
@@ -57,8 +50,11 @@ class reservaVueloController
         }
     }
 
-    public function reserva(){
-        $id_vuelo = $_GET["id"];
+    public function reserva($vuelo = '',$data = []){
+        $id_vuelo = $vuelo;
+        if(isset($_GET["id"])){
+            $id_vuelo = $_GET["id"];
+        }
         if(ValidatorHelper::validarSesionActiva()){
             if($this->validarSiExisteVuelo($id_vuelo,"vuelos")){
                 if(!($this->validarSiExisteVuelo($id_vuelo,"vuelos_confirmados"))){
@@ -91,15 +87,12 @@ class reservaVueloController
         $destinos = $this->reservaVueloModel->getTramoVuelo($id_vuelo);
         $cantDestinos = count($destinos);
         $datos_destinos = $this->getDestinos($destinos);
-        $data = ["usuario" => $usuario];
-        $data += ["vuelo" => $vuelo];
-        $data += ["servicios" => $servicios];
-        $data += ["cabinas" => $cabinas];
-        $data += ["datos_destinos" => $datos_destinos];
+        $data += ["usuario" => $usuario,"vuelo" => $vuelo,"servicios" => $servicios,"cabinas" => $cabinas,
+        "cabinas" => $cabinas,"datos_destinos" => $datos_destinos];
         if($cantDestinos>2){
             $data += ["tramos" => true];
         }
-        $this->execute($data);
+        $this->execute('reservaVueloView.html',$data);
     }
 
   
@@ -118,8 +111,7 @@ class reservaVueloController
    
     public function VerificarReserva(){
         if(ValidatorHelper::validarSesionActiva()){
-            //revisar este if, no me acuerdo por qué lo puse
-            if(isset($_POST['tipoVuelo'])){
+            if(ValidatorHelper::validacionDeTexto($_POST['tipoVuelo'],3)){
                 $tipoVuelo = $_POST['tipoVuelo'];
                 $EDValid =true;
                 $origen = $_POST['OrigenVuelo'];
@@ -150,25 +142,37 @@ class reservaVueloController
                                     $tramo = $this->getStringTramo($tramos);
                                     $reserva = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva);
                                     if($reserva){
+                                        $this->reservaVueloModel->sendMailReservado($reserva);
                                         $this->mostrarSeccionPago($reserva);
                                     }else{
-                                        echo "Hubo un problema al crear la reserva";
+                                        header("Location: /inicio");
+                                        exit();
                                     }
                                 }else{
-                                    echo "ups! la cantidad de asientos seleccionado supera el disponible en el vuelo ";
+                                    $title = "Ups!";
+                                    $message = "La cantidad de asientos seleccionado supera el disponible en el vuelo";
+                                    $display = "d-block";
+                                    $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
+                                    $this->reserva($vuelo,$data);
                                 }
                             }else{
-                                echo "ya ha contratado pasajes en este vuelo.Si desea realizar algun cambio debe cancelar la reserva y volver a gestionarlo";
+                                $title = "Ya tiene pasajes para este vuelo";
+                                $message = "si desea modificar su reserva debe cancelarla y volver a solicitarla";
+                                $display = "d-block";
+                                $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
+                                $this->reserva($vuelo,$data);
                             }
                         }else{
                             header("Location: /inicio");
                             exit();
                         }
                     }else{
-                        echo "cabina invalida para el vuelo seleccionado (habria que validarlo en el front)";
+                        header("Location: /inicio");
+                        exit();
                     }
                 }else{
-                    echo "no valido dato";
+                    header("Location: /inicio");
+                    exit();
                 }
             }else{
                 header("Location: /inicio");
@@ -179,6 +183,62 @@ class reservaVueloController
                     exit();
         }
     }
+
+public function validarPago(){
+    if(ValidatorHelper::validacionDeTexto($_POST['moneda'],3)&&
+    ValidatorHelper::validacionDeTexto($_POST['inputNombre'],50)&&
+    ValidatorHelper::validacionDeNumeros($_POST['id'],11)&&
+   /* ValidatorHelper::validacionDeNumeros($_POST['inputNumero'],20)&&
+   VERIFICAR ESTO, NO VALIDA PORQUE VIENEN SEPARADOS DE A 4*/
+    ValidatorHelper::validacionDeNumeros($_POST['mes'],2)&&
+    ValidatorHelper::validacionDeNumeros($_POST['year'],4)&&
+    ValidatorHelper::validacionDeNumeros($_POST['inputCCV'],4)){
+        $moneda = $_POST['moneda'];
+        $nombre = $_POST['inputNombre'];
+        $reserva = $_POST['id'];
+        $numero = $_POST['inputNumero'];
+        $mes = $_POST['mes'];
+        $year = $_POST['year'];
+        $CCV = $_POST['inputCCV'];
+
+        if(!($moneda === 'ARP' || $moneda === 'USD')){
+            header('Location: /inicio');
+            exit();
+        }
+        else{
+            /*********REVISAR ESTA LOGICA PARA EL CAMBIO DE MONEDA 
+            $tc = 73.10;
+            $monedaCambio = 'USD';
+            /*DESARROLLAR ESTE METODO
+            $totalReserva = $this->reservaVueloModel->getCostoReserva($reserva);
+            $totalConvertido = $tc*$totalReserva;
+            
+            if($moneda=='ARP'){
+                tc= 150;
+                $totalConvertido = $tc*$totalConvertido;
+            }
+            /***************************************************** */
+        }
+        
+        if(!($mes>0 && $mes<13) || !($year>date("Y"))){
+            header('Location: /inicio');
+            exit();
+        }
+    //**ACA TIENE QUE HACER UN INSERT DE LOS DATOS DE LA TARJETA EN UNA TABLA TARJETAS O EN LA TABLA RESERVAS */
+   
+    if($this->reservaVueloModel->marcarReservaPagada($reserva)){
+         /*DESARROLLAR ESTE METODO
+        $this->reservaVueloModel->sendMailPagado($reserva);**/
+        /*        header('Location: /misReservas');
+        exit();*/
+
+        echo "PAGADO CON ÉXITO";
+    }
+
+    }else{
+        echo "datos invalidos";
+    }
+}
 
 public function getStringTramo($tramos){
     $cantTramos = count($tramos);

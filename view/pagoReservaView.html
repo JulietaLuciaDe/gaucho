@@ -1,13 +1,13 @@
 {{> header}}
 {{> navbar}}
 
-<!--MEJORAR ESTA VISTA, SE PUEDE AGREGAR UN DETALLE DE ITEMS DEL PAGO-->
     {{#reservaData}}
-    <div>
-        <h2>Resumen</h2>
-        <p>Abonará un total de ${{TotalReserva}}</p>
-        <p>por {{cantidadAsientos}} pasajes de tipo {{tCabina}} con servicio {{tServicio}}</p>
-        
+    <div class="resumeReserva">
+        <h2>Resumen de compra</h2>
+			<div class="pagoCreditos">
+				<p>Abonará un total de <img src="http://localhost/public/img/cash.png" class="img-fluid"> </p><p id="cobroCredito">{{TotalReserva}}</p>
+			</div>
+			<p>por {{cantidadAsientos}} pasajes de tipo {{tCabina}} + servicio {{tServicio}}</p>	
     </div>
         
 
@@ -53,7 +53,6 @@
 						<p class="ccv"></p>
 					</div>
 				</div>
-				<p class="leyenda">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus exercitationem, voluptates illo.</p>
 				<a href="#" class="link-banco">www.tubanco.com</a>
 			</div>
 		</section>
@@ -61,33 +60,44 @@
 		<!-- Contenedor Boton Abrir Formulario -->
 		<div class="contenedor-btn">
 			<button class="btn-abrir-formulario" id="btn-abrir-formulario">
-				<i class="fas fa-plus"></i>
+				<i>▼</i>
 			</button>
 		</div>
 
 		<!-- Formulario -->
-        <!-- AGREGAR EL ACTION -->
-		<form action="" id="formulario-tarjeta" class="formulario-tarjeta">
+		{{#reservaData}}
+		<form action="/reservaVuelo/validarPago" method="POST" enctype="multipart/form-data" id="formulario-tarjeta" class="formulario-tarjeta">
+			<input type="number" disable style="display:none;" value="{{id}}" name="id">
+			<div class="grupo">
+				<img src="http://localhost/public/img/cash.png" class="img-fluid"> <input style="width: 30%;" type="number" id="cobroCredito"  name="cobroCredito" value="{{TotalReserva}}" disabled>
+				{{/reservaData}}
+				<select name="moneda" id="selectMoneda" style="width: 30%;">
+					<option disabled selected >Moneda de Pago</option>
+					<option>ARP</option>
+					<option>USD</option>
+				</select>
+				<input type="number" name="totalConvert" id="totalConvert"  style="width: 30%;" disabled required>
+			</div>
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
-				<input type="text" id="inputNumero" maxlength="19" autocomplete="off">
+				<input type="text" id="inputNumero" name="inputNumero" maxlength="19" required>
 			</div>
 			<div class="grupo">
 				<label for="inputNombre">Nombre</label>
-				<input type="text" id="inputNombre" maxlength="19" autocomplete="off">
+				<input type="text" id="inputNombre" name="inputNombre" maxlength="19" required>
 			</div>
 			<div class="flexbox">
 				<div class="grupo expira">
 					<label for="selectMes">Expiracion</label>
 					<div class="flexbox">
 						<div class="grupo-select">
-							<select name="mes" id="selectMes">
+							<select name="mes" id="selectMes" required>
 								<option disabled selected>Mes</option>
 							</select>
 							<i class="fas fa-angle-down"></i>
 						</div>
 						<div class="grupo-select">
-							<select name="year" id="selectYear">
+							<select name="year" id="selectYear" required>
 								<option disabled selected>Año</option>
 							</select>
 							<i class="fas fa-angle-down"></i>
@@ -97,7 +107,7 @@
 
 				<div class="grupo ccv">
 					<label for="inputCCV">CCV</label>
-					<input type="text" id="inputCCV" maxlength="3">
+					<input type="text" id="inputCCV" name="inputCCV" maxlength="3" required>
 				</div>
 			</div>
 			<button type="submit" class="btn-enviar">Enviar</button>
