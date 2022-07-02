@@ -15,7 +15,7 @@ class InicioController {
     public function execute() {
         if(ValidatorHelper::validarSesionActiva()){
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                  <a href='/misReservas'>Mis Reservas</a>
+                  <a href='/misReservas/execute'>Mis Reservas</a>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
               $filtroNivel = " (T.id IN('OR','BA'))";
