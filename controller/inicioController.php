@@ -31,7 +31,7 @@ class InicioController {
           //BOTON SUBMIT NO LO RECONOCE POR EL JS, POR EL MOMENTO VALIDAMOS CON ORIGEN
         if(isset($_POST['origen'])){   
           //FALTA VALIDAR TIPOVUELO ( Y NO SÉ SI ES NECESARIO LOS RADIO TAMBIEN)  
-          if(isset($_POST['origen'] )){
+          if(isset($_POST['origen'])){
                   $origen= $_POST["origen"];
                   $destino= $_POST["destino"];
                   $tipoVuelo = $_POST["tipoVuelo"];
@@ -51,7 +51,7 @@ class InicioController {
                       $busqueda = $busqueda." and ".$filtroNivel;
                     }
           }else{
-                  $busqueda= $filtroNivel; 
+                  $busqueda= "";
           }
         }else{
             if((ValidatorHelper::validarSesionActiva()) && $_SESSION["nivel"]==""){
@@ -121,26 +121,32 @@ class InicioController {
         $destinos = $this->inicioModel->getDestinos();
         $vuelos = $this->inicioModel->buscarVuelos("");
 
-        foreach ($vuelos as $vuelo){
-            foreach ($destinos as $destino){
-                if($vuelo['origen']==$destino['id_destino']){
-                    $vuelo['origen']=$destino['descripcion'];
+        if( $camposABuscar['origen']    ==""    &&
+            $camposABuscar['destino']   ==""    &&
+            $camposABuscar['tipoVuelo'] ==""    &&
+            $camposABuscar['fechaIda']  ==""    ){
+            return $vuelos;
+        }else{
+            foreach ($vuelos as $vuelo){
+                foreach ($destinos as $destino){
+                    if($vuelo['origen']==$destino['id_destino']){
+                        $vuelo['origen']=$destino['descripcion'];
+                    }
+                    if($vuelo['destino']==$destino['id_destino']){
+                        $vuelo['destino']=$destino['descripcion'];
+                    }
                 }
-                if($vuelo['destino']==$destino['id_destino']){
-                    $vuelo['destino']=$destino['descripcion'];
-                }
+                if($vuelo['origen']==$camposABuscar['origen'])
+                    array_push($arrayAux,$vuelo);
+                if($vuelo['destino']==$camposABuscar['destino'])
+                    array_push($arrayAux,$vuelo);
+                if($vuelo['tipoVuelofk1']==$camposABuscar['tipoVuelo'])
+                    array_push($arrayAux,$vuelo);
+                if($vuelo['fecha']==$camposABuscar['fechaIda'])
+                    array_push($arrayAux,$vuelo);
             }
-            if($vuelo['origen']==$camposABuscar['origen'])
-                array_push($arrayAux,$vuelo);
-            if($vuelo['destino']==$camposABuscar['destino'])
-                array_push($arrayAux,$vuelo);
-            if($vuelo['tipoVuelofk1']==$camposABuscar['tipoVuelo'])
-                array_push($arrayAux,$vuelo);
-            if($vuelo['fecha']==$camposABuscar['fechaIda'])
-                array_push($arrayAux,$vuelo);
+            return $arrayAux;
         }
-
-        return $arrayAux;
     }
 
     public function generarPDF(){
