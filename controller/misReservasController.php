@@ -13,22 +13,32 @@ class MisReservasController {
         $this->misReservasModel = $misReservasModel;
     }
 
-    public function execute() {
-        if(ValidatorHelper::validarSesionActiva()){
+    public function execute($view = 'misReservasView.html',$data = []){
+      if(validatorHelper::validarSesionActiva()){
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                  <a href='/misReservas/excute'>Mis Reservas</a>
-                  <a href='/logIn/exit'>Cerrar Sesion</a>";
-          }else{
-            $menu ="<a href='/registro'>Registrarse</a>
-            <a href='/logIn'>Ingresar</a>";
-          }
-
-        $reservas = $this->misReservasModel->misReservas();
-        $data = ["misReservas"=>$reservas];
-        $this->printer->generateView('misReservasView.html',$data);
+              <a href='/misReservas/execute'>Mis Reservas</a>
+                <a href='/logIn/exit'>Cerrar Sesion</a>";
+        }else{
+          $menu ="<a href='/registro'>Registrarse</a>
+          <a href='/logIn'>Ingresar</a>";
+        }
+        $data += ["menu"=>$menu];
+        $pendientesDePago = $this->misReservasModel->misReservasImpagas();
+        $misReservasCheckeadas = $this->misReservasModel->misReservasCheckeadas();
+        $pendientesDeCheckIn = $this->misReservasModel->misReservasCheckIn();
+        $data += ["pendientesDePago"=>$pendientesDePago, "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
         
+        $this->printer->generateView('misReservasView.html',$data);
+        echo $reservas;
+
+    
     }
 
+
+    public function eliminarReserva(){
+
+    }
+    
     public function generarPDF(){
       include_once("view/pdfView.html");
       $html = ob_get_clean();
