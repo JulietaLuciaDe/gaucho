@@ -26,7 +26,7 @@ class MisReservasController {
         $pendientesDePago = $this->misReservasModel->misReservasImpagas();
         $misReservasCheckeadas = $this->misReservasModel->misReservasCheckeadas();
         $pendientesDeCheckIn = $this->misReservasModel->misReservasCheckIn();
-        $data += ["pendientesDePago"=>$pendientesDePago, "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
+        $data += ["pendientesDePago"=>$pendientesDePago, "misReservasCheckeadas"=>$misReservasCheckeadas , "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
         
         $this->printer->generateView('misReservasView.html',$data);
         echo $reservas;

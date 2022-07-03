@@ -7,97 +7,94 @@
         </div>
     </div>
 </center>
-<form action='/misReservas/mostrarReservas' method="post" class="col-12 form-search" name='buscar' id='busqueda'
-    enctype="multipart/form-data">
-
-    <div class="resultadoBusqueda ">
-        <center>
-            <h3>Pendientes de pago</h3>
-        </center>
-        <table class='table table-responsive'>
-            <thead>
-                <tr>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>Botones</th>
-                </tr>
-            </thead>
-            {{#pendientesDePago}}
+<div class="resultadoBusqueda ">
+    <center>
+        <h3>Pendientes de pago</h3>
+    </center>
+    <table class='table table-responsive'>
+        <thead>
             <tr>
-                <td>{{id}}</td>
-                <td>{{tipoAsiento}}</td>
-                <td>{{tramos}}</td>
-                <td><a href="/generarPdf"><button class='btn-busqueda'>BOTON PRUEBA DESCARGA
-                            PDF</button></a> <a href="/eliminar"><button class='btn-primary btn-busqueda'>ELIMINAR
-                        </button></a></td>
-                <!-- Len:Te lleva con el
-                ID del vuelo a link donde esta la view de reservas (con su controller),
-                alli se debe buscar ese vuelo por id para poder mostrar datos y ver detalles del vuelo para confirmar
-                reserva
-                el valor se envia por GET -->
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Importe Total</th>
+                <th>Botones</th>
             </tr>
-            {{/pendientesDePago}}
+        </thead>
+        {{#pendientesDePago}}
+        <tr>
+            <td>{{fechaReserva}}</td>
+            <td>{{horaReserva}}</td>
+            <td>{{origenReserva}}</td>
+            <td>{{destinoReserva}}</td>
+            <td>{{monedaReserva}}{{TotReservaMoneda}}</td>
+            <td><a href="misReservas/eliminar"><button class='btn-primary btn-busqueda'>ELIMINAR
+                    </button></a>
+                <a href="misReservas/eliminar"><button class='btn-primary btn-busqueda'>PAGAR
+                    </button></a>
+            </td>
+        </tr>
+        {{/pendientesDePago}}
 
-        </table>
-    </div>
-    <div class="resultadoBusqueda ">
-        <center>
-            <h3>Pendientes de Check In</h3>
-        </center>
-        <table class='table table-responsive'>
-            <thead>
-                <tr>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>Botones</th>
-                </tr>
-            </thead>
-            {{#pendientesDeCheckIn}}
+    </table>
+</div>
+<div class="resultadoBusqueda ">
+    <center>
+        <h3>Pendientes de Check In</h3>
+    </center>
+    <table class='table table-responsive'>
+        <thead>
             <tr>
-                <td>{{id}}</td>
-                <td>{{tipoAsiento}}</td>
-                <td>{{tramos}}</td>
-                <td><a href="/generarPdf"><button class='btn-primary btn-busqueda'>BOTON PRUEBA DESCARGA
-                            PDF</button></a> <a href="/eliminar"><button class='btn-primary btn-busqueda'>ELIMINAR
-                        </button></a></td>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Importe Total</th>
+                <th>Botones</th>
             </tr>
-            {{/pendientesDeCheckIn}}
+        </thead>
+        {{#pendientesDeCheckIn}}
+        <tr>
+            <td>{{fechaReserva}}</td>
+            <td>{{horaReserva}}</td>
+            <td>{{origenReserva}}</td>
+            <td>{{destinoReserva}}</td>
+            <td>{{monedaReserva}}{{TotReservaMoneda}}</td>
+            <td><a href="misReservas/checkInOn"><button class='btn-primary btn-busqueda'>HACER CKECK IN
+                    </button></a></td>
+        </tr>
+        {{/pendientesDeCheckIn}}
 
-        </table>
-    </div>
-    <div class="resultadoBusqueda ">
-        <center>
-            <h3>Reservas Confirmadas</h3>
-        </center>
-        <table class='table table-responsive'>
-            <thead>
-                <tr>
-                    <th>Código de Reserva</th>
-                    <th>Origen</th>
-                    <th>Destino</th>
-                    <th>Botones</th>
-                </tr>
-            </thead>
-            {{#misReservasCheckeadas}}
+    </table>
+</div>
+<div class="resultadoBusqueda ">
+    <center>
+        <h3>Reservas Confirmadas</h3>
+    </center>
+    <table class='table table-responsive'>
+        <thead>
             <tr>
-                <td>{{id}}</td>
-                <td>{{tipoAsiento}}</td>
-                <td>{{tramos}}</td>
-                <td><a href="/generarPdf"><button class='btn-primary btn-busqueda'>BOTON PRUEBA DESCARGA
-                            PDF</button></a> <a href="/eliminar"><button class='btn-primary btn-busqueda'>ELIMINAR
-                        </button></a></td>
-                <!-- Len:Te lleva con el
-                ID del vuelo a link donde esta la view de reservas (con su controller),
-                alli se debe buscar ese vuelo por id para poder mostrar datos y ver detalles del vuelo para confirmar
-                reserva
-                el valor se envia por GET -->
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Importe Total</th>
             </tr>
-            {{/misReservasCheckeadas}}
+        </thead>
+        {{#misReservasCheckeadas}}
+        <tr>
+            <td>{{fechaReserva}}</td>
+            <td>{{horaReserva}}</td>
+            <td>{{origen}}</td>
+            <td>{{destino}}</td>
+            <td>{{monedaReserva}}{{TotReservaMoneda}}</td>
+            <td><a href="generarPDF"><button class='btn-primary btn-busqueda'>DESCARGAR PASAJE DE ABORDAJE
+                        PDF</button></a></td>
+        </tr>
+        {{/misReservasCheckeadas}}
 
-        </table>
-    </div>
-</form>
+    </table>
+</div>
 
 {{> footer}}
