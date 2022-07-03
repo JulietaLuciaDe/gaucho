@@ -31,9 +31,7 @@ class InicioController {
           //BOTON SUBMIT NO LO RECONOCE POR EL JS, POR EL MOMENTO VALIDAMOS CON ORIGEN
         if(isset($_POST['origen'])){   
           //FALTA VALIDAR TIPOVUELO ( Y NO SÉ SI ES NECESARIO LOS RADIO TAMBIEN)  
-          if(   ValidatorHelper::validacionDeTexto($_POST["origen"],20)&&
-                ValidatorHelper::validacionDeTexto($_POST["destino"],20)&&
-                ValidatorHelper::validacionDeFecha($_POST["fechaIda"])){
+          if(isset($_POST['origen'] )){
                   $origen= $_POST["origen"];
                   $destino= $_POST["destino"];
                   $tipoVuelo = $_POST["tipoVuelo"];
@@ -73,7 +71,7 @@ class InicioController {
             }
             
         }
-        if(!empty($resultado = $this->inicioModel->buscarVuelos($busqueda))){
+        if(!empty($resultado = $this->validarCamposDeBusqueda())){
             $data = ["menu"=> $menu,"resultado" => $resultado];
         }else{ 
             $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
@@ -86,6 +84,63 @@ class InicioController {
         $data += ["tiposEquipo"=>$tiposEquipo];
         $this->printer->generateView('inicioView.html',$data);
         
+    }
+
+    public function validarCamposDeBusqueda(){
+        $camposABuscar = array( 'origen'=>'',
+                                'destino'=>'',
+                                'tipoVuelo'=>'',
+                                'tipoEquipo'=>'',
+                                'fechaIda'=>'');
+        if(isset($_POST['origen']))
+            $camposABuscar['origen'].=$_POST['origen'];
+        if(isset($_POST['destino']))
+            $camposABuscar['destino'].=$_POST['destino'];
+        if(isset($_POST['tipoVuelo']))
+            $camposABuscar['tipoVuelo'].=$_POST['tipoVuelo'];
+        if(isset($_POST['tipoEquipo']))
+            $camposABuscar['tipoEquipo'].=$_POST['tipoEquipo'];
+        if(isset($_POST['fechaIda']))
+            $camposABuscar['fechaIda'].=$_POST['fechaIda'];
+
+        return $this->busquedaValidadaPorCampos($camposABuscar);
+    }
+
+    public function validarCamposDeBusquedaAsString(){
+        $campos = $this->validarCamposDeBusqueda();
+        $string =   "origen=".$campos['origen'].
+                    "|destino=".$campos['destino'].
+                    "|tipoVuelo=".$campos['tipoVuelo'].
+                    "|tipoEquipo=".$campos['tipoEquipo'].
+                    "|fechaIda=".$campos['fechaIda'];
+        return $string;
+    }
+
+    private function busquedaValidadaPorCampos($camposABuscar){
+        $arrayAux = array();
+        $destinos = $this->inicioModel->getDestinos();
+        $vuelos = $this->inicioModel->buscarVuelos("");
+
+        foreach ($vuelos as $vuelo){
+            foreach ($destinos as $destino){
+                if($vuelo['origen']==$destino['id_destino']){
+                    $vuelo['origen']=$destino['descripcion'];
+                }
+                if($vuelo['destino']==$destino['id_destino']){
+                    $vuelo['destino']=$destino['descripcion'];
+                }
+            }
+            if($vuelo['origen']==$camposABuscar['origen'])
+                array_push($arrayAux,$vuelo);
+            if($vuelo['destino']==$camposABuscar['destino'])
+                array_push($arrayAux,$vuelo);
+            if($vuelo['tipoVuelofk1']==$camposABuscar['tipoVuelo'])
+                array_push($arrayAux,$vuelo);
+            if($vuelo['fecha']==$camposABuscar['fechaIda'])
+                array_push($arrayAux,$vuelo);
+        }
+
+        return $arrayAux;
     }
 
     public function generarPDF(){
