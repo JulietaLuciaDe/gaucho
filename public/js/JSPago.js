@@ -30,8 +30,15 @@ btnAbrirFormulario.addEventListener('click', () => {
 // * Select del mes generado dinamicamente.
 for(let i = 1; i <= 12; i++){
 	let opcion = document.createElement('option');
-	opcion.value = i;
-	opcion.innerText = i;
+	if(i<10){
+		opcion.value = ''+0+i;
+		opcion.innerText = ''+0+i;
+
+	}else{
+		opcion.value = i;
+		opcion.innerText = i;
+	}
+	
 	formulario.selectMes.appendChild(opcion);
 }
 
@@ -160,23 +167,43 @@ $("#selectMoneda").change(function () {
 
 		var moneda = document.getElementById("selectMoneda").value;
 		var mes = document.getElementById("selectMes").value;
-		//var año = document.getElementById("selectYear").value;
-		//var ccv = document.getElementById("inputCCV").value;
-			
-	
-		if(!(moneda=='ARP' || moneda =='USD')) {
+		var anio = document.getElementById("selectYear").value;
+		var ccv = document.getElementById("inputCCV").value;
+		var tarjeta = document.getElementById("inputNumero").value;
+		var anioActual = new Date();
+		anioActual = anioActual.getFullYear();
+		var mesActual = new Date();
+		mesActual = mesActual.getMonth();
+
+		  if(!(moneda=='ARP' || moneda =='USD')) {
 		  alert("Ingrese una moneda de pago");
 		  return;
 		}
 
-		if(isNaN(mes) || mes<1 || mes>12) {
+		if(anio==anioActual && mes<=mesActual) {
+			alert("Tarjeta vencida");
+			return;
+		}
+		
+		if(isNaN(mes) || mes<1 || mes>12 || mes.toString().length<1 || mes.toString().length>2) {
 			alert("Ingrese un mes válido");
 			return;
 		  }
-		  //ACA HABRIA QUE VALIDAR QUE NO SEA UN AÑO VIEJO
-		 
+		  
+		if(isNaN(anio) || anio<anioActual || anio.toString().length<4 || anio.toString().length>4) {
+			alert("Ingrese un año válido");
+			return;
+		}
 
+		if(isNaN(ccv) || ccv.toString().length<3 || ccv.toString().length>3) {
+			alert("Código de seguridad inválido");
+			return;
+		}
 
+		if(tarjeta.length<19 || tarjeta.length>19){
+			alert("Tarjeta inválido");
+			return;
+		}
 
 		this.submit();
     

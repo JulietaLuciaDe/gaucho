@@ -35,10 +35,22 @@ class reservaVueloController
 
     public function mostrarSeccionPago($reserva){
           $reserva = $reserva[0]['id'];
-          $datosReserva = $this->reservaVueloModel->getDatosPagoReserva($reserva);
-          $data = ["reservaData"=>$datosReserva];
-        $this->execute('pagoReservaView.html',$data);
-        //HAY QUE CREAR NUEVOS METODOS PARA VALIDAR PAGO Y MARCARLO PAGADO
+          if(ValidatorHelper::validacionDeTexto($_GET['id'],3)&&
+          ValidatorHelper::validacionDeTexto($_GET['user'],3)){
+            $user = $_GET['user'];
+            $vuelo = $_GET['id'];
+          }
+          $reservaValida = $this->reservaVueloModel->verificarReservaCliente($user,$vuelo);
+          if($reserva == $reservaValida[0]['id']){
+            $datosReserva = $this->reservaVueloModel->getDatosPagoReserva($reserva);
+            $data = ["reservaData"=>$datosReserva];
+            $this->execute('pagoReservaView.html',$data);
+          }else{
+            header("Location:/inicio");
+                exit();
+          }
+          
+          
     }
 
     private function validarSiExisteVuelo($id_vuelo,$tabla){
@@ -68,6 +80,8 @@ class reservaVueloController
                             $destinos = $destinos.'|';
                         }
                     }
+                 
+                   
                     $this->reservaVueloModel->crearVuelo($id_vuelo,$destinos);
                 }
             }else{
@@ -116,6 +130,10 @@ class reservaVueloController
                 $EDValid =true;
                 $origen = $_POST['OrigenVuelo'];
                 $destino = $_POST['DestinoVuelo'];
+                if($origen>$destino){
+                   header('Location: /inicio');
+                   exit(); 
+                }
                 if($tipoVuelo=='ED1' || $tipoVuelo =='ED2'){
                     $EDValid = ValidatorHelper::validacionDeNumeros($_POST['origen'],2) &&
                     ValidatorHelper::validacionDeNumeros($_POST['destino'],2)&&
@@ -140,9 +158,12 @@ class reservaVueloController
                                 if(!empty($tramos)){
                                     $costoReserva = $this->reservaVueloModel->calcularCostoReserva($tramos,$cantAsientos,$tipoCabina,$servicio);
                                     $tramo = $this->getStringTramo($tramos);
-                                    $reserva = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva);
+                                    $fechaYHoraReserva = $this->reservaVueloModel->getFechaYHoraReserva($origen,$destino,$vuelo);
+                                    $fechaReserva = substr($fechaYHoraReserva,0,10);
+                                    $horaReserva = substr(substr($fechaYHoraReserva,10,11),0,2);
+                                    $reserva = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva,$origen,$destino,$fechaReserva,$horaReserva);
                                     if($reserva){
-                                        $this->reservaVueloModel->sendMailReservado($reserva);
+                                        $this->reservaVueloModel->sendMailReservadoOPagado($reserva,'reserva');
                                         $this->mostrarSeccionPago($reserva);
                                     }else{
                                         header("Location: /inicio");
@@ -188,51 +209,57 @@ public function validarPago(){
     if(ValidatorHelper::validacionDeTexto($_POST['moneda'],3)&&
     ValidatorHelper::validacionDeTexto($_POST['inputNombre'],50)&&
     ValidatorHelper::validacionDeNumeros($_POST['id'],11)&&
-   /* ValidatorHelper::validacionDeNumeros($_POST['inputNumero'],20)&&
-   VERIFICAR ESTO, NO VALIDA PORQUE VIENEN SEPARADOS DE A 4*/
+    /*
+    ValidatorHelper::validacionDeNumberCard($_POST['inputNumero'])&&
+   VERIFICAR ESTO, NO ANDA*/
     ValidatorHelper::validacionDeNumeros($_POST['mes'],2)&&
     ValidatorHelper::validacionDeNumeros($_POST['year'],4)&&
-    ValidatorHelper::validacionDeNumeros($_POST['inputCCV'],4)){
+    ValidatorHelper::validacionDeNumeros($_POST['inputCCV'],3)){
+        
+
         $moneda = $_POST['moneda'];
         $nombre = $_POST['inputNombre'];
         $reserva = $_POST['id'];
         $numero = $_POST['inputNumero'];
         $mes = $_POST['mes'];
         $year = $_POST['year'];
-        $CCV = $_POST['inputCCV'];
 
-        if(!($moneda === 'ARP' || $moneda === 'USD')){
+        if(($mes<0 || $mes>12) || ($year<date("Y")) || ($year==date("Y") && $mes<=date("m"))){
+            echo $year;
+            echo $mes;
+            echo  date("Y");
+            echo date("m");
+            echo "tarjeta vencida";
+            exit();
+        }
+
+        $CCV = $_POST['inputCCV'];
+        $totEnCreditos =($this->reservaVueloModel->getValorReservaEnCreditos($reserva))[0]['TotalReserva'];
+
+        if(!($moneda == 'ARP' || $moneda == 'USD')){
             header('Location: /inicio');
             exit();
         }
         else{
-            /*********REVISAR ESTA LOGICA PARA EL CAMBIO DE MONEDA 
+            
             $tc = 73.10;
-            $monedaCambio = 'USD';
-            /*DESARROLLAR ESTE METODO
-            $totalReserva = $this->reservaVueloModel->getCostoReserva($reserva);
-            $totalConvertido = $tc*$totalReserva;
+            //monedaCambio = USD
+           
+            $totalAPagar = $tc*$totEnCreditos;
             
             if($moneda=='ARP'){
-                tc= 150;
-                $totalConvertido = $tc*$totalConvertido;
+                $tc= 150;
+                $totalAPagar = $tc*$totalAPagar;
             }
-            /***************************************************** */
+            
         }
-        
-        if(!($mes>0 && $mes<13) || !($year>date("Y"))){
-            header('Location: /inicio');
-            exit();
-        }
-    //**ACA TIENE QUE HACER UN INSERT DE LOS DATOS DE LA TARJETA EN UNA TABLA TARJETAS O EN LA TABLA RESERVAS */
-   
-    if($this->reservaVueloModel->marcarReservaPagada($reserva)){
-         /*DESARROLLAR ESTE METODO
-        $this->reservaVueloModel->sendMailPagado($reserva);**/
-        /*        header('Location: /misReservas');
-        exit();*/
+        echo $totalAPagar;
+    if($this->reservaVueloModel->marcarReservaPagada($reserva,$moneda,$totalAPagar)){
+         
+        $this->reservaVueloModel->sendMailReservadoOPagado($reserva,'pagado');
+                header('Location: /misReservas/execute');
+                exit();
 
-        echo "PAGADO CON ÉXITO";
     }
 
     }else{
@@ -244,9 +271,11 @@ public function getStringTramo($tramos){
     $cantTramos = count($tramos);
     $tramo = '';
     for($i=0;$i<$cantTramos;$i++){
-        $tramo = $tramo.'|'.$tramos[$i]['id_tramo'];
+        $tramo = $tramo.$tramos[$i]['id_tramo'].'|';
     }
     return $tramo;
 }
+
+
 }
    

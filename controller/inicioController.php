@@ -28,31 +28,17 @@ class InicioController {
             <a href='/logIn'>Ingresar</a>";
             $filtroNivel = "1";
           }
-          //BOTON SUBMIT NO LO RECONOCE POR EL JS, POR EL MOMENTO VALIDAMOS CON ORIGEN
-        if(isset($_POST['origen'])){   
-          //FALTA VALIDAR TIPOVUELO ( Y NO SÉ SI ES NECESARIO LOS RADIO TAMBIEN)  
-          if(isset($_POST['origen'])){
-                  $origen= $_POST["origen"];
-                  $destino= $_POST["destino"];
-                  $tipoVuelo = $_POST["tipoVuelo"];
-                  $tipoEquipo = $_POST["tipoEquipo"];
-                  //$ida = $_POST["ida"];
-                  $fechaIda = $_POST["fechaIda"];
-                  /*if($ida==1){
-                    if(ValidatorHelper::validacionDeFecha($_POST["fechaVuelta"])){
-                      $fechaVuelta = $_POST["fechaVuelta"];
-                      $whereVuelta = "OR (V.origen = '$destino' and V.destino = '$origen' and TV.id= '$tipoVuelo' and V.fecha<='$fechaVuelta' and V.fecha>'$fechaIda')";
-                    }                    
-                  }else{
-                    $whereVuelta = "";
-                  }*/
-                    $busqueda = "(V.origen = (Select id_destino from destinos where descripcion = '$origen') and V.destino = (Select id_destino from destinos where descripcion = '$destino') and V.tipoVuelofk1= '$tipoVuelo' and T.id= '$tipoEquipo' and V.fecha>='$fechaIda')";
-                    if(ValidatorHelper::validarSesionActiva()){
-                      $busqueda = $busqueda." and ".$filtroNivel;
-                    }
-          }else{
-                  $busqueda= "";
-          }
+        if(isset($_POST['botonBuscar'])){ 
+
+              $origen= $_POST["origen"];
+              $destino= $_POST["destino"];
+              $tipoVuelo = $_POST["tipoVuelo"];
+              $tipoEquipo = $_POST["tipoEquipo"];
+              $fechaIda = $_POST["fechaIda"];
+              $busqueda = "(V.origen = (Select id_destino from destinos where descripcion = '$origen') and V.destino = (Select id_destino from destinos where descripcion = '$destino') and V.tipoVuelofk1= '$tipoVuelo' and T.id= '$tipoEquipo' and V.fecha>='$fechaIda')";
+              if(ValidatorHelper::validarSesionActiva()){
+                $busqueda = $busqueda." and ".$filtroNivel;
+              }
         }else{
             if((ValidatorHelper::validarSesionActiva()) && $_SESSION["nivel"]==""){
               $md5Email = md5($_SESSION["usuario"]);

@@ -1,15 +1,16 @@
 {{> header}}
 {{> navbar}}
+
 <div class="content container justify-content-center contenido"  >
     <h2 class="p-4 titulo">Elegí un día y horario para tu checkeo</h2>
-
-    <form action="/logIn/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row">
+  
+    <form id="turnoForm" name="turnoForm" action="/logIn/validarTurnoMedico" method="POST" enctype="multipart/form-data" class="row" onsubmit="return validarFormTurno();" >
         
         <label for="dia">Fecha</label>
-        <input type="date" name="dia" required>
+        <input type="datetime" name="dia" id="fechaTurno" required onlyread>
         <label for="hora">Horario</label>
         <input type="time" name="hora" required>
-        <input type="submit" class="btn-primary" value="Solicitar Turno">
+        <button type="submit" class="btn-primary" >Solicitar Turno</button>
     </form>
     
 </div>

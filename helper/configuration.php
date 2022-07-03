@@ -12,6 +12,7 @@ include_once("controller/reservaVueloController.php");
 include_once("model/misReservasModel.php");
 include_once("controller/misReservasController.php");
 include_once("helper/MustachePrinter.php");
+include_once("helper/FechayHoraHelper.php");
 
 class Configuration{
 

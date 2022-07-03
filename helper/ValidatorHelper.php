@@ -40,6 +40,19 @@ class ValidatorHelper
             &&  self::validarCaracteresMax($string,$cantCaract);
     }
 
+    public static function validacionDeNumberCard($numberCard,$cantCaract){
+        $numberCard.toString();
+        $correctNumberCard = substr($numberCard,0,3);
+        $correctNumberCard = $correctNumberCard. substr($numberCard,4,7);
+        $correctNumberCard = $correctNumberCard. substr($numberCard,8,11);
+        $correctNumberCard = $correctNumberCard. substr($numberCard,12,15);
+        alert($correctNumberCard);
+        return
+            (   self::validarNoEsVacio($numberCard)
+            &&  self::validarSiEstaSet($numberCard))
+            &&  self::validarCaracteresMax($correctNumberCard,$cantCaract);
+    }
+
     public static function devolverFechaFormatoLatino($fechaSql){
         $aux = explode("-",$fechaSql);
         return $aux[2]."-".$aux[1]."-".$aux[0];

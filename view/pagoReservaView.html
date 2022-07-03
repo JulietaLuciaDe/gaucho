@@ -69,7 +69,7 @@
 		<form action="/reservaVuelo/validarPago" method="POST" enctype="multipart/form-data" id="formulario-tarjeta" class="formulario-tarjeta">
 			<input type="number" disable style="display:none;" value="{{id}}" name="id">
 			<div class="grupo">
-				<img src="http://localhost/public/img/cash.png" class="img-fluid"> <input style="width: 30%;" type="number" id="cobroCredito"  name="cobroCredito" value="{{TotalReserva}}" disabled>
+				<img src="http://localhost/public/img/cash.png" class="img-fluid"> <input  type="number" id="cobroCredito"  name="cobroCredito" value={{TotalReserva}} style="width: 30%;" disabled>
 				{{/reservaData}}
 				<select name="moneda" id="selectMoneda" style="width: 30%;">
 					<option disabled selected >Moneda de Pago</option>
@@ -80,7 +80,7 @@
 			</div>
 			<div class="grupo">
 				<label for="inputNumero">Número Tarjeta</label>
-				<input type="text" id="inputNumero" name="inputNumero" maxlength="19" required>
+				<input type="text" id="inputNumero" name="inputNumero" maxlength="19" minlength="19" required>
 			</div>
 			<div class="grupo">
 				<label for="inputNombre">Nombre</label>
@@ -107,7 +107,7 @@
 
 				<div class="grupo ccv">
 					<label for="inputCCV">CCV</label>
-					<input type="text" id="inputCCV" name="inputCCV" maxlength="3" required>
+					<input type="text" id="inputCCV" name="inputCCV" maxlength="3" minlength="3"  required>
 				</div>
 			</div>
 			<button type="submit" class="btn-enviar">Enviar</button>

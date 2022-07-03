@@ -112,6 +112,8 @@
                 $message="Hemos enviado los resultados a su correo electrónico.
                           Debe volver a loguearse para buscar viajes.";
                 $data = ["popUp" => true,"title"=> $title,"message"=>$message];
+                session_unset();
+                session_destroy();
                 $this->execute($data,'loginView.html');
               }else{
                 echo "ha ocurrido un problema";

@@ -32,6 +32,8 @@ class FechaYHoraHelper
                 $fecha->modify("+".$cantHoras." hours");
             }
         }
-        return $fecha->format("d-m-Y H:i");
+        //POR AHORA LE CAMBIE EL FORMATO PARA QUE NO ROMPA
+        // return $fecha->format("d-m-Y H:i");
+        return $fecha->format("Y-m-d H:i");
     }
 }

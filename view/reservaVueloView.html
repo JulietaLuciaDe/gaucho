@@ -2,14 +2,16 @@
 {{> navbar}}
 
 <div class="contenido-reserva " style="color:black">
-    <form action="/reservaVuelo/VerificarReserva" method="post" enctype="multipart/form-data" id="reservaForm" name ="form-reserva">
+    {{#vuelo}}
+    {{#usuario}}
+    <form action="/reservaVuelo/VerificarReserva/id={{id_vuelo}}&user={{id}}" method="post" enctype="multipart/form-data" id="reservaForm" name ="form-reserva">
         <div class="usuario">
-        {{#usuario}}
+        
         <input type="text" name="usuario" style="display:none;" value = {{id}}>    
         {{/usuario}}
         </div>
     <div class="vuelo">
-        {{#vuelo}}
+        
         <input type="text" name="vuelo"  style="display:none;" value = {{id_vuelo}}>
         <input type="text" id="tipoVuelo"  name="tipoVuelo" style="display:none;" value = {{idtVuelo}}>
         <input type="text" id="OrigenVuelo"  name="OrigenVuelo" style="display:none;" value = {{IDdestinoOrigen}}>
@@ -28,17 +30,16 @@
         </div>
         {{#tramos}}
             <div>
-                <div class="recorrido">
+               <!-- <div class="recorrido">
                     <div>
                         <p>Recorrido:</p>
                     </div>
                     <div class="recorridos">
                         {{#datos_destinos}}
-                            <p>{{nombreDestino}}--></p>
+                            <p>{{nombreDestino}}</p>
                         {{/datos_destinos}}
-                        <p>Regreso</p>
                     </div>
-                </div>
+                </div>-->
                 <div >
                         <p>Voy a tomar este vuelo en: </p>
                         <select name="origen" id="origen" >

@@ -87,16 +87,31 @@ class reservaVueloModel
         return $result;
     }
 
-   public function sendMailReservado($reserva){
+   public function sendMailReservadoOPagado($reserva,$tipoMail){
+
+        if($tipoMail!='pagado'){
+            $reserva = $reserva[0]['id'];
+        }
+        
         $reservaData = $this->getDatosReserva($reserva);
         $email = $_SESSION["usuario"];
+        if($tipoMail=='pagado'){
+            $message = "El pago de su reserva ha sido aprobado!!!!
+                        Recuerde que para poder ingresar a Gaucho Rocket el día del vuelo, debe realizar previamente el checkin
+                        48hs antes de la partida, de lo contrario, su pasaje será cancelado.";
+        }else{
+           
+            $message = "Has adquirido ".$reservaData[0]['cantidadAsientos']." pasajes en el vuelo 
+                    ".$reservaData[0]['id_vuelofk'].".
+                    
+                    Su reserva se encuentra pendiente de pago.";
+                    
+        }
         $to  = $email; 
             $hash = md5($email);
             $subject = "Gaucho Rocket RESERVA - ".$reservaData[0]['id']; 
-            $message = "Has adquirido ".$reservaData[0]['cantidadAsientos']." pasajes en el vuelo 
-                        ".$reservaData[0]['id_vuelofk'].".
-                        
-                        Su reserva se encuentra pendiente de pago.";
+            
+            
                         
                         $mail = new PHPMailer(true);
                         
@@ -123,7 +138,6 @@ class reservaVueloModel
     }
 
     public function getDatosReserva($reserva){
-        $reserva = $reserva[0]['id'];
         $query = "SELECT * from reserva where id= ".$reserva;
         $result = $this->database->queryResult($query);
         return $result;
@@ -176,16 +190,56 @@ class reservaVueloModel
     }
 
 
-    public function CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva){
+    public function CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva,$origen,$destino,$fechaReserva,$horaReserva){
         $vuelo = intval($vuelo);
         $servicio = intval($servicio);
         $cantAsientos = intval($cantAsientos);
-        $query = "INSERT INTO reserva (id_usuariofk,id_vuelofk,tipoAsiento,id_serviciofk,pago,cantidadAsientos,checkIn,tramos, TotalReserva)
-        VALUES (".$_SESSION["id"].",".$vuelo.",'".$tipoCabina."',".$servicio.",0,".$cantAsientos.",0,'".$tramo."',$costoReserva)";
+        $origen = intval($origen);
+        $destino = intval($destino);
+        $query = "INSERT INTO reserva (id_usuariofk,id_vuelofk,tipoAsiento,id_serviciofk,pago,cantidadAsientos,
+                checkIn,tramos,TotalReserva,origenReserva,destinoReserva,fechaReserva,horaReserva)
+        VALUES (".$_SESSION["id"].",".$vuelo.",'".$tipoCabina."',".$servicio.",0,".$cantAsientos.",0,
+                '".$tramo."',".$costoReserva.",".$origen.",".$destino.",'".$fechaReserva."',".$horaReserva.")";
         $this->database->query($query);
         $query = "SELECT id from reserva where id_usuariofk = ".$_SESSION["id"]." and id_vuelofk = ".$vuelo;
         return $this->database->queryResult($query);
     }
+
+  
+
+    public function getFechaYHoraReserva($origenReserva,$destinoReserva,$vuelo){
+        $query = "SELECT origen,destino,fecha,h_partida,id_tipoVuelofk,id_equipofk from vuelos_confirmados where id_vuelo = ".$vuelo;
+        $datosVuelo = $this->database->queryResult($query);
+        $fechaVuelo = $datosVuelo[0]['fecha'] . ' ' .$datosVuelo[0]['h_partida'].':00' ;
+        $origenVuelo = $datosVuelo[0]['origen'];
+        $destinoVuelo = $datosVuelo[0]['destino'];
+        if($origenVuelo==$origenReserva){
+            $salidaVuelo = $fechaVuelo;
+        }else{
+            if($origenReserva>$destinoReserva){
+                $where = "";
+                $whereVuelta= "and (destino <=".$destinoVuelo." and destino>=".$destinoReserva.")";;
+            }else{
+                $where = "and (origen >=".$origenVuelo." and origen<=".$origenReserva.")";
+            }
+            $idEquipo = $datosVuelo[0]['id_equipofk'];
+            $tipoVuelo = $datosVuelo[0]['id_tipoVuelofk'];
+            $query= "SELECT SUM(duracion) as 'cantHoras' from tramos where circuito = '".$tipoVuelo."' and tipoEquipo = 
+            (Select id_tipo from caract_equipos where caract_modelo = (select modelo from equipos where matricula = '".$idEquipo."'))".$where;
+            $cantHoras = $this->database->queryResult($query);
+            if($origenReserva>$destinoReserva){
+                $where = $whereVuelta;
+                $query = $query;
+                echo $query;
+            }
+            $cantHoras = $cantHoras[0]['cantHoras'];
+            $salidaVuelo = FechayHoraHelper::SumarHoras($fechaVuelo,$cantHoras);
+        }
+        return $salidaVuelo;
+    }
+
+
+
 
     public function getPrecioTramo($tramo){
         $query = "SELECT precio from tramos where id_tramo = ".$tramo;
@@ -220,15 +274,25 @@ class reservaVueloModel
     }
 
     public function getDatosPagoReserva($reserva){
-        $query = "SELECT R.id,TC.descripcion as 'tCabina', S.descripcion as 'tServicio', R.cantidadAsientos, R.TotalReserva
+        $query = "SELECT R.id, R.cantidadAsientos, R.TotalReserva,TC.descripcion as 'tCabina', S.descripcion as 'tServicio'
                             from reserva R JOIN tipo_cabina TC ON TC.id_cabina = R.tipoAsiento JOIN servicios S ON S.id = R.id_serviciofk where R.id = ".$reserva;
         return $this->database->queryResult($query);
     }
 
-    public function marcarReservaPagada($reserva){
-        $query = "UPDATE reserva set pago = 1 where id = ".$reserva;
+    public function marcarReservaPagada($reserva,$moneda,$totalAPagar){
+        $query = "UPDATE reserva set pago = 1,monedaReserva='".$moneda."', TotReservaMoneda=".$totalAPagar." where id = ".$reserva;
         return $this->database->query($query);
     }
+
+   public function verificarReservaCliente($user,$vuelo){
+        $query = "SELECT id FROM reserva where id_vuelofk = ".$vuelo." and id_usuariofk=".$user;
+        return $this->database->queryResult($query);
+   }
+
+   public function getValorReservaEnCreditos($reserva){
+        $query = "SELECT TotalReserva FROM reserva where id = ".$reserva;
+        return $this->database->queryResult($query);
+   }
 
 }
 

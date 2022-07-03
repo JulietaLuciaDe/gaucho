@@ -17,6 +17,11 @@ document.addEventListener("DOMContentLoaded", function() {
       return;
     }
     
+    if(origen>destino) {
+      alert("seleccion de tramo inválida");
+      return;
+    }
+    
 
 
     this.submit();
