@@ -95,6 +95,10 @@ a:hover{
 
 .content{
     height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
 }
 .div-form{
     width: 70%;
@@ -278,7 +282,7 @@ input{
     font-weight: bolder;
 }
 
-#tipoEquipo{
+#tipoEquipo, #tipoEquipoLabel{
     display: none;
 }
  
@@ -342,6 +346,7 @@ input{
    
 
  }
+ 
 
  .resultadoBusqueda::-webkit-scrollbar {
     width: 12px;

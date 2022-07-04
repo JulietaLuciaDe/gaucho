@@ -146,7 +146,7 @@ $("#selectMoneda").change(function () {
 		monedaSelect = $(this).val();
 		var totalConvertido = tc*cobroCredito;
 		
-		if(monedaSelect=='ARP'){
+		if(monedaSelect=='ARS'){
 			tc= 150;
 			var totalConvertido = tc*cobroCredito;
 			
@@ -175,7 +175,7 @@ $("#selectMoneda").change(function () {
 		var mesActual = new Date();
 		mesActual = mesActual.getMonth();
 
-		  if(!(moneda=='ARP' || moneda =='USD')) {
+		  if(!(moneda=='ARS' || moneda =='USD')) {
 		  alert("Ingrese una moneda de pago");
 		  return;
 		}

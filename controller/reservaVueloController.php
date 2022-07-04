@@ -236,7 +236,7 @@ public function validarPago(){
         $CCV = $_POST['inputCCV'];
         $totEnCreditos =($this->reservaVueloModel->getValorReservaEnCreditos($reserva))[0]['TotalReserva'];
 
-        if(!($moneda == 'ARP' || $moneda == 'USD')){
+        if(!($moneda == 'ARS' || $moneda == 'USD')){
             header('Location: /inicio');
             exit();
         }
@@ -247,7 +247,7 @@ public function validarPago(){
            
             $totalAPagar = $tc*$totEnCreditos;
             
-            if($moneda=='ARP'){
+            if($moneda=='ARS'){
                 $tc= 150;
                 $totalAPagar = $tc*$totalAPagar;
             }

@@ -13,33 +13,71 @@ class InicioController {
     }
 
     public function execute() {
+        //VERIFICA SI ESTA LOGUEADO PARA MENU DINAMICO Y (EN CASO QUE SI) QUE NIVEL TIENE PARA FILTRAR X TIPO EQUIPO
         if(ValidatorHelper::validarSesionActiva()){
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
                   <a href='/misReservas/execute'>Mis Reservas</a>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
-              $filtroNivel = " (T.id IN('OR','BA'))";
+              $filtroNivel = "(T.id IN('OR','BA'))";
             }else{
               $filtroNivel = "1";
             }
-           
           }else{
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
             $filtroNivel = "1";
           }
-        if(isset($_POST['botonBuscar'])){ 
+///////////////////////////////////////////////////////7
+          //SI ACTIVA LA BUSQUEDA
+        if(isset($_POST['botonBuscar'])){
+            $busqueda = '';
+            $flag = 0;
+            if(ValidatorHelper::validacionDeTexto($_POST['origen'],50)){
+                $origen = $_POST['origen'];
+                $flag =1;
+                $busqueda=$busqueda."(V.origen = (Select id_destino from destinos where descripcion = '".$origen."')) ";
+            }
+            if(ValidatorHelper::validacionDeTexto($_POST['destino'],50)){
+                $destino = $_POST['destino'];
+                if($flag==1){
+                    $busqueda = $busqueda . ' and ';
+                }
+                $flag =1;
+                $busqueda=$busqueda."(V.destino = (Select id_destino from destinos where descripcion= '".$destino."')) ";
+            }
+            if(isset($_POST['fechaBusqueda']) && $_POST['fechaBusqueda']!=''){
+                $fecha = $_POST['fechaBusqueda'];
+                if($flag==1){
+                    $busqueda = $busqueda . ' and ';
+                }
+                $flag =1;
+                $busqueda=$busqueda."(V.fecha>='$fecha') ";
+            }
+            if(ValidatorHelper::validacionDeTexto($_POST['tipoVuelo'],3)){
+                $tipoVuelo = $_POST['tipoVuelo'];
+                if($flag==1){
+                    $busqueda = $busqueda . ' and ';
+                }
+                $flag =1;
+                $busqueda=$busqueda."(V.tipoVuelofk1= '$tipoVuelo') ";
+            }
+            if(ValidatorHelper::validacionDeTexto($_POST['tipoEquipo'],11)){
+                $tipoEquipo = $_POST['tipoEquipo'];
+                if($flag==1){
+                    $busqueda = $busqueda . ' and ';
+                }
+                $flag =1;
+                $busqueda=$busqueda."(T.id= '$tipoEquipo') ";
+            }
+            if($flag==1){
+            $busqueda = $busqueda . ' and ';
+            }
+            $busqueda = $busqueda.$filtroNivel;
 
-              $origen= $_POST["origen"];
-              $destino= $_POST["destino"];
-              $tipoVuelo = $_POST["tipoVuelo"];
-              $tipoEquipo = $_POST["tipoEquipo"];
-              $fechaIda = $_POST["fechaIda"];
-              $busqueda = "(V.origen = (Select id_destino from destinos where descripcion = '$origen') and V.destino = (Select id_destino from destinos where descripcion = '$destino') and V.tipoVuelofk1= '$tipoVuelo' and T.id= '$tipoEquipo' and V.fecha>='$fechaIda')";
-              if(ValidatorHelper::validarSesionActiva()){
-                $busqueda = $busqueda." and ".$filtroNivel;
-              }
+            //INICIO SIN ACTIVAR BUSQUEDA
         }else{
+                //SI ESTA LOGUEADO Y LE FALTA EL CHECKEO MEDICO, LO INFORMA
             if((ValidatorHelper::validarSesionActiva()) && $_SESSION["nivel"]==""){
               $md5Email = md5($_SESSION["usuario"]);
               $title = "Checkeo médico incompleto";
@@ -52,98 +90,28 @@ class InicioController {
               $data = ["menu"=>$menu,"popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display,"displaySearch"=>$displaySearch];
               $this->printer->generateView('inicioView.html',$data);
               exit();
+              
             }else{
-              $busqueda= $filtroNivel;
+                $busqueda= $filtroNivel;
             }
             
         }
-        if(!empty($resultado = $this->validarCamposDeBusqueda())){
+        //HACE LA BUSQUEDA PASANDOLE TODO EL TEXTO DEL WHERE POR PARAMETRO Y ARMA EL DATA
+        if(!empty($resultado = $this->inicioModel->buscarVuelos($busqueda))){
             $data = ["menu"=> $menu,"resultado" => $resultado];
         }else{ 
             $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
         }
 
+        //AGREGA AL DATA MATCHEO DE TIPOSVUELO Y TIPOEQUIPO PARA QUE SE MUESTREN LAS DESCRIPCIONES EN LOS SELECT DEL BUSCADOR
         $tiposVuelo = $this->inicioModel->tiposVuelo();
         $tiposEquipo = $this->inicioModel->tiposEquipo();
-        
         $data += ["tiposVuelo"=>$tiposVuelo];
         $data += ["tiposEquipo"=>$tiposEquipo];
+
         $this->printer->generateView('inicioView.html',$data);
         
     }
 
-    public function validarCamposDeBusqueda(){
-        $camposABuscar = array( 'origen'=>'',
-                                'destino'=>'',
-                                'tipoVuelo'=>'',
-                                'tipoEquipo'=>'',
-                                'fechaIda'=>'');
-        if(isset($_POST['origen']))
-            $camposABuscar['origen'].=$_POST['origen'];
-        if(isset($_POST['destino']))
-            $camposABuscar['destino'].=$_POST['destino'];
-        if(isset($_POST['tipoVuelo']))
-            $camposABuscar['tipoVuelo'].=$_POST['tipoVuelo'];
-        if(isset($_POST['tipoEquipo']))
-            $camposABuscar['tipoEquipo'].=$_POST['tipoEquipo'];
-        if(isset($_POST['fechaIda']))
-            $camposABuscar['fechaIda'].=$_POST['fechaIda'];
 
-        return $this->busquedaValidadaPorCampos($camposABuscar);
-    }
-
-    public function validarCamposDeBusquedaAsString(){
-        $campos = $this->validarCamposDeBusqueda();
-        $string =   "origen=".$campos['origen'].
-                    "|destino=".$campos['destino'].
-                    "|tipoVuelo=".$campos['tipoVuelo'].
-                    "|tipoEquipo=".$campos['tipoEquipo'].
-                    "|fechaIda=".$campos['fechaIda'];
-        return $string;
-    }
-
-    private function busquedaValidadaPorCampos($camposABuscar){
-        $arrayAux = array();
-        $destinos = $this->inicioModel->getDestinos();
-        $vuelos = $this->inicioModel->buscarVuelos("");
-
-        if( $camposABuscar['origen']    ==""    &&
-            $camposABuscar['destino']   ==""    &&
-            $camposABuscar['tipoVuelo'] ==""    &&
-            $camposABuscar['fechaIda']  ==""    ){
-            return $vuelos;
-        }else{
-            foreach ($vuelos as $vuelo){
-                foreach ($destinos as $destino){
-                    if($vuelo['origen']==$destino['id_destino']){
-                        $vuelo['origen']=$destino['descripcion'];
-                    }
-                    if($vuelo['destino']==$destino['id_destino']){
-                        $vuelo['destino']=$destino['descripcion'];
-                    }
-                }
-                if($vuelo['origen']==$camposABuscar['origen'])
-                    array_push($arrayAux,$vuelo);
-                if($vuelo['destino']==$camposABuscar['destino'])
-                    array_push($arrayAux,$vuelo);
-                if($vuelo['tipoVuelofk1']==$camposABuscar['tipoVuelo'])
-                    array_push($arrayAux,$vuelo);
-                if($vuelo['fecha']==$camposABuscar['fechaIda'])
-                    array_push($arrayAux,$vuelo);
-            }
-            return $arrayAux;
-        }
-    }
-
-    public function generarPDF(){
-      include_once("view/pdfView.html");
-      $html = ob_get_clean();
-      $nombrePDF= "CheckIn";
-      $pdf = new Dompdf();//Inicializa
-      $pdf->setPaper('A4','landscape');//Se ajusta el papel
-      $pdf->loadHtml($html);//lo carga en la hoja el html
-      $pdf->render();//renderiza de html a pdf
-      $pdf->stream($nombrePDF, ['Attachment'=>1]);//genera el pdf en el navegador /false misma pag / true descarga
-      //El ['Attachment'=>0] es para q lo genere en otra pestaña
-    }
 }
