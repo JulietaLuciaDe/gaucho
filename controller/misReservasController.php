@@ -1,7 +1,8 @@
 <?php
- require_once  'dompdf/autoload.inc.php';
- use Dompdf\Dompdf;
- include("phpqrcode/qrlib.php");
+require_once  'dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
+use Dompdf\Options;
+include("phpqrcode/qrlib.php");
 
 class MisReservasController {
     private $printer;
@@ -14,12 +15,12 @@ class MisReservasController {
     }
 
     public function execute($view = 'misReservasView.html',$data = []){
-      if(validatorHelper::validarSesionActiva()){
-          $menu ="<p>Hola, ".$_SESSION['user']."</p>
+        if(validatorHelper::validarSesionActiva()){
+            $menu ="<p>Hola, ".$_SESSION['user']."</p>
               <a href='/misReservas/execute'>Mis Reservas</a>
                 <a href='/logIn/exit'>Cerrar Sesion</a>";
         }else{
-          $menu ="<a href='/registro'>Registrarse</a>
+            $menu ="<a href='/registro'>Registrarse</a>
           <a href='/logIn'>Ingresar</a>";
         }
         $data += ["menu"=>$menu];
@@ -27,61 +28,70 @@ class MisReservasController {
         $misReservasCheckeadas = $this->misReservasModel->misReservasCheckeadas();
         $pendientesDeCheckIn = $this->misReservasModel->misReservasCheckIn();
         $data += ["pendientesDePago"=>$pendientesDePago, "misReservasCheckeadas"=>$misReservasCheckeadas , "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
-        
+
         $this->printer->generateView('misReservasView.html',$data);
 
-    
+
     }
 
     public function checkInOn(){
-      if(isset($_GET['id'])){
-          $id_reserva = $_GET['id'];
-      }else{
-        header('Location: /inicio');
-        exit();
-      }
-      $datosAbordaje = $this->misReservasModel->getDatosAbordaje($id_reserva);
+        if(isset($_GET['id'])){
+            $id_reserva = $_GET['id'];
+        }else{
+            header('Location: /inicio');
+            exit();
+        }
+        $datosAbordaje = $this->misReservasModel->getDatosAbordaje($id_reserva);
 
-      //AGREGAR CODIGO ALFANUMERICO EN EL MESSAGE
-      $message = "Codigo reserva: ".$datosAbordaje[0]['id']."\n Codigo Vuelo: ".$datosAbordaje[0]['id_Vuelofk']."\n Cliente: 
+        //AGREGAR CODIGO ALFANUMERICO EN EL MESSAGE
+        $message = "Codigo reserva: ".$datosAbordaje[0]['id']."\n Codigo Vuelo: ".$datosAbordaje[0]['id_Vuelofk']."\n Cliente: 
       ".$datosAbordaje[0]['cliente']."\n Fecha Salida: ".$datosAbordaje[0]['fechaReserva']."\n Hora salida:
       ".$datosAbordaje[0]['horaReserva']."\n Origen: ".$datosAbordaje[0]['origen']."\n Destino: 
       ".$datosAbordaje[0]['destino']."\n \n Cantidad de pasajeros: ".$datosAbordaje[0]['cantidadAsientos']."\n Total pagado:
       ".$datosAbordaje[0]['monedaReserva']." ".$datosAbordaje[0]['TotReservaMoneda'];
 
 
-      $path = 'http://localhost/';
-      if(!file_exists('public/img/')) //si no existe la carpeta
-      mkdir('public/img/'); //creame la carpeta
+        $path = 'http://localhost/';
+        if(!file_exists('public/img/')) //si no existe la carpeta
+            mkdir('public/img/'); //creame la carpeta
 
-    $fileName =  'public/img/QRAbordaje.png';
-    $contenido = $message;
+        $fileName =  'public/img/QRAbordaje.png';
+        $contenido = $message;
 
-    QRcode::png($contenido,$fileName,'M',10,3); //textoQR,dondeSeGuarda,Nivel,Tamaño,Margen
-      $imgQr = $path.$fileName;
-    $img = '<img src="'.$imgQr.'"/>';
+        QRcode::png($contenido,$fileName,'M',10,3); //textoQR,dondeSeGuarda,Nivel,Tamaño,Margen
+        $imgQr = $path.$fileName;
+        /* $img = '<img src="'.$imgQr.'"/>';
+         echo $img;  //Muestr QR
+           */
+        $this->generarPDF($id_reserva);
 
-    echo $img;  //Muestr QR
-      
-
-
-      
     }
 
 
     public function eliminarReserva(){
 
     }
-    
-    public function generarPDF(){
-      include_once("view/pdfView.html");
-      $html = ob_get_clean();
-      $nombrePDF= "CheckIn";
-      $pdf = new Dompdf();//Inicializa
-      $pdf->setPaper('A4','landscape');//Se ajusta el papel
-      $pdf->loadHtml($html);//lo carga en la hoja el html
-      $pdf->render();//renderiza de html a pdf
-      $pdf->stream($nombrePDF, ['Attachment'=>1]);//genera el pdf en el navegador /false misma pag / true descarga
-      //El ['Attachment'=>0] es para q lo genere en otra pestaña
+
+    public function generarPDF($id_reserva){
+
+        $datosAbordaje = $this->misReservasModel->getDatosAbordaje($id_reserva);
+        $mensaje= "        <center><h2>Datos de Abordaje:</h2></center>
+                        <div style='text-align: center'>
+                        <p>Cliente: ".$datosAbordaje[0]['cliente']."</p><br>
+                        <p>Fecha de salida: ".$datosAbordaje[0]['fechaReserva']."</p><br>
+                        <p>Hora de salida: ".$datosAbordaje[0]['horaReserva']."</p><br>
+                        <p>Origen: ".$datosAbordaje[0]['origen']."</p><br>
+                        <p>Destino: ".$datosAbordaje[0]['destino']."</p><br>
+                        <p>Total: ".$datosAbordaje[0]['TotReservaMoneda']."</p>  <br>  
+                        </div>
+                        <img src='./public/img/QRAbordaje.png'>";
+        $html=$mensaje;
+        $nombrePDF= "CheckIn";
+        $pdf = new Dompdf();//Inicializa
+        $pdf->setPaper('A4','landscape');//Se ajusta el papel
+        $pdf->loadHtml($html);//lo carga en la hoja el html
+        $pdf->render();//renderiza de html a pdf
+        $pdf->stream($nombrePDF, ['Attachment'=>0]);//genera el pdf en el navegador /false misma pag / true descarga
+        //El ['Attachment'=>0] es para q lo genere en otra pestaña, cambiar a 1 para decargar
     }
 }
