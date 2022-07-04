@@ -43,6 +43,7 @@
                         //REGISTRADO Y AUTENTIFICADO --> LOGUEA OK
                         session_start();
                         $_SESSION["logueado"]=1;
+                        //ESTE ES EL MAIL
                         $_SESSION["usuario"]=$_POST["usuario"];
                         $_SESSION["user"]=$obj['user'];
                         $_SESSION["id"]=$obj['id'];
@@ -64,7 +65,7 @@
                     }
                 }else{
                     //NO REGISTRADO -->  NO LOGUEA
-                   header("Location: /login/notRegistered/email=$email");
+                   header("Location: /login/notRegistered/email=".$usuario);
                 }
             }else{
                 header("Location: /login");
@@ -108,7 +109,7 @@
                 $title="Verifique su correo electrónico";
                 $message="Hemos enviado un link de recupero de clave </br> <a class='recovery' href='https://mail.google.com' target='blank'>Ir a mi correo</a>";
             }else{
-                $title="El mail ingresado no se encuentra registrado";
+                $title="Ha ocurrido un problema! verifique si está registrado";
                 $message="<a class='recovery' href='/registro' target='blank'>Registrarme</a>";
             }
             $display = "d-block";

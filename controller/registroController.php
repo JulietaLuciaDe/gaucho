@@ -80,7 +80,7 @@
                 if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
                     if($this->registroModel->TurnoSolicitado($email)){
                         $title="Turno ya solicitado";
-                        $message="Usted ya ha solicitado un turno. Si desea cancelarlo o modificarlo esperamos su correo en <a href='mailto:gauchorocketargentina@gmail.com' style='color:black;'>gauchorocketargentina@gmail.com</a>";
+                        $message="Usted ya ha solicitado un turno. Si desea cancelarlo o modificarlo esperamos su correo en <a href='mailto:gauchorocket.oficial@gmail.com' style='color:black;'>gauchorocket.oficial@gmail.com</a>";
                         $display = "d-block";
                         $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
                     }else{

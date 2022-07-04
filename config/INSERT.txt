@@ -1123,5 +1123,21 @@ VALUES
 '2022-08-12', 11, 'AA19', 1, 10, 'ED2'
 );
 
+/* INSERT QUERY NO: 143 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-07-04', 16, 'O8', 1, 1, 'OR'
+);
+
+/* INSERT QUERY NO: 143 */
+INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+VALUES
+(
+'2022-07-04', 18, 'O8', 1, 1, 'OR'
+);
+
+
+
 
 INSERT INTO USUARIOS (id,nombre,apellido,dni,email,pass,user,tipoUsuario,tipo,autentificado,turnoSolicitado) VALUES (1000,'administrador','administrador','11111111','gauchorocketargentina@gmail.com','91f5167c34c400758115c2a6826ec2e3','Administrador',1,3,1,1)

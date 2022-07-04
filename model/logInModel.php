@@ -28,7 +28,8 @@ use PHPMailer\PHPMailer\Exception;
         }
 
         public function sendMailRecovery($dni, $email){
-            $sqlUser = "SELECT email,user FROM usuarios WHERE email = '" . $email. "' OR dni = " . $dni . "";
+            
+            $sqlUser = "SELECT email,user FROM usuarios WHERE email = '".$email."' OR dni = " . $dni . "";
             $qry = $this->database->query($sqlUser);
             $obj = mysqli_fetch_assoc($qry);
             if(isset($obj['email'])){
@@ -50,11 +51,11 @@ use PHPMailer\PHPMailer\Exception;
                                 $mail->isSMTP();                                            //Send using SMTP
                                 $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                                $mail->Username   = 'gauchorocketargentina@gmail.com';                     //SMTP username
-                                $mail->Password   = 'hgdmsmjtkucnctgg';                               //SMTP password
+                                $mail->Username   = 'gauchorocket.oficial@gmail.com';                     //SMTP username
+                                $mail->Password   = 'cbotlwdakzqkwwwb';                               //SMTP password
                                 $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
                                 $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-                                $mail->setFrom('gauchorocketargentina@gmail.com', 'Gaucho Rocket');
+                                $mail->setFrom('gauchorocket.oficial@gmail.com', 'Gaucho Rocket');
                                 $mail->addAddress($email);     //Add a recipient
                                 //$mail->isHTML(true);      //Set email format to HTML
                                 $mail->Subject = $subject;
@@ -63,6 +64,7 @@ use PHPMailer\PHPMailer\Exception;
                                 return true;
                             } catch (Exception $e) {
                                 return false;
+                               
                             }
             }else{
                 return false;

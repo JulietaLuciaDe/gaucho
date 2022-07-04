@@ -1,5 +1,6 @@
 {{> header}}
 {{> navbar}}
+
 <center>
     <div class="buscador row justify-content-around">
         <div class="text-search col-3">
@@ -61,7 +62,7 @@
             <td>{{origen}}</td>
             <td>{{destino}}</td>
             <td>{{monedaReserva}} {{TotReservaMoneda}}.00</td>
-            <td><a href="/misReservas/checkInOn?id={{id}}" target="blank"><button class='btn-primary btn-busqueda'>HACER CKECK IN
+            <td><a href="/misReservas/checkInOn?id={{id}}" target="blank"><button class='btn-primary btn-busqueda'>CKECK IN
                     </button></a></td>
         </tr>
         {{/pendientesDeCheckIn}}
@@ -90,7 +91,7 @@
             <td>{{origen}}</td>
             <td>{{destino}}</td>
             <td>{{monedaReserva}} {{TotReservaMoneda}}.00</td>
-            <td><a href="generarPDF"><button class='btn-primary btn-busqueda'>DESCARGAR PASAJE DE ABORDAJE
+            <td><a href="/misReservas/generarPDF?id={{id}}"><button class='btn-primary btn-busqueda'>DESCARGAR PASAJE DE ABORDAJE
                         PDF</button></a></td>
         </tr>
         {{/misReservasCheckeadas}}

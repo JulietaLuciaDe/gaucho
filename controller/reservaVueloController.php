@@ -177,8 +177,8 @@ class reservaVueloController
                                     if(substr($horaReserva,2,3)==':'){
                                        $horaReserva =  '0'.substr($horaReserva,1,1);
                                     }
-
-                                    $reserva = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva,$origen,$destino,$fechaReserva,$horaReserva);
+                                    if($this->verificarReservaPorCantHoras($horaReserva, $fechaReserva)){
+                                        $reserva = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva,$origen,$destino,$fechaReserva,$horaReserva);
                                     if($reserva){
                                         $this->reservaVueloModel->sendMailReservadoOPagado($reserva,'reserva');
                                         $this->mostrarSeccionPago($reserva);
@@ -186,6 +186,14 @@ class reservaVueloController
                                         header("Location: /inicio");
                                         exit();
                                     }
+                                    }else{
+                                        $title = "Demasiado tarde";
+                                        $message = "Faltan solo 24hs para la salida, no es posible contratar";
+                                        $display = "d-block";
+                                        $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
+                                        $this->reserva($vuelo,$data);
+                                    }
+                                    
                                 }else{
                                     $title = "Ups!";
                                     $message = "La cantidad de asientos seleccionado supera el disponible en el vuelo";
@@ -279,7 +287,11 @@ public function validarPago(){
     }
 
     }else{
-        echo "datos invalidos";
+        $title = "Ha ocurrido un problema!";
+                  $message = " ";
+                  $display = "d-block";
+                  $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
+                  $this->execute('misReservasView.html',$data);
     }
 }
 
@@ -292,6 +304,16 @@ public function getStringTramo($tramos){
     return $tramo;
 }
 
+public function verificarReservaPorCantHoras($horaReserva, $fechaReserva){
+    $fechayHoraReserva = $fechaReserva.' '.$horaReserva.':00';
+    $fechaYHoraActual = FechaYHoraHelper::getFechaYHoraActual();
+    $_24hsAntes = FechaYHoraHelper::restarHoras($fechayHoraReserva,24);
+    if($fechaYHoraActual<$_24hsAntes){
+        return true;
+    }else{
+        return false;
+}
+
 
 }
-   
+}
