@@ -95,7 +95,7 @@ class MisReservasController {
                         <p>Destino: ".$datosAbordaje[0]['destino']."</p><br>
                         <p>Total: ".$datosAbordaje[0]['TotReservaMoneda']."</p>  <br>  
                         </div>
-                        <img src='./public/img/QRAbordaje.png'>";
+                        <img src='http://localhost/public/img/QRAbordaje'>";
         $html=$mensaje;
         $nombrePDF= "CheckIn";
         $pdf = new Dompdf();//Inicializa
