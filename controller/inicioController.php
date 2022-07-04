@@ -17,7 +17,9 @@ class InicioController {
         if(ValidatorHelper::validarSesionActiva()){
             if($_SESSION['tipoUser']!=1){
                 $menuTipoUser = "<a href='/misReservas/execute'>Mis Reservas</a>";
+                $data["botonReservar"]= true;
             }else{
+                
                 $menuTipoUser = "<a href='/reporte/execute'>Reportes</a>";
             }
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
@@ -29,6 +31,7 @@ class InicioController {
               $filtroNivel = "1";
             }
           }else{
+            $data["botonReservar"]= true;
             $menu ="<a href='/registro'>Registrarse</a>
             <a href='/logIn'>Ingresar</a>";
             $filtroNivel = "1";
@@ -103,9 +106,12 @@ class InicioController {
         }
         //HACE LA BUSQUEDA PASANDOLE TODO EL TEXTO DEL WHERE POR PARAMETRO Y ARMA EL DATA
         if(!empty($resultado = $this->inicioModel->buscarVuelos($busqueda))){
-            $data = ["menu"=> $menu,"resultado" => $resultado];
+            $data["menu"]= $menu;
+            $data["resultado"]= $resultado;
         }else{ 
-            $data = ["menu"=> $menu,"resultado" => $resultado,"noData"=>true];
+            $data["menu"]= $menu;
+            $data["resultado"]= $resultado;
+            $data["noData"]= true;
         }
 
         //AGREGA AL DATA MATCHEO DE TIPOSVUELO Y TIPOEQUIPO PARA QUE SE MUESTREN LAS DESCRIPCIONES EN LOS SELECT DEL BUSCADOR

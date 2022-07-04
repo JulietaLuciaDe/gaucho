@@ -19,16 +19,22 @@ class reservaVueloController
     }
 
     public function execute($view = 'reservaVueloView.html',$data = []){
-        if(validatorHelper::validarSesionActiva()){
-            $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                <a href='/misReservas/execute'>Mis Reservas</a>
-                  <a href='/logIn/exit'>Cerrar Sesion</a>";
-          }else{
-            $menu ="<a href='/registro'>Registrarse</a>
-            <a href='/logIn'>Ingresar</a>";
-          }
-          $data += ["menu"=>$menu];
-        $this->printer->generateView($view,$data);
+        if(isset($_GET['id'])){
+            if(validatorHelper::validarSesionActiva()){
+                $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                    <a href='/misReservas/execute'>Mis Reservas</a>
+                      <a href='/logIn/exit'>Cerrar Sesion</a>";
+              }else{
+                $menu ="<a href='/registro'>Registrarse</a>
+                <a href='/logIn'>Ingresar</a>";
+              }
+              $data += ["menu"=>$menu];
+            $this->printer->generateView($view,$data);
+        }else{
+            header("Location: /inicio");
+            exit();
+        }
+        
     }
 
     

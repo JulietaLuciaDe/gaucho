@@ -66,7 +66,9 @@
                     <th>Destino</th>
                     <th>Tipo Equipo</th>
                     <th>Tipo Vuelo</th>
+                    {{#botonReservar}}
                     <th>Reservar</th>
+                    {{/botonReservar}}
                 </tr>
             </thead>
         {{#resultado}}
@@ -76,10 +78,10 @@
                 <td>{{destinoDestino}}</td>
                 <td>{{tipoEquipo}}</td>
                 <td>{{tVuelo}}</td>
-                <td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button class='btn-primary btn-busqueda'>Reservar</button></a></td> <!--Len:Te lleva con el
-                    ID del vuelo a link donde esta la view de reservas (con su controller),
-                    alli se debe buscar ese vuelo por id para poder mostrar datos y ver detalles del vuelo para confirmar reserva
-                    el valor se envia por GET-->
+                {{#botonReservar}}
+                <td><a href="/reservaVuelo/reserva?id={{id_vuelo}}"><button class='btn-primary btn-busqueda'>Reservar</button></a></td>
+                {{/botonReservar}}
+                    
             </tr>
         {{/resultado}}
 
