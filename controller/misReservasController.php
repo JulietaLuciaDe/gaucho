@@ -14,22 +14,26 @@ class MisReservasController {
     }
 
     public function execute($view = 'misReservasView.html',$data = []){
-      if(validatorHelper::validarSesionActiva()){
-          $menu ="<p>Hola, ".$_SESSION['user']."</p>
-              <a href='/misReservas/execute'>Mis Reservas</a>
-                <a href='/logIn/exit'>Cerrar Sesion</a>";
-        }else{
-          $menu ="<a href='/registro'>Registrarse</a>
-          <a href='/logIn'>Ingresar</a>";
-        }
-        $data += ["menu"=>$menu];
-        $pendientesDePago = $this->misReservasModel->misReservasImpagas();
-        $misReservasCheckeadas = $this->misReservasModel->misReservasCheckeadas();
-        $pendientesDeCheckIn = $this->misReservasModel->misReservasCheckIn();
-        $data += ["pendientesDePago"=>$pendientesDePago, "misReservasCheckeadas"=>$misReservasCheckeadas , "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
-        
-        $this->printer->generateView('misReservasView.html',$data);
-
+      if($_SESSION['tipoUser']!=1){
+        if(validatorHelper::validarSesionActiva()){
+            $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                <a href='/misReservas/execute'>Mis Reservas</a>
+                  <a href='/logIn/exit'>Cerrar Sesion</a>";
+          }else{
+            $menu ="<a href='/registro'>Registrarse</a>
+            <a href='/logIn'>Ingresar</a>";
+          }
+          $data += ["menu"=>$menu];
+          $pendientesDePago = $this->misReservasModel->misReservasImpagas();
+          $misReservasCheckeadas = $this->misReservasModel->misReservasCheckeadas();
+          $pendientesDeCheckIn = $this->misReservasModel->misReservasCheckIn();
+          $data += ["pendientesDePago"=>$pendientesDePago, "misReservasCheckeadas"=>$misReservasCheckeadas , "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
+          
+          $this->printer->generateView('misReservasView.html',$data);
+      }else{
+          header("Location: /inicio");
+          exit();
+      }
     
     }
 

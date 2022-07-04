@@ -11,16 +11,12 @@ class reporteController
     }
 
     public function execute($data = []){
-        if(ValidatorHelper::validarSesionActiva()){
+        if($_SESSION['tipoUser']==1){
             $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                  <a href='/misReservas/execute'>Mis Reservas</a>
+                  <a href='/inicio'>Inicio</a>
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
-        }else{
-            $menu ="<a href='/registro'>Registrarse</a>
-            <a href='/logIn'>Ingresar</a>";
-        }
 
-        $reservas = $this->reporteModel->getDatosReservas();
+                  $reservas = $this->reporteModel->getDatosReservas();
         $cantidad = $this->reporteModel->getCantidadDeAsientosPorVuelo();
         $clientes = $this->reporteModel->getFacturacionPorCliente();
 
@@ -30,5 +26,11 @@ class reporteController
         $data+=['menu'      => $menu];
 
         $this->printer->generateView('reporteView.html',$data);
+        }else{
+            header("Location: /inicio");
+            exit();
+        }
+
+        
     }
 }

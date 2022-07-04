@@ -15,8 +15,13 @@ class InicioController {
     public function execute() {
         //VERIFICA SI ESTA LOGUEADO PARA MENU DINAMICO Y (EN CASO QUE SI) QUE NIVEL TIENE PARA FILTRAR X TIPO EQUIPO
         if(ValidatorHelper::validarSesionActiva()){
+            if($_SESSION['tipoUser']!=1){
+                $menuTipoUser = "<a href='/misReservas/execute'>Mis Reservas</a>";
+            }else{
+                $menuTipoUser = "<a href='/reporte/execute'>Reportes</a>";
+            }
           $menu ="<p>Hola, ".$_SESSION['user']."</p>
-                  <a href='/misReservas/execute'>Mis Reservas</a>
+                 ".$menuTipoUser."
                   <a href='/logIn/exit'>Cerrar Sesion</a>";
             if($_SESSION["nivel"]==1 || $_SESSION["nivel"]==2){
               $filtroNivel = "(T.id IN('OR','BA'))";
