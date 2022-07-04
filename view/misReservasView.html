@@ -19,7 +19,7 @@
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Importe Total</th>
-                <th> </th>
+                <th>             </th>
             </tr>
         </thead>
         {{#pendientesDePago}}
@@ -31,8 +31,7 @@
             <td><img src="http://localhost/public/img/cash.png" class="img-fluid"> {{TotalReserva}}</td>
             <td><a href="/misReservas/eliminarReserva?id={{id}}"><button class='btn-primary btn-busqueda'>ELIMINAR
                     </button></a>
-                <a href="/reservaVuelo/mostrarSeccionPago?id={{id_vuelofk}}&user={{id_usuariofk}}"><button
-                        class='btn-primary btn-busqueda'>PAGAR
+                <a href="/reservaVuelo/mostrarSeccionPago?id={{id_vuelofk}}&user={{id_usuariofk}}"><button class='btn-primary btn-busqueda'>PAGAR
                     </button></a>
             </td>
         </tr>
@@ -52,7 +51,7 @@
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Importe Total</th>
-                <th> </th>
+                <th>             </th>
             </tr>
         </thead>
         {{#pendientesDeCheckIn}}
@@ -61,7 +60,7 @@
             <td>{{horaReserva}}</td>
             <td>{{origen}}</td>
             <td>{{destino}}</td>
-            <td>{{monedaReserva}} {{TotReservaMoneda}}</td>
+            <td>{{monedaReserva}} {{TotReservaMoneda}}.00</td>
             <td><a href="/misReservas/checkInOn?id={{id}}"><button class='btn-primary btn-busqueda'>HACER CKECK IN
                     </button></a></td>
         </tr>
@@ -81,7 +80,7 @@
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Importe Total</th>
-                <th> </th>
+                <th>             </th>
             </tr>
         </thead>
         {{#misReservasCheckeadas}}
@@ -90,7 +89,7 @@
             <td>{{horaReserva}}</td>
             <td>{{origen}}</td>
             <td>{{destino}}</td>
-            <td>{{monedaReserva}} {{TotReservaMoneda}}</td>
+            <td>{{monedaReserva}} {{TotReservaMoneda}}.00</td>
             <td><a href="generarPDF"><button class='btn-primary btn-busqueda'>DESCARGAR PASAJE DE ABORDAJE
                         PDF</button></a></td>
         </tr>

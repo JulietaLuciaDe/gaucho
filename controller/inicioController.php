@@ -109,6 +109,7 @@ class InicioController {
         $data += ["tiposVuelo"=>$tiposVuelo];
         $data += ["tiposEquipo"=>$tiposEquipo];
 
+
         $this->printer->generateView('inicioView.html',$data);
         
     }

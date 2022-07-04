@@ -62,9 +62,12 @@ class MisReservasController {
     $img = '<img src="'.$imgQr.'"/>';
 
     echo $img;  //Muestr QR
+      
 
 
+      
     }
+
 
     public function eliminarReserva(){
       $id_reserva = $_GET['id'];

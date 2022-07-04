@@ -216,25 +216,18 @@ class reservaVueloModel
         if($origenVuelo==$origenReserva){
             $salidaVuelo = $fechaVuelo;
         }else{
-            if($origenReserva>$destinoReserva){
-                $where = "";
-                $whereVuelta= "and (destino <=".$destinoVuelo." and destino>=".$destinoReserva.")";;
-            }else{
-                $where = "and (origen >=".$origenVuelo." and origen<=".$origenReserva.")";
-            }
+
+            $where = "and (origen >=".$origenVuelo." and origen<".$origenReserva.")";
+
             $idEquipo = $datosVuelo[0]['id_equipofk'];
             $tipoVuelo = $datosVuelo[0]['id_tipoVuelofk'];
             $query= "SELECT SUM(duracion) as 'cantHoras' from tramos where circuito = '".$tipoVuelo."' and tipoEquipo = 
             (Select id_tipo from caract_equipos where caract_modelo = (select modelo from equipos where matricula = '".$idEquipo."'))".$where;
             $cantHoras = $this->database->queryResult($query);
-            if($origenReserva>$destinoReserva){
-                $where = $whereVuelta;
-                $query = $query;
-                echo $query;
-            }
             $cantHoras = $cantHoras[0]['cantHoras'];
             $salidaVuelo = FechayHoraHelper::SumarHoras($fechaVuelo,$cantHoras);
         }
+
         return $salidaVuelo;
     }
 
