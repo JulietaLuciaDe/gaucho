@@ -32,6 +32,29 @@ class MisReservasController {
         $this->printer->generateView('misReservasView.html',$data);
 
 
+
+      if($_SESSION['tipoUser']!=1){
+        if(validatorHelper::validarSesionActiva()){
+            $menu ="<p>Hola, ".$_SESSION['user']."</p>
+                <a href='/misReservas/execute'>Mis Reservas</a>
+                  <a href='/logIn/exit'>Cerrar Sesion</a>";
+          }else{
+            $menu ="<a href='/registro'>Registrarse</a>
+            <a href='/logIn'>Ingresar</a>";
+          }
+          $data += ["menu"=>$menu];
+          $pendientesDePago = $this->misReservasModel->misReservasImpagas();
+          $misReservasCheckeadas = $this->misReservasModel->misReservasCheckeadas();
+          $pendientesDeCheckIn = $this->misReservasModel->misReservasCheckIn();
+          $data += ["pendientesDePago"=>$pendientesDePago, "misReservasCheckeadas"=>$misReservasCheckeadas , "pendientesDeCheckIn"=>$pendientesDeCheckIn ];
+          
+          $this->printer->generateView('misReservasView.html',$data);
+      }else{
+          header("Location: /inicio");
+          exit();
+      }
+    
+
     }
 
     public function checkInOn(){
@@ -69,7 +92,11 @@ class MisReservasController {
 
 
     public function eliminarReserva(){
-
+      $id_reserva = $_GET['id'];
+      echo var_dump($id_reserva);
+      $this->misReservasModel->eliminarReserva($id_reserva);
+      header("Location:localhost/misReservas");
+      exit();
     }
 
     public function generarPDF($id_reserva){

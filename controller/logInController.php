@@ -47,6 +47,7 @@
                         $_SESSION["user"]=$obj['user'];
                         $_SESSION["id"]=$obj['id'];
                         $_SESSION["nivel"]=$obj['tipo'];
+                        $_SESSION["tipoUser"]=$obj['tipoUsuario'];
                         //LOGUEA OK PERO NO TIENE TURNO MÉDICO
                         if($_SESSION["nivel"]==""){
                             header("Location: /registro/solicitarTurno/email=".$_SESSION['usuario']);

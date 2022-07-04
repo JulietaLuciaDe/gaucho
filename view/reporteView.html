@@ -18,15 +18,15 @@
         </tr>
         {{#Reservas}}
         <tr>
-            <th>{{id_vuelo}}</th>
-            <th>{{fecha}}</th>
-            <th>{{origen}}</th>
-            <th>{{destino}}</th>
-            <th>{{cantidadAsientos}}</th>
-            <th>{{TotalReserva}}</th>
-            <th>{{nombre}}</th>
-            <th>{{apellido}}</th>
-            <th>{{email}}</th>
+            <td>{{id_vuelo}}</td>
+            <td>{{fecha}}</td>
+            <td>{{origen}}</td>
+            <td>{{destino}}</td>
+            <td>{{cantidadAsientos}}</td>
+            <td>{{TotalReserva}}</td>
+            <td>{{nombre}}</td>
+            <td>{{apellido}}</td>
+            <td>{{email}}</td>
         </tr>
         {{/Reservas}}
     </table>
@@ -42,8 +42,8 @@
         </tr>
         {{#Cantidad}}
         <tr>
-            <th>{{id}}</th>
-            <th>{{cantidad}}</th>
+            <td><a href="/reporte/vuelosGenerar?id={{id}}"><button class='btn-primary btn-busqueda'>{{id}}</button></a></td>
+            <td>{{cantidad}}</td>
         </tr>
         {{/Cantidad}}
     </table>
@@ -61,10 +61,10 @@
         </tr>
         {{#Clientes}}
         <tr>
-            <th>{{suma}}</th>
-            <th>{{nombre}}</th>
-            <th>{{apellido}}</th>
-            <th>{{email}}</th>
+            <td>{{suma}}</td>
+            <td>{{nombre}}</td>
+            <td>{{apellido}}</td>
+            <td>{{email}}</td>
         </tr>
         {{/Clientes}}
     </table>

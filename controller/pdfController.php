@@ -7,7 +7,7 @@ class pdfController
     private $pdf;
 
     public function _construct(){
-        echo "CONSTRUCTOR"
+        echo "CONSTRUCTOR";
     }
 
     public function crearPDF(){

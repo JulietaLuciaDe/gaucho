@@ -57,4 +57,23 @@ class reporteModel
         $datos = $this->database->queryResult($query);
         return $datos;
     }
+
+    public function getReservasSegunVuelo($idVuelo){
+        $query =
+                "SELECT vc.id_vuelo,                 vc.fecha,
+                        d.descripcion as 'origen',   d2.descripcion as 'destino',
+                        r.pago,                      r.cantidadAsientos,
+                        r.TotalReserva,              u.nombre,
+                        u.apellido,                  u.email,
+                        r.TotReservaMoneda
+                FROM vuelos_confirmados vc 
+                    JOIN reserva r      ON r.id_vuelofk=vc.id_vuelo
+                    JOIN destinos d     ON vc.origen=d.id_destino
+                    JOIN destinos d2    ON vc.destino=d2.id_destino
+                    JOIN usuarios u     ON r.id_usuariofk=u.id
+                WHERE r.pago = 1        AND vc.id_vuelo=".$idVuelo."    
+                ORDER BY vc.id_vuelo    ASC";
+        $datos = $this->database->queryResult($query);
+        return $datos;
+    }
 }

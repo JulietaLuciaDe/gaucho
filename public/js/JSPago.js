@@ -139,20 +139,24 @@ $("#selectMoneda").change(function () {
 
 		/*REVISAR ESTA LOGICA*/
 		
+		
+
+
 		var tc = 73.10;
 		// monedaCambio = 'USD'
 		var cobroCredito = document.getElementById("cobroCredito").innerText;
-		cobroCredito
+		
 		monedaSelect = $(this).val();
 		var totalConvertido = tc*cobroCredito;
-		
+
 		if(monedaSelect=='ARS'){
 			tc= 150;
-			var totalConvertido = tc*cobroCredito;
+			totalConvertido = tc*totalConvertido;
 			
 		}
+
 		var inputTotalConvert = document.getElementById("totalConvert");
-		inputTotalConvert.setAttribute('value',totalConvertido);
+		inputTotalConvert.setAttribute('value',totalConvertido+'.00');
 
 		});            
 	});

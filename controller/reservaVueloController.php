@@ -167,7 +167,11 @@ class reservaVueloController
                                     $tramo = $this->getStringTramo($tramos);
                                     $fechaYHoraReserva = $this->reservaVueloModel->getFechaYHoraReserva($origen,$destino,$vuelo);
                                     $fechaReserva = substr($fechaYHoraReserva,0,10);
-                                    $horaReserva = substr(substr($fechaYHoraReserva,10,11),0,2);
+                                    $horaReserva = substr(substr($fechaYHoraReserva,10,11),0,3);
+                                    if(substr($horaReserva,2,3)==':'){
+                                       $horaReserva =  '0'.substr($horaReserva,1,1);
+                                    }
+
                                     $reserva = $this->reservaVueloModel->CrearReserva($vuelo,$tramo,$tipoCabina,$servicio,$cantAsientos,$costoReserva,$origen,$destino,$fechaReserva,$horaReserva);
                                     if($reserva){
                                         $this->reservaVueloModel->sendMailReservadoOPagado($reserva,'reserva');
@@ -260,7 +264,6 @@ public function validarPago(){
             }
             
         }
-        echo $totalAPagar;
     if($this->reservaVueloModel->marcarReservaPagada($reserva,$moneda,$totalAPagar)){
          
         $this->reservaVueloModel->sendMailReservadoOPagado($reserva,'pagado');
