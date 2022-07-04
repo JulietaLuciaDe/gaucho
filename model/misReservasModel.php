@@ -8,7 +8,7 @@
    
     public function misReservasImpagas(){
         $id_usuario=$_SESSION['id'];
-        $sqlmisReservas="SELECT R.fechaReserva,R.horaReserva,R.TotalReserva, D.descripcion as 'origen' , DE.descripcion as 'destino' FROM RESERVA R JOIN DESTINOS D ON R.origenReserva = D.id_destino JOIN DESTINOS DE ON R.destinoReserva = DE.id_destino WHERE id_usuariofk=".$id_usuario." and pago=0";
+        $sqlmisReservas="SELECT R.id_vuelofk,R.id_usuariofk,R.fechaReserva,R.horaReserva,R.TotalReserva, D.descripcion as 'origen' , DE.descripcion as 'destino' FROM RESERVA R JOIN DESTINOS D ON R.origenReserva = D.id_destino JOIN DESTINOS DE ON R.destinoReserva = DE.id_destino WHERE id_usuariofk=".$id_usuario." and pago=0";
         $datos = $this->database->queryResult($sqlmisReservas);
         return $datos;
     }

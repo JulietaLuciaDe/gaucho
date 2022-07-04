@@ -33,14 +33,21 @@ class reservaVueloController
 
     
 
-    public function mostrarSeccionPago($reserva){
-          $reserva = $reserva[0]['id'];
+    public function mostrarSeccionPago($reserva=''){
+        
+          
           if(ValidatorHelper::validacionDeTexto($_GET['id'],3)&&
           ValidatorHelper::validacionDeTexto($_GET['user'],3)){
             $user = $_GET['user'];
             $vuelo = $_GET['id'];
           }
+
           $reservaValida = $this->reservaVueloModel->verificarReservaCliente($user,$vuelo);
+          if(!empty($reserva)){
+            $reserva = $reserva[0]['id'];
+        }else{
+            $reserva=$reservaValida[0]['id'];
+        }
           if($reserva == $reservaValida[0]['id']){
             $datosReserva = $this->reservaVueloModel->getDatosPagoReserva($reserva);
             $data = ["reservaData"=>$datosReserva];
