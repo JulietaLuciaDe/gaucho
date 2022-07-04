@@ -62,15 +62,16 @@ class MisReservasController {
     $img = '<img src="'.$imgQr.'"/>';
 
     echo $img;  //Muestr QR
-      
 
 
-      
     }
 
-
     public function eliminarReserva(){
-
+      $id_reserva = $_GET['id'];
+      echo var_dump($id_reserva);
+      $this->misReservasModel->eliminarReserva($id_reserva);
+      header("Location:localhost/misReservas");
+      exit();
     }
     
     public function generarPDF(){

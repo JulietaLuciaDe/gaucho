@@ -19,7 +19,7 @@
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Importe Total</th>
-                <th>             </th>
+                <th> </th>
             </tr>
         </thead>
         {{#pendientesDePago}}
@@ -29,9 +29,10 @@
             <td>{{origen}}</td>
             <td>{{destino}}</td>
             <td><img src="http://localhost/public/img/cash.png" class="img-fluid"> {{TotalReserva}}</td>
-            <td><a href="misReservas/eliminar"><button class='btn-primary btn-busqueda'>ELIMINAR
+            <td><a href="/misReservas/eliminarReserva?id={{id}}"><button class='btn-primary btn-busqueda'>ELIMINAR
                     </button></a>
-                <a href="/reservaVuelo/mostrarSeccionPago?id={{id_vuelofk}}&user={{id_usuariofk}}"><button class='btn-primary btn-busqueda'>PAGAR
+                <a href="/reservaVuelo/mostrarSeccionPago?id={{id_vuelofk}}&user={{id_usuariofk}}"><button
+                        class='btn-primary btn-busqueda'>PAGAR
                     </button></a>
             </td>
         </tr>
@@ -51,7 +52,7 @@
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Importe Total</th>
-                <th>             </th>
+                <th> </th>
             </tr>
         </thead>
         {{#pendientesDeCheckIn}}
@@ -80,7 +81,7 @@
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Importe Total</th>
-                <th>             </th>
+                <th> </th>
             </tr>
         </thead>
         {{#misReservasCheckeadas}}
