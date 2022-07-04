@@ -1,4 +1,72 @@
 {{> header}}
 {{> navbar}}
-
+<div class="resultadoBusqueda ">
+    <center>
+        <h3>Histórico de reservas</h3>
+    </center>
+    <table class='table table-responsive'>
+        <tr>
+            <th>Id de vuelo</th>
+            <th>Fecha</th>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Cantidad de asientos</th>
+            <th>Precio total</th>
+            <th>Nombre del pasajero</th>
+            <th>Apellido</th>
+            <th>Email</th>
+        </tr>
+        {{#Reservas}}
+        <tr>
+            <th>{{id_vuelo}}</th>
+            <th>{{fecha}}</th>
+            <th>{{origen}}</th>
+            <th>{{destino}}</th>
+            <th>{{cantidadAsientos}}</th>
+            <th>{{TotalReserva}}</th>
+            <th>{{nombre}}</th>
+            <th>{{apellido}}</th>
+            <th>{{email}}</th>
+        </tr>
+        {{/Reservas}}
+    </table>
+</div>
+<div class="resultadoBusqueda ">
+    <center>
+        <h3>Ocupación por viaje</h3>
+    </center>
+    <table class='table table-responsive'>
+        <tr>
+            <th>Id de vuelo</th>
+            <th>Cantidad de pasajeros</th>
+        </tr>
+        {{#Cantidad}}
+        <tr>
+            <th>{{id}}</th>
+            <th>{{cantidad}}</th>
+        </tr>
+        {{/Cantidad}}
+    </table>
+</div>
+<div class="resultadoBusqueda ">
+    <center>
+        <h3>Facturación por usuario</h3>
+    </center>
+    <table class='table table-responsive'>
+        <tr>
+            <th>Facturacion total</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+        </tr>
+        {{#Clientes}}
+        <tr>
+            <th>{{suma}}</th>
+            <th>{{nombre}}</th>
+            <th>{{apellido}}</th>
+            <th>{{email}}</th>
+        </tr>
+        {{/Clientes}}
+    </table>
+</div>
 {{> footer}}

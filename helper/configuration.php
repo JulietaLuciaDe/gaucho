@@ -11,6 +11,8 @@ include_once("model/reservaVueloModel.php");
 include_once("controller/reservaVueloController.php");
 include_once("model/misReservasModel.php");
 include_once("controller/misReservasController.php");
+include_once("controller/reporteController.php");
+include_once("model/reporteModel.php");
 include_once("helper/MustachePrinter.php");
 include_once("helper/FechayHoraHelper.php");
 
@@ -58,6 +60,14 @@ class Configuration{
 
     public function getReservaVueloController(){
         return new reservaVueloController($this->getReservaVueloModel(),$this->getMustachePrinter());
+    }
+
+    private function getReporteModel(){
+        return new ReporteModel($this->getDatabase());
+    }
+
+    public function getReporteController(){
+        return new reporteController($this->getReporteModel(),$this->getMustachePrinter());
     }
 
     private function getDatabase(){
