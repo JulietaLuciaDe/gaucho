@@ -32,7 +32,8 @@
             (       ValidatorHelper::validacionDeNumeros($_POST['dni'],11)&&
                     ValidatorHelper::validacionDeTexto($_POST['email'],50)))&&
             (       ValidatorHelper::validacionDeTexto($_POST['user'],21)&&
-                    ValidatorHelper::validacionDeTexto($_POST['clave'],21))){
+                    ValidatorHelper::validacionDeTexto($_POST['clave'],21) &&
+                    )){
                 $name = $_POST["nombre"];
                 $lastName = $_POST["apellido"];
                 $dni = $_POST["dni"];
@@ -80,7 +81,7 @@
                 if(isset($_SESSION["logueado"]) && $_SESSION["logueado"]==1){
                     if($this->registroModel->TurnoSolicitado($email)){
                         $title="Turno ya solicitado";
-                        $message="Usted ya ha solicitado un turno. Si desea cancelarlo o modificarlo esperamos su correo en <a href='mailto:gauchorocket.oficial@gmail.com' style='color:black;'>gauchorocket.oficial@gmail.com</a>";
+                        $message="Usted ya ha solicitado un turno. Si desea cancelarlo o modificarlo esperamos su correo en <a href='mailto:gauchorocketargoficial@gmail.com' style='color:black;'>gauchorocketargoficial@gmail.com</a>";
                         $display = "d-block";
                         $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
                     }else{

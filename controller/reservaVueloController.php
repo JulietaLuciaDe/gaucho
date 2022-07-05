@@ -42,8 +42,8 @@ class reservaVueloController
     public function mostrarSeccionPago($reserva=''){
         
           
-          if(ValidatorHelper::validacionDeTexto($_GET['id'],3)&&
-          ValidatorHelper::validacionDeTexto($_GET['user'],3)){
+          if(ValidatorHelper::validacionDeNumeros($_GET['id'],11)&&
+          ValidatorHelper::validacionDeNumeros($_GET['user'],11)){
             $user = $_GET['user'];
             $vuelo = $_GET['id'];
           }

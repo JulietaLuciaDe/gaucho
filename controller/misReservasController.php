@@ -67,20 +67,25 @@ class MisReservasController {
                 ".$datosAbordaje[0]['destino']."\n \n Cantidad de pasajeros: ".$datosAbordaje[0]['cantidadAsientos']."\n Total pagado:
                 ".$datosAbordaje[0]['monedaReserva']." ".$datosAbordaje[0]['TotReservaMoneda'];
 
-                $QR = $this->generarQRAbordaje($message);
-                $PDF = $this->generarPDF($id_reserva);
-                if($enviado = $this->misReservasModel->enviarMailCheckIn($QR,$PDF,$id_reserva)){
+               
+                $this->generarPDF($id_reserva);
+                $this->generarQRAbordaje($message);
+                
+                
+                if($enviado = $this->misReservasModel->enviarMailCheckIn($id_reserva)){
                   
+                      header('Location: /misreservas/execute');
+                      exit();
                 }else{
                   $title = "Ha ocurrido un problema!";
-                  $message = "Contáctese con nosotros para mas informacion a gauchorocket.oficial@gmail.com";
+                  $message = "Contáctese con nosotros para mas informacion a gauchorocketargoficial@gmail.com";
                       $display = "d-block";
                   $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
                   $this->execute('misReservasView.html',$data);
                 }
             }else{
                 $title = "Ha ocurrido un problema!";
-                $message = "Contáctese con nosotros para mas informacion a gauchorocket.oficial@gmail.com";
+                $message = "Contáctese con nosotros para mas informacion a gauchorocketargoficial@gmail.com";
                     $display = "d-block";
                 $data = ["popUp" => true,"title"=> $title,"message"=>$message,"display"=>$display];
                 $this->execute('misReservasView.html',$data);
@@ -117,12 +122,10 @@ class MisReservasController {
                   if(!file_exists('public/img/')) //si no existe la carpeta
                       mkdir('public/img/'); //creame la carpeta
                   $fileName =  'public/img/QRAbordaje.png';
-                  QRcode::png($contenido,$fileName,'M',10,3); //textoQR,dondeSeGuarda,Nivel,Tamaño,Margen
+                  QRcode::png($contenido,$path.$fileName,'M',10,3); //textoQR,dondeSeGuarda,Nivel,Tamaño,Margen
                   $imgQr = $path.$fileName;
-                  /* $img = '<img src="'.$imgQr.'"/>';
-                  echo $img;  //Muestr QR
-                    */
-                    echo $imgQR;
+                   $img = '<img src="'.$imgQr.'"/>';
+                  echo $img;
     }
 
 
@@ -134,10 +137,6 @@ class MisReservasController {
           $idreserva = $id_reserva;
         }
         $datosAbordaje = $this->misReservasModel->getDatosAbordaje($idreserva);
-
-
-
-
         $mensaje= "      <h2>Datos de Abordaje:</h2>
         <div>
         <div>
@@ -153,7 +152,7 @@ class MisReservasController {
         <p> \n <b>Total abonado:</b> ".$datosAbordaje[0]['monedaReserva'].' '.$datosAbordaje[0]['TotReservaMoneda'].".00</p>    
         </div>
         <div style = 'text-align:center'>
-        <img src='http://localhost/public/img/QRAbordaje'>  
+        <img src='public/img/QRAbordaje.png'>  
         </div>
         
         </div>
@@ -171,7 +170,6 @@ class MisReservasController {
         
         $pdf->stream($nombrePDF, ['Attachment'=>1]);//genera el pdf en el navegador /false misma pag / true descarga
         //El ['Attachment'=>0] es para q lo genere en otra pestaña, cambiar a 1 para decargar
-        return $PDFParaMail;
     }
 
 

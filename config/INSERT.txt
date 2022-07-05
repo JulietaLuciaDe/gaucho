@@ -1124,19 +1124,18 @@ VALUES
 );
 
 /* INSERT QUERY NO: 143 */
-INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+INSERT INTO reserva(id, id_usuariofk, id_vuelofk, tipoAsiento, id_serviciofk, 
+pago,cantidadAsientos,checkin,tramos,Totalreserva,monedaReserva,TotReservaMoneda,
+origenReserva,destinoReserva,fechaReserva,horaReserva)
 VALUES
-(
-'2022-07-04', 16, 'O8', 1, 1, 'OR'
-);
+(500,IDUSER,600,'CEJ',1,1,2,0,26|,1300.00,'ARS',200000.00,1,1,'2022-07-04', 09);
 
-/* INSERT QUERY NO: 143 */
-INSERT INTO vuelos(fecha, h_partida, id_equipofk2, origen, destino, tipoVuelofk1)
+/* INSERT QUERY NO: 144 */
+INSERT INTO reserva(id, id_usuariofk, id_vuelofk, tipoAsiento, id_serviciofk, 
+pago,cantidadAsientos,checkin,tramos,Totalreserva,monedaReserva,TotReservaMoneda,
+origenReserva,destinoReserva,fechaReserva,horaReserva)
 VALUES
-(
-'2022-07-04', 18, 'O8', 1, 1, 'OR'
-);
-
+(500,IDUSER,601,'CEJ',1,1,2,0,26|,1300.00,'ARS',200000.00,1,1,'2022-07-04', 23);
 
 
 

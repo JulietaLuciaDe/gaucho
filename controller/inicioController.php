@@ -60,7 +60,7 @@ class InicioController {
                     $busqueda = $busqueda . ' and ';
                 }
                 $flag =1;
-                $busqueda=$busqueda."(V.fecha>='$fecha') ";
+                $busqueda=$busqueda."(V.fecha='$fecha') ";
             }
             if(ValidatorHelper::validacionDeTexto($_POST['tipoVuelo'],3)){
                 $tipoVuelo = $_POST['tipoVuelo'];

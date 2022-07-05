@@ -46,16 +46,37 @@ use PHPMailer\PHPMailer\Exception;
         return $this->database->query($sql);
     }
     
-    public function enviarMailCheckIn($QR,$PDF,$id_reserva){
+    public function enviarMailCheckIn($id_reserva){
         $to  = $_SESSION["usuario"]; 
         $user = $_SESSION["user"];
-        $subject = 'Ya podés viajar!!'; 
+        $subject = 'Ya podes viajar!!'; 
+
+        $datosAbordaje = $this->getDatosAbordaje($id_reserva);
+        $datosReserva= "      <h2>Datos de Abordaje:</h2>
+        <div>
+        <div>
+         
+        <p>Debe presentar este código para abordar en la nave: ".$datosAbordaje[0]['codigoAlfanumerico']."</p>
+        <p> \n <b>Codigo Reserva:</b> ".$datosAbordaje[0]['id']."</p>
+        <p> \n <b>Codigo Vuelo:</b> ".$datosAbordaje[0]['id_Vuelofk']."</p>
+        <p> \n <b>Cliente:</b> ".$datosAbordaje[0]['cliente']."</p>
+        <p> \n <b>Fecha de salida:</b> ".$datosAbordaje[0]['fechaReserva']."</p>
+        <p> \n <b>Hora de salida:</b> ".$datosAbordaje[0]['horaReserva'].":00 hs</p>
+        <p> \n <b>Origen:</b> ".$datosAbordaje[0]['origen']."</p>
+        <p> \n <b>Destino:</b> ".$datosAbordaje[0]['destino']."</p>
+        <p> \n <b>Total abonado:</b> ".$datosAbordaje[0]['monedaReserva'].' '.$datosAbordaje[0]['TotReservaMoneda'].".00</p>    
+        </div>
+     
+        </div>
+        ";
+
+
         $message = "<h1>Hola, ".$user."!!!!</h1> 
         
                     <p>Realizaste el checkIn con éxito. Te hacemos llegar por este medio la informacion 
-                    de tu abordaje</p>
-                    ".$PDF;
-                    //ACA IRIA EL PDF Y EL QR PERO NO PUEDO PROBAR SI ANDA PORQUE NO MANDA EL MAIL
+                    de tu abordaje</p><br>
+                    ".$datosReserva;
+                    //ACA IRIA EL PDF Y EL QR 
                     
                     $mail = new PHPMailer(true);
                     
@@ -64,11 +85,11 @@ use PHPMailer\PHPMailer\Exception;
                         $mail->isSMTP();                                            //Send using SMTP
                         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                        $mail->Username   = 'gauchorocket.oficial@gmail.com';                     //SMTP username
-                        $mail->Password   = 'cbotlwdakzqkwwwb';                               //SMTP password
+                        $mail->Username   = 'gauchorocketargoficial@gmail.com';                     //SMTP username
+                        $mail->Password   = 'rhgnkeztistnuflx';                               //SMTP password
                         $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
                         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-                        $mail->setFrom('gauchorocket.oficial@gmail.com', 'Gaucho Rocket');
+                        $mail->setFrom('gauchorocketargoficial@gmail.com', 'Gaucho Rocket');
                         $mail->addAddress($to);     //Add a recipient
                         $mail->isHTML(true);                                  //Set email format to HTML
                         $mail->Subject = $subject;
